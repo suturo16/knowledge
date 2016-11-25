@@ -19,10 +19,33 @@ task wrapper(type: Wrapper) {
 }
 
 buildscript {
+  def rosMavenPath = "$System.env.ROS_MAVEN_PATH".split(':').collect { 'file://' + it }
+  def rosMavenRepository = "$System.env.ROS_MAVEN_REPOSITORY"
+  repositories {
+      rosMavenPath.each { p ->
+          maven {
+              url p
+          }
+      }
+      mavenLocal()
+      maven {
+          url rosMavenRepository
+      }
+  }
+  dependencies {
+      classpath group: 'org.ros.rosjava_bootstrap', name: 'gradle_plugins', version: '[0.1,0.2)'
+  }
+  /*
+  repositories{
+    mavenCentral()
+  }
   apply from: "https://github.com/rosjava/rosjava_bootstrap/raw/indigo/buildscript.gradle"
+  */
 }
 
 apply plugin: 'catkin'
+project.catkin.tree.generate()
+
 
 
 allprojects {
@@ -46,7 +69,9 @@ subprojects {
      * 
      *   https://github.com/rosjava/rosjava_bootstrap/blob/indigo/gradle_plugins/src/main/groovy/org/ros/gradle_plugins/RosPlugin.groovy#L31
      */
-    apply plugin: "ros-java"
+    apply plugin: 'ros-java'
+    apply plugin: 'eclipse'
+
     /*
      * Some IDE support if you use it.
      */
