@@ -78,11 +78,11 @@ public class Listener extends AbstractNodeMain {
 	    		try {
 	    			detections.put(message);
 	    			log.info("Logged \""+ message.getName() +"\"");
-	    			log.info("Detections now has "+ detections.getSize() +".");
+	    			log.info("Detections now has "+ detections.size() +".");
 	    		} catch (InterruptedException e) {
 	    			e.printStackTrace();
 	    		}
-	    		log.info("I heard: \"" + message.getData() + "\"");
+	    		log.info("I saw: \"" + message.getName() + "\"");
 	    	}
 	    });
     
