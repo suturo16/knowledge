@@ -86,5 +86,64 @@ public class Listener extends AbstractNodeMain {
 	    	}
 	    });
     
+	    // start thread that reads the detections and adds them to KnowRob
+		updateKnowRobObjDetections = new Thread( new UpdateKnowrobThread() );
+		updateKnowRobObjDetections.start();
 	}
+	
+	/**
+	 * Read perceptions from the QueueingCallback buffer and create the
+	 * corresponding object representations in KnowRob.
+	 *
+	 * @author 
+	 *
+	 */
+	public class UpdateKnowrobThread implements Runnable {
+
+		@Override 
+		public void run() {
+
+			try {
+				
+				node.executeCancellableLoop(new CancellableLoop() {
+					
+					@Override
+					protected void loop() throws InterruptedException {
+
+						ObjectDetection obj = detections.take();
+
+						Matrix4d p = quaternionToMatrix(obj.getPose().getPose());					
+						String q = "create_object_perception(" +
+									"'http://knowrob.org/kb/knowrob.owl#"+obj.getType()+"', [" 
+									+ p.m00 + ","+ p.m01 + ","+ p.m02 + ","+ p.m03 + ","
+									+ p.m10 + ","+ p.m11 + ","+ p.m12 + ","+ p.m13 + ","
+									+ p.m20 + ","+ p.m21 + ","+ p.m22 + ","+ p.m23 + ","
+									+ p.m30 + ","+ p.m31 + ","+ p.m32 + ","+ p.m33 +
+									"], ['DummyObjectDetection'], ObjInst)";
+
+						// uncomment to see the resulting query printed to the KnowRob console
+						//System.err.println(q);
+						
+						PrologInterface.executeQuery(q);
+					}
+				});
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Utility method: convert a ROS pose into a Java vecmath 4x4 pose matrix
+	 *
+	 * @param p Pose (ROS geometry_msgs)
+	 * @return 4x4 pose matrix
+	 */
+	 public static Matrix4d quaternionToMatrix(Pose p) {
+
+		return new Matrix4d(new Quat4d(p.getOrientation().getX(), p.getOrientation().getY(), p.getOrientation().getZ(), p.getOrientation().getW()), 
+				new Vector3d(p.getPosition().getX(), p.getPosition().getY(), p.getPosition().getZ()), 1.0);
+	}
+	
 }
