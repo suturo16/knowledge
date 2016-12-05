@@ -113,7 +113,8 @@ public class Listener extends AbstractNodeMain {
 						ObjectDetection obj = detections.take();
 
 						Matrix4d p = quaternionToMatrix(obj.getPose().getPose());					
-						String q = "create_object_perception(" +
+						// this needs to be adapted to fit the new query
+						String q = "perceive_objects(" +
 									"'http://knowrob.org/kb/knowrob.owl#"+obj.getType()+"', [" 
 									+ p.m00 + ","+ p.m01 + ","+ p.m02 + ","+ p.m03 + ","
 									+ p.m10 + ","+ p.m11 + ","+ p.m12 + ","+ p.m13 + ","
