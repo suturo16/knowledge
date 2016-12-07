@@ -43,12 +43,12 @@
   <build_depend>rosjava_build_tools</build_depend>
   <build_depend>rosjava_bootstrap</build_depend>
   <build_depend>rosjava_messages</build_depend>
-  <build_depend>perception_msgs</build_depend>
+  <build_depend>suturo_perception_msgs</build_depend>
 
   <build_depend>geometry_msgs</build_depend>
   <build_depend>knowrob_common</build_depend>
 
-  <run_depend>perception_msgs</run_depend>
+  <run_depend>suturo_perception_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>knowrob_common</run_depend>
 
