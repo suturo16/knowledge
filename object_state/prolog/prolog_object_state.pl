@@ -21,9 +21,10 @@
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
  
 
-%% perceive_objects(+Name, +PoseAsList, +Type, +Width, +Height, +Depth, -ObjInst) is det.
+%% perceive_objects(+Name, +PoseAsList, +Type, +Width, +Height, +Depth, -ObjInst) is probably det.
 %
-% Perceives the objects and creates the related objects in knowrob.
+% Create the object representations in the knowledge base
+% Argument 'Type' specifies perceptions classification of the object
 % 
 % @param Name describes the class of the object
 % @param PoseAsList The pose of the object stored in a list
@@ -34,8 +35,40 @@
 % @param ObjInst The created object instance (optional:to be returned)
 perceive_objects(Name, PoseAsList, Type, Width, Height, Depth, ObjInst) :- 
     rdf_instance_from_class(Name, ObjInst),
-    % needs to be modified
-    create_perception_instance(Name, Perception),
-    set_object_perception(ObjInst, Perception),
+    create_temporal_part(Name, TemporalPart),
+    set_object_temporal(ObjInst, TemporalPart),
     set_perception_pose(Perception, Pose).
-    
+
+
+%% create_temporal_part(PerceptionTypes, Perception) is det.
+%
+% Create a temporal part according to 4dFluents.
+%
+% @param Name   perception type
+% @param TemporalPart    TemporalPart instance that has been created by this predicate
+% 
+create_temporal_part(Name, TemporalPart) :-
+  atom_concat(Name,'TemporalPart', StitchedName)
+  atom_concat('http://knowrob.org/kb/knowrob.owl#', StitchedName, FinalName),
+  rdf_instance_from_class(FinalName, TemporalPart).
+
+%% set_object_perception(+Object, +Perception) is det.
+%
+% Link the base instance to its according temporal instance
+%
+% @param Object        Object instance
+% @param Perception    Perception instance
+% 
+set_object_perception(Object, Perception) :-
+  rdf_assert(TemporalPart, knowrob:temporalPartOf, ObjInst).
+
+  % add perception to linked list of object detections,
+  %((rdf_has(Object, knowrob:latestDetectionOfObject, Prev)) -> (
+  %
+  %   rdf_update(Object, knowrob:latestDetectionOfObject, Prev, object(Perception)),
+  %   rdf_assert(Perception, knowrob:previousDetectionOfObject, Prev)
+  %) ; (
+  %  rdf_assert(TemporalPart, knowrob:temporalPartOf, ObjInst),
+  %)),
+  % update latestDetectionOfObject pointer to list head
+  %rdf_assert(Perception, knowrob:objectActedOn, Object).

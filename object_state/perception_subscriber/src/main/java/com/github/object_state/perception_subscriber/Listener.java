@@ -34,7 +34,7 @@ import javax.vecmath.Matrix4d;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
-import perception_msgs.ObjectDetection;
+import suturo_perception_msgs.ObjectDetection;
 
 import org.knowrob.prolog.PrologInterface;
 import org.ros.concurrent.CancellableLoop;
@@ -74,7 +74,7 @@ public class Listener extends AbstractNodeMain {
 	    Subscriber<ObjectDetection> subscriber = connectedNode.newSubscriber("dummy_object_detections", ObjectDetection._TYPE);
 	    subscriber.addMessageListener(new MessageListener<ObjectDetection>() {
 	    	@Override
-	    	public void onNewMessage(perception_msgs.ObjectDetection message) {
+	    	public void onNewMessage(suturo_perception_msgs.ObjectDetection message) {
 	    		try {
 	    			detections.put(message);
 	    			log.info("Logged \""+ message.getName() +"\"");
@@ -113,14 +113,24 @@ public class Listener extends AbstractNodeMain {
 						ObjectDetection obj = detections.take();
 
 						Matrix4d p = quaternionToMatrix(obj.getPose().getPose());					
-						// this needs to be adapted to fit the new query
+						// this is already adapted to fit the prolog function for ms1.
+						// a timestamp parameter might be useful to add eventually 
 						String q = "perceive_objects(" +
-									"'http://knowrob.org/kb/knowrob.owl#"+obj.getType()+"', [" 
-									+ p.m00 + ","+ p.m01 + ","+ p.m02 + ","+ p.m03 + ","
-									+ p.m10 + ","+ p.m11 + ","+ p.m12 + ","+ p.m13 + ","
-									+ p.m20 + ","+ p.m21 + ","+ p.m22 + ","+ p.m23 + ","
-									+ p.m30 + ","+ p.m31 + ","+ p.m32 + ","+ p.m33 +
-									"], ['DummyObjectDetection'], ObjInst)";
+									"'http://knowrob.org/kb/knowrob.owl#"+obj.getName()+"', [" 
+									+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
+									+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
+									+ p.m20 + "," + p.m21 + "," + p.m22 + "," + p.m23 + ","
+									+ p.m30 + "," + p.m31 + "," + p.m32 + "," + p.m33 + "], " 
+									+ obj.getType() + "," + obj.getWidth() + "," + obj.getHeight() 
+									+ "," + obj.getDepth() + ", ObjInst)";
+						
+//						String q = "perceive_objects(" +
+//								"'http://knowrob.org/kb/knowrob.owl#"+obj.getName()+"', [" 
+//								+ p.m00 + ","+ p.m01 + ","+ p.m02 + ","+ p.m03 + ","
+//								+ p.m10 + ","+ p.m11 + ","+ p.m12 + ","+ p.m13 + ","
+//								+ p.m20 + ","+ p.m21 + ","+ p.m22 + ","+ p.m23 + ","
+//								+ p.m30 + ","+ p.m31 + ","+ p.m32 + ","+ p.m33 +
+//								"], ['DummyObjectDetection'], ObjInst)";
 
 						// uncomment to see the resulting query printed to the KnowRob console
 						//System.err.println(q);
