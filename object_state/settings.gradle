@@ -16,4 +16,4 @@
 
 //include 'rosjava_gradle_subscriber'
 include 'perception_subscriber'
-include 'perception_msgs'
+include 'suturo_perception_msgs'

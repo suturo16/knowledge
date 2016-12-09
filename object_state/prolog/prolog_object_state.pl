@@ -22,8 +22,7 @@
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
  
 
-%% perceive_objects(+Name, +PoseAsList, +Type, +Width, +Height, +Depth, +Interval, -ObjInst) is probably det.
-%
+%% perceive_objects(+Name, +PoseAsList, +Type, +Frame, +Width, +Height, +Depth, +Interval, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
 % 
@@ -35,34 +34,41 @@
 % @param Depth The depth of the object
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
-perceive_objects(Name, PoseAsList, Type, Width, Height, Depth, Interval ObjInst) :- 
-    rdf_instance_from_class(Name, ObjInst),
-    create_fluent(Obj, Fluent),
-    create_temporal_part(Name, TemporalPart),
-    set_object_temporal(ObjInst, TemporalPart),
-    set_perception_pose(Perception, Pose).
+perceive_objects(Name, PoseAsList, Type, Frame, Width, Height, Depth, [Begin,End], ObjInst) :- 
+    create_object_name(Name, FullName),
+    rdf_instance_from_class(FullName, ObjInst),
+    create_temporal_name(FullName, FullTemporalName),
+    create_fluent(ObjInst, TemporalPart, [Begin,End]),
+    create_fluent(ObjInst, StitchedName, [Begin,End]),
+    create_fluent(ObjInst, StitchedName, [Begin,End]),
+    create_fluent(ObjInst, StitchedName, [Begin,End]),
+    create_fluent(ObjInst, StitchedName, [Begin,End]),
+
+    %create_temporal_part(Name, TemporalPart),
+    %set_object_temporal(ObjInst, TemporalPart),
+    %set_perception_pose(Perception, Pose).
 
 
-%% create_temporal_part(PerceptionTypes, Perception) is det.
+%% create_object_name(+Name,-FullName) is det.
+% Appends Name to 'http://knowrob.org/kb/knowrob.owl#'
 %
-% Create a temporal part according to 4dFluents.
+% @param Name content to be appended to the namespace
+% @preturns FullName the concatenated string
+create_object_name(Name, FullName) :-
+  atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName).
+
+%% create_temporal_name(+FullName, -FullTemporalName) is det.
 %
-% @param Name   perception type
-% @param TemporalPart    TemporalPart instance that has been created by this predicate
-% 
-create_temporal_part(Name, TemporalPart) :-
-  create_fluent(Obj, Fluent),
-  atom_concat(Name,'TemporalPart', StitchedName),
-  atom_concat('http://knowrob.org/kb/knowrob.owl#', StitchedName, FinalName),
-  rdf_instance_from_class(FinalName, TemporalPart).
+% @param FullName full object name without temporal stamp  perception 
+% @returns FullTemporalName the concatenated string including the temporal stamp
+create_temporal_name(FullName, FullTemporalName) :-
+  atom_concat(FullName,'@t_i', FullTemporalName).
 
 %% set_object_perception(+Object, +Perception) is det.
-%
 % Link the base instance to its according temporal instance
 %
 % @param Object        Object instance
 % @param Perception    Perception instance
-% 
 set_object_perception(Object, Perception) :-
   rdf_assert(TemporalPart, knowrob:temporalPartOf, ObjInst).
 
