@@ -1,0 +1,4 @@
+<launch>
+	<node name="listener" pkg="object_state" type="ObjectStateScript" />
+</launch>
+
