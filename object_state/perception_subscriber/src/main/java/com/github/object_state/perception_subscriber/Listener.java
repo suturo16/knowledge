@@ -104,6 +104,7 @@ public class Listener extends AbstractNodeMain {
 	public class UpdateKnowrobThread implements Runnable {
 
 		HashMap<String,ObjectDetection> objectsMap = new HashMap(); 
+		ObjectDetection oldObj, currObj = null;
 		
 		@Override 
 		public void run() {
@@ -111,34 +112,71 @@ public class Listener extends AbstractNodeMain {
 			try {
 				
 				node.executeCancellableLoop(new CancellableLoop() {
-					
+										
 					@Override
 					protected void loop() throws InterruptedException {
 						
-						ObjectDetection oldObj;
-						ObjectDetection obj = detections.take();
-						if (!objectsMap.containsKey(obj.getName())){
-							objectsMap.put(obj.getName(), obj);
-						}
-						else {
-							oldObj = objectsMap.put(obj.getName(), obj);
-							//now = obj.getPose().getHeader().getStamp();
-								
-							Matrix4d p = quaternionToMatrix(oldObj.getPose().getPose());					
+						currObj = detections.take();
+						
+						if (!objectsMap.containsKey(currObj.getName())){
+							objectsMap.put(currObj.getName(), currObj);
+							
+							Matrix4d p = quaternionToMatrix(currObj.getPose().getPose());
+
+							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, Begin, ObjInst) :- 
 							String q = "perceive_objects(" +
-										"'http://knowrob.org/kb/knowrob.owl#"+oldObj.getName()+"', [" 
+										"'http://knowrob.org/kb/knowrob.owl#"+currObj.getName()+"', [" 
 										+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
 										+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
 										+ p.m20 + "," + p.m21 + "," + p.m22 + "," + p.m23 + ","
 										+ p.m30 + "," + p.m31 + "," + p.m32 + "," + p.m33 + "], " 
-										+ oldObj.getType() + "," + oldObj.getWidth() + "," + oldObj.getHeight() 
-										+ "," + oldObj.getDepth() + ", [" + oldObj.getPose().getHeader().getStamp() 
-										+ ", " + obj.getPose().getHeader().getStamp() + "],  ObjInst)";
+										+ currObj.getType() + "," + currObj.getPose().getHeader().getFrameId() + ","
+										+ currObj.getWidth() + "," + currObj.getHeight() + "," + currObj.getDepth() 
+										+ ", " + currObj.getPose().getHeader().getStamp() + ",  ObjInst)";
+						}
+						else {
+							oldObj = objectsMap.put(currObj.getName(), currObj);
+							//now = obj.getPose().getHeader().getStamp();
+							//#######################################
+							//Close previous Interval of Object
+							
+							Matrix4d p_old = quaternionToMatrix(oldObj.getPose().getPose());	
+							
+							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, [Begin, End], ObjInst) :- 
+							String q_old = "perceive_objects(" +
+										"'http://knowrob.org/kb/knowrob.owl#"+oldObj.getName()+"', [" 
+										+ p_old.m00 + "," + p_old.m01 + "," + p_old.m02 + "," + p_old.m03 + ","
+										+ p_old.m10 + "," + p_old.m11 + "," + p_old.m12 + "," + p_old.m13 + ","
+										+ p_old.m20 + "," + p_old.m21 + "," + p_old.m22 + "," + p_old.m23 + ","
+										+ p_old.m30 + "," + p_old.m31 + "," + p_old.m32 + "," + p_old.m33 + "], " 
+										+ oldObj.getType() + "," + oldObj.getPose().getHeader().getFrameId() + ","
+										+ oldObj.getWidth() + "," + oldObj.getHeight() + "," + oldObj.getDepth() 
+										+ ", [" + oldObj.getPose().getHeader().getStamp() 
+										+ ", " + currObj.getPose().getHeader().getStamp() + "],  ObjInst)";
 	
 							// uncomment to see the resulting query printed to the KnowRob console
 							//System.err.println(q);
+							PrologInterface.executeQuery(q_old);
 							
-							PrologInterface.executeQuery(q);
+							
+							//#######################################
+							//Open new Interval of Object
+							
+							Matrix4d p_new = quaternionToMatrix(oldObj.getPose().getPose());
+
+							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, Begin, ObjInst) :- 
+							String q_new = "perceive_objects(" +
+										"'http://knowrob.org/kb/knowrob.owl#"+currObj.getName()+"', [" 
+										+ p_new.m00 + "," + p_new.m01 + "," + p_new.m02 + "," + p_new.m03 + ","
+										+ p_new.m10 + "," + p_new.m11 + "," + p_new.m12 + "," + p_new.m13 + ","
+										+ p_new.m20 + "," + p_new.m21 + "," + p_new.m22 + "," + p_new.m23 + ","
+										+ p_new.m30 + "," + p_new.m31 + "," + p_new.m32 + "," + p_new.m33 + "], " 
+										+ currObj.getType() + "," + currObj.getPose().getHeader().getFrameId() + ","
+										+ currObj.getWidth() + "," + currObj.getHeight() + "," + currObj.getDepth() 
+										+ ", " + currObj.getPose().getHeader().getStamp() + ",  ObjInst)";
+							
+							PrologInterface.executeQuery(q_new);
+
 						}
 					}
 				});
