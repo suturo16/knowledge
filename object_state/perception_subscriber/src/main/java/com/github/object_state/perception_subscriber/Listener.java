@@ -60,7 +60,7 @@ public class Listener extends AbstractNodeMain {
 	public void onStart(ConnectedNode connectedNode) {
 		// save reference to the ROS node
 		this.node = connectedNode;
-		
+		//init queue for detected objects
 		this.detections = new LinkedBlockingQueue<ObjectDetection>();
 		
 		
@@ -72,11 +72,12 @@ public class Listener extends AbstractNodeMain {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		  
+		//start subscriber for object detection
 	    final Log log = connectedNode.getLog();
 	    Subscriber<ObjectDetection> subscriber = connectedNode.newSubscriber("dummy_object_detections", ObjectDetection._TYPE);
 	    subscriber.addMessageListener(new MessageListener<ObjectDetection>() {
 	    	@Override
+	    	//when new object detected in channel, put object in detection queue
 	    	public void onNewMessage(suturo_perception_msgs.ObjectDetection message) {
 	    		try {
 	    			detections.put(message);
@@ -102,7 +103,7 @@ public class Listener extends AbstractNodeMain {
 	 *
 	 */
 	public class UpdateKnowrobThread implements Runnable {
-
+		//start HashMap for detected objects
 		HashMap<String,ObjectDetection> objectsMap = new HashMap(); 
 		ObjectDetection oldObj, currObj = null;
 		
@@ -117,14 +118,14 @@ public class Listener extends AbstractNodeMain {
 					protected void loop() throws InterruptedException {
 						
 						currObj = detections.take();
-						
+						//if object has not been seen before, start temporal representation
 						if (!objectsMap.containsKey(currObj.getName())){
 							objectsMap.put(currObj.getName(), currObj);
 							
 							Matrix4d p = quaternionToMatrix(currObj.getPose().getPose());
 
 							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, Begin, ObjInst) :- 
-							String q = "perceive_objects(" +
+							String q = "create_object_state(" +
 										"'http://knowrob.org/kb/knowrob.owl#"+currObj.getName()+"', [" 
 										+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
 										+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
@@ -134,6 +135,7 @@ public class Listener extends AbstractNodeMain {
 										+ currObj.getWidth() + "," + currObj.getHeight() + "," + currObj.getDepth() 
 										+ ", " + currObj.getPose().getHeader().getStamp() + ",  ObjInst)";
 						}
+						//else (object has been seen before) close previous temporal rep and start new rep
 						else {
 							oldObj = objectsMap.put(currObj.getName(), currObj);
 							//now = obj.getPose().getHeader().getStamp();
@@ -143,7 +145,7 @@ public class Listener extends AbstractNodeMain {
 							Matrix4d p_old = quaternionToMatrix(oldObj.getPose().getPose());	
 							
 							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, [Begin, End], ObjInst) :- 
-							String q_old = "perceive_objects(" +
+							String q_old = "close_object_state(" +
 										"'http://knowrob.org/kb/knowrob.owl#"+oldObj.getName()+"', [" 
 										+ p_old.m00 + "," + p_old.m01 + "," + p_old.m02 + "," + p_old.m03 + ","
 										+ p_old.m10 + "," + p_old.m11 + "," + p_old.m12 + "," + p_old.m13 + ","
@@ -165,7 +167,7 @@ public class Listener extends AbstractNodeMain {
 							Matrix4d p_new = quaternionToMatrix(oldObj.getPose().getPose());
 
 							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, Begin, ObjInst) :- 
-							String q_new = "perceive_objects(" +
+							String q_new = "create_object_state(" +
 										"'http://knowrob.org/kb/knowrob.owl#"+currObj.getName()+"', [" 
 										+ p_new.m00 + "," + p_new.m01 + "," + p_new.m02 + "," + p_new.m03 + ","
 										+ p_new.m10 + "," + p_new.m11 + "," + p_new.m12 + "," + p_new.m13 + ","
