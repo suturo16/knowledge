@@ -7,7 +7,7 @@
 % defining functions
 :- module(prolog_object_state,
     [
-      perceive_objects/7
+      perceive_objects/8
     ]).
 
 % sort of importing external libraries
@@ -16,12 +16,13 @@
 :- use_module(library('owl')).
 :- use_module(library('owl_parser')).
 :- use_module(library('knowrob_coordinates')).
+:- use_module(library('knowrob_temporalParts')).
 
 %registering namespace
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
  
 
-%% perceive_objects(+Name, +PoseAsList, +Type, +Width, +Height, +Depth, -ObjInst) is probably det.
+%% perceive_objects(+Name, +PoseAsList, +Type, +Width, +Height, +Depth, +Interval, -ObjInst) is probably det.
 %
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
@@ -32,9 +33,11 @@
 % @param Width The width of the object
 % @param Height The height of the object
 % @param Depth The depth of the object
+% @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
-perceive_objects(Name, PoseAsList, Type, Width, Height, Depth, ObjInst) :- 
+perceive_objects(Name, PoseAsList, Type, Width, Height, Depth, Interval ObjInst) :- 
     rdf_instance_from_class(Name, ObjInst),
+    create_fluent(Obj, Fluent),
     create_temporal_part(Name, TemporalPart),
     set_object_temporal(ObjInst, TemporalPart),
     set_perception_pose(Perception, Pose).
@@ -48,7 +51,8 @@ perceive_objects(Name, PoseAsList, Type, Width, Height, Depth, ObjInst) :-
 % @param TemporalPart    TemporalPart instance that has been created by this predicate
 % 
 create_temporal_part(Name, TemporalPart) :-
-  atom_concat(Name,'TemporalPart', StitchedName)
+  create_fluent(Obj, Fluent),
+  atom_concat(Name,'TemporalPart', StitchedName),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', StitchedName, FinalName),
   rdf_instance_from_class(FinalName, TemporalPart).
 

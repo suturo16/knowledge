@@ -29,6 +29,9 @@ import geometry_msgs.Pose;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.sql.Time;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Quat4d;
@@ -100,6 +103,8 @@ public class Listener extends AbstractNodeMain {
 	 */
 	public class UpdateKnowrobThread implements Runnable {
 
+		HashMap<String,ObjectDetection> objectsMap = new HashMap(); 
+		
 		@Override 
 		public void run() {
 
@@ -109,38 +114,57 @@ public class Listener extends AbstractNodeMain {
 					
 					@Override
 					protected void loop() throws InterruptedException {
-
+						
+						ObjectDetection oldObj;
 						ObjectDetection obj = detections.take();
-
-						Matrix4d p = quaternionToMatrix(obj.getPose().getPose());					
-						// this is already adapted to fit the prolog function for ms1.
-						// a timestamp parameter might be useful to add eventually 
-						String q = "perceive_objects(" +
-									"'http://knowrob.org/kb/knowrob.owl#"+obj.getName()+"', [" 
-									+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
-									+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
-									+ p.m20 + "," + p.m21 + "," + p.m22 + "," + p.m23 + ","
-									+ p.m30 + "," + p.m31 + "," + p.m32 + "," + p.m33 + "], " 
-									+ obj.getType() + "," + obj.getWidth() + "," + obj.getHeight() 
-									+ "," + obj.getDepth() + ", ObjInst)";
-						
-//						String q = "perceive_objects(" +
-//								"'http://knowrob.org/kb/knowrob.owl#"+obj.getName()+"', [" 
-//								+ p.m00 + ","+ p.m01 + ","+ p.m02 + ","+ p.m03 + ","
-//								+ p.m10 + ","+ p.m11 + ","+ p.m12 + ","+ p.m13 + ","
-//								+ p.m20 + ","+ p.m21 + ","+ p.m22 + ","+ p.m23 + ","
-//								+ p.m30 + ","+ p.m31 + ","+ p.m32 + ","+ p.m33 +
-//								"], ['DummyObjectDetection'], ObjInst)";
-
-						// uncomment to see the resulting query printed to the KnowRob console
-						//System.err.println(q);
-						
-						PrologInterface.executeQuery(q);
+						if (!objectsMap.containsKey(obj.getName())){
+							objectsMap.put(obj.getName(), obj);
+						}
+						else {
+							oldObj = objectsMap.put(obj.getName(), obj);
+							//now = obj.getPose().getHeader().getStamp();
+								
+							Matrix4d p = quaternionToMatrix(oldObj.getPose().getPose());					
+							String q = "perceive_objects(" +
+										"'http://knowrob.org/kb/knowrob.owl#"+oldObj.getName()+"', [" 
+										+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
+										+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
+										+ p.m20 + "," + p.m21 + "," + p.m22 + "," + p.m23 + ","
+										+ p.m30 + "," + p.m31 + "," + p.m32 + "," + p.m33 + "], " 
+										+ oldObj.getType() + "," + oldObj.getWidth() + "," + oldObj.getHeight() 
+										+ "," + oldObj.getDepth() + ", [" + oldObj.getPose().getHeader().getStamp() 
+										+ ", " + obj.getPose().getHeader().getStamp() + "],  ObjInst)";
+	
+							// uncomment to see the resulting query printed to the KnowRob console
+							//System.err.println(q);
+							
+							PrologInterface.executeQuery(q);
+						}
 					}
 				});
 				
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception e) { 
+				// on program close, finish queries for leftovers of the hashmap
+				e.printStackTrace();		
+				for (Map.Entry<String, ObjectDetection> entry : objectsMap.entrySet()) {
+					Matrix4d p = quaternionToMatrix(entry.getValue().getPose().getPose());	
+					org.ros.message.Time now = node.getCurrentTime();
+					String q = "perceive_objects(" +
+								"'http://knowrob.org/kb/knowrob.owl#"+entry.getValue().getName() +"', [" 
+								+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
+								+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
+								+ p.m20 + "," + p.m21 + "," + p.m22 + "," + p.m23 + ","
+								+ p.m30 + "," + p.m31 + "," + p.m32 + "," + p.m33 + "], " 
+								+ entry.getValue().getType() + "," + entry.getValue().getWidth() + "," 
+								+ entry.getValue().getHeight() + "," + entry.getValue().getDepth() 
+								+ ", [" + entry.getValue().getPose().getHeader().getStamp() + ", " 
+								+ now  + "],  ObjInst)";
+
+					// uncomment to see the resulting query printed to the KnowRob console
+					//System.err.println(q);
+					
+					PrologInterface.executeQuery(q);
+				}
 			}
 		}
 	}
