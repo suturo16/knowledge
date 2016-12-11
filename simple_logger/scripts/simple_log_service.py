@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from Queue import Queue
-from knowledge_msgs.srv import *
+from suturo_knowledge_msgs.srv import *
 import rospy
 import rospkg
 import time

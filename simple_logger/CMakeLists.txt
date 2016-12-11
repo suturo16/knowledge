@@ -6,7 +6,7 @@ project(simple_logger)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  knowledge_msgs
+  suturo_knowledge_msgs
   geometry_msgs
   message_generation
 )
@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   knowledge_msgs
+   suturo_knowledge_msgs
 )
 
 ###################################
@@ -34,5 +34,5 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES simple_logger
 #  CATKIN_DEPENDS other_catkin_pkg
-  DEPENDS knowledge_msgs
+  DEPENDS suturo_knowledge_msgs
 )
