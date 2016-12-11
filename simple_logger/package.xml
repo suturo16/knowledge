@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>suturo_simple_logger</name>
+  <name>simple_logger</name>
   <version>0.0.0</version>
   <description>The simple_logger package</description>
 
