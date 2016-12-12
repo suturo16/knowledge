@@ -7,7 +7,7 @@
 % defining functions
 :- module(prolog_object_state,
     [
-      perceive_objects/8
+      perceive_objects/9
     ]).
 
 % sort of importing external libraries
@@ -16,10 +16,21 @@
 :- use_module(library('owl')).
 :- use_module(library('owl_parser')).
 :- use_module(library('knowrob_coordinates')).
-:- use_module(library('knowrob_temporalParts')).
+:- use_module(library('knowrob_temporal')).
+:- use_module(library('knowrob_objects')).
+:- use_module(library('rdfs_computable')).
+:- use_module(library('knowrob_owl')).
 
 %registering namespace
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2, 'http://knowrob.org/kb/srdl2.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2cap, 'http://knowrob.org/kb/srdl2-cap.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
+:- owl_parse('package://knowrob_common/owl/knowrob.owl').
+:- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
  
 
 %% perceive_objects(+Name, +PoseAsList, +Type, +Frame, +Width, +Height, +Depth, +Interval, -ObjInst) is probably det.
@@ -35,18 +46,7 @@
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
 perceive_objects(Name, PoseAsList, Type, Frame, Width, Height, Depth, [Begin,End], ObjInst) :- 
-    create_object_name(Name, FullName),
-    rdf_instance_from_class(FullName, ObjInst),
-    create_temporal_name(FullName, FullTemporalName),
-    create_fluent(ObjInst, TemporalPart, [Begin,End]),
-    create_fluent(ObjInst, StitchedName, [Begin,End]),
-    create_fluent(ObjInst, StitchedName, [Begin,End]),
-    create_fluent(ObjInst, StitchedName, [Begin,End]),
-    create_fluent(ObjInst, StitchedName, [Begin,End]),
-
-    %create_temporal_part(Name, TemporalPart),
-    %set_object_temporal(ObjInst, TemporalPart),
-    %set_perception_pose(Perception, Pose).
+	true.
 
 
 %% create_object_name(+Name,-FullName) is det.
