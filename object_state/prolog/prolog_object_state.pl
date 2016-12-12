@@ -11,7 +11,8 @@
       close_object_state/9,
       create_object_name/2,
       create_temporal_name/2,
-      get_object_infos/5
+      get_object_infos/5,
+      holds_suturo/2
     ]).
 
 % sort of importing external libraries
@@ -21,11 +22,22 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('knowrob_coordinates')).
 :- use_module(library('knowrob_temporal')).
+:- use_module(library('knowrob_objects')).
+:- use_module(library('rdfs_computable')).
+:- use_module(library('knowrob_owl')).
 
 %registering namespace
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2, 'http://knowrob.org/kb/srdl2.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2cap, 'http://knowrob.org/kb/srdl2-cap.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
+:- owl_parse('package://knowrob_common/owl/knowrob.owl').
+:- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
  
-%% create_object_state(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, +Begin], -ObjInst) is probably det.
+%% create_object_state(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
 % 
@@ -40,18 +52,12 @@
 create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst),
-    %create_temporal_name(FullName, FullTemporalName),
     create_fluent(ObjInst, Fluent),
-    rdf_assert(Fluent, knowrob:typeOfObject, literal(type(xsd:float, Type))),
-    rdf_assert(Fluent, knowrob:frameOfObjekt, literal(type(xsd:string, Frame))),
-    rdf_assert(Fluent, knowrob:widthOfObject, literal(type(xsd:float, Width))),
-    rdf_assert(Fluent, knowrob:heightOfObject,literal(type(xsd:float, Height))),
-    rdf_assert(Fluent, knowrob:depthOfObject, literal(type(xsd:float, Depth))),
-
-    %create_temporal_part(Name, TemporalPart),
-    %set_object_temporal(ObjInst, TemporalPart),
-    %set_perception_pose(Perception, Pose).
-
+    %rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+    rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, Frame))),
+    rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
+    rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
+    rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))).
 
 
 %% close_object_state(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, +[Begin,End], -ObjInst) is probably det.
@@ -67,9 +73,10 @@ create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjI
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
 close_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin,End], ObjInst) :- 
+    create_object_name(Name, FullName),
+    owl_has(Obj,rdf:type,FullName),    
+    fluent_assert_end(Obj,P).
     
-    fluent_assert_end(S, P).
-
 %% create_object_name(+Name,-FullName) is det.
 % Appends Name to 'http://knowrob.org/kb/knowrob.owl#'
 %
@@ -93,29 +100,19 @@ create_temporal_name(FullName, FullTemporalName) :-
 % @param Width
 % @param Depth
 get_object_infos(Name, Frame, Height, Width, Depth) :-
+  create_object_name(Name, FullName),
+  owl_has(Obj,rdf:type,FullName),
+  holds_suturo(Obj, Fluent),
+  owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,Frame))),
+  owl_has(Fluent, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
+    %atom_number(HeightStr, Height),
+  owl_has(Fluent, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
+    %atom_number(WidthStr, Width),
+  owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))).
+    %atom_number(DepthStr, Depth).
 
-  owl_has(knowrob:, knowrob:frameOfObject, literal(type(xsd:double,Frame))),
-  owl_has(knowrob:, knowrob:heightOfObject, literal(type(xsd:double,Height)),
-  owl_has(knowrob:, knowrob:widthOfObject, literal(type(xsd:double,Width)),
-  owl_has(knowrob:, knowrob:depthOfObject, literal(type(xsd:double,Depth)),
-  .
-  atom_concat(Name, namespace).  
-
-%% set_object_perception(+Object, +Perception) is det.
-% Link the base instance to its according temporal instance
-%
-% @param Object        Object instance
-% @param Perception    Perception instance
-set_object_perception(Object, Perception) :-
-  rdf_assert(TemporalPart, knowrob:temporalPartOf, ObjInst).
-
-  % add perception to linked list of object detections,
-  %((rdf_has(Object, knowrob:latestDetectionOfObject, Prev)) -> (
-  %
-  %   rdf_update(Object, knowrob:latestDetectionOfObject, Prev, object(Perception)),
-  %   rdf_assert(Perception, knowrob:previousDetectionOfObject, Prev)
-  %) ; (
-  %  rdf_assert(TemporalPart, knowrob:temporalPartOf, ObjInst),
-  %)),
-  % update latestDetectionOfObject pointer to list head
-  %rdf_assert(Perception, knowrob:objectActedOn, Object).
+holds_suturo(ObjInst, Fluent) :-
+  owl_has(ObjInst,knowrob:'temporalParts',Fluent),
+  owl_has(Fluent,knowrob:'temporalExtend',I),
+  current_time(Now),
+  interval_during([Now,Now],I).

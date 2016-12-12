@@ -31,5 +31,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-%%:- owl_parse('package://data_model/owl/training.owl').
-:- rdf_db:rdf_register_ns(knowrob_perception_tutorial, 'http://knowrob.org/kb/knowrob_perception_tutorial.owl#', [keep(true)]).
+:- owl_parse('package://knowrob_common/owl/knowrob.owl').
+:- owl_parse('package://object_state/owl/suturo_objects.owl').
+:- use_module(library('knowrob_owl')).
