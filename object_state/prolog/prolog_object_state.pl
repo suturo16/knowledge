@@ -12,7 +12,8 @@
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
-      holds_suturo/2
+      holds_suturo/2,
+      dummy_perception/1
     ]).
 
 % sort of importing external libraries
@@ -116,3 +117,8 @@ holds_suturo(ObjInst, Fluent) :-
   owl_has(Fluent,knowrob:'temporalExtend',I),
   current_time(Now),
   interval_during([Now,Now],I).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% Dummy object_state
+dummy_perception(Name) :-
+	create_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
