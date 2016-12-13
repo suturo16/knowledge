@@ -34,6 +34,7 @@ dependencies {
 
   // Dependencies on rosjava projects in another catkin package
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
+  compile 'org.knowrob.json_prolog:json_prolog:[0.0,)'
   compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
 
   // Dependency on an external jar from mavencentral

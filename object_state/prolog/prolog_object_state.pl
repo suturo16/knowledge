@@ -9,12 +9,22 @@
     [
       create_object_state/9,
       close_object_state/9,
+      create_object_state_with_close/9,
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
       holds_suturo/2,
       dummy_perception/1
     ]).
+
+:- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
+      close_object_state(r,r,r,r,r,r,r,r,?),
+      create_object_state_with_close(r,r,r,r,r,r,r,r,?),
+      create_object_name(r,?),
+      create_temporal_name(r,?),
+      get_object_infos(r,?,?,?,?),
+      holds_suturo(r,?),
+      dummy_perception(?).
 
 % sort of importing external libraries
 :- use_module(library('semweb/rdf_db')).
@@ -60,6 +70,10 @@ create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjI
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))).
 
+create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    ignore(close_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin,End], ObjInst)),
+    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+
 
 %% close_object_state(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, +[Begin,End], -ObjInst) is probably det.
 % Create the object representations in the knowledge base
@@ -101,8 +115,8 @@ create_temporal_name(FullName, FullTemporalName) :-
 % @param Width
 % @param Depth
 get_object_infos(Name, Frame, Height, Width, Depth) :-
-  create_object_name(Name, FullName),
-  owl_has(Obj,rdf:type,FullName),
+  %create_object_name(Name, FullName),
+  owl_has(Obj,rdf:type,Name),
   holds_suturo(Obj, Fluent),
   owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,Frame))),
   owl_has(Fluent, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 

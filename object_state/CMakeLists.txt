@@ -9,7 +9,7 @@ project(object_state)
 # Catkin
 ##############################################################################
 
-find_package(catkin REQUIRED rosjava_build_tools suturo_perception_msgs)
+find_package(catkin REQUIRED rosjava_build_tools suturo_perception_msgs json_prolog)
 
 # Set the gradle targets you want catkin's make to run by default, e.g.
 #   catkin_rosjava_setup(installApp)
