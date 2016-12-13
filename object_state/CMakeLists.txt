@@ -9,7 +9,7 @@ project(object_state)
 # Catkin
 ##############################################################################
 
-find_package(catkin REQUIRED rosjava_build_tools suturo_perception_msgs json_prolog)
+find_package(catkin REQUIRED rosjava_build_tools suturo_perception_msgs json_prolog rospy)
 
 # Set the gradle targets you want catkin's make to run by default, e.g.
 #   catkin_rosjava_setup(installApp)
@@ -27,3 +27,9 @@ catkin_package()
 # allprojects closure the root build.gradle
 install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_MAVEN_DESTINATION}/com/github/rosjava/${PROJECT_NAME}/ 
         DESTINATION ${CATKIN_GLOBAL_MAVEN_DESTINATION}/com/github/rosjava/${PROJECT_NAME})
+
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)
+
+install(FILES knowrob_vis/build/classpath.txt
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/build)

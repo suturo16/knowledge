@@ -39,6 +39,8 @@ dependencies {
 
   // Dependency on an external jar from mavencentral
   compile 'java3d:vecmath:1.3.1'
+  compile 'jpl:jpl:3.1.4-alpha'
+
 
   //Dependencies on other rosjava project in the same catkin project
   compile project(':suturo_perception_msgs')

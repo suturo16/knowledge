@@ -14,7 +14,10 @@
       create_temporal_name/2,
       get_object_infos/5,
       holds_suturo/2,
-      dummy_perception/1
+      dummy_perception/1,
+      dummy_perception_with_close/1,
+      dummy_close/1,
+      dummy_perception_with_close2/1
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -136,3 +139,12 @@ holds_suturo(ObjInst, Fluent) :-
 % Dummy object_state
 dummy_perception(Name) :-
 	create_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+dummy_perception_with_close(Name) :-
+	create_object_state_with_close(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+dummy_perception_with_close2(Name) :-
+	create_object_state_with_close(Name, Pose, 1.0, '/odom_combined_a', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+dummy_close(Name) :-
+	close_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).

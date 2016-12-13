@@ -44,6 +44,12 @@ import org.knowrob.json_prolog.PrologBindings;
 import org.knowrob.json_prolog.client.PrologQueryProxy;
 import org.ros.concurrent.CancellableLoop;
 import org.knowrob.utils.ros.RosUtilities;
+import org.ros.node.service.ServiceClient;
+import org.ros.node.service.ServiceResponseListener;
+import org.ros.exception.RemoteException;
+import org.ros.exception.RosRuntimeException;
+import org.ros.exception.ServiceNotFoundException;
+import org.knowrob.prolog.PrologInterface;
 
 
 /**
@@ -112,22 +118,81 @@ public class Listener extends AbstractNodeMain {
 		HashMap<String,ObjectDetection> objectsMap = new HashMap(); 
 		ObjectDetection oldObj, currObj = null;
 		PrologClient pl = new PrologClient();
+		ServiceClient<json_prolog_msgs.PrologQueryRequest, json_prolog_msgs.PrologQueryResponse> query_client;
+		ServiceClient<json_prolog_msgs.PrologNextSolutionRequest, json_prolog_msgs.PrologNextSolutionResponse> next_solution_client;
+		int id = 0;
+
+		public boolean queryIt(String q){
+			try {
+				query_client = node.newServiceClient("json_prolog/simple_query", json_prolog_msgs.PrologQuery._TYPE);
+				next_solution_client = node.newServiceClient("json_prolog/next_solution", json_prolog_msgs.PrologNextSolution._TYPE);
+
+				final json_prolog_msgs.PrologQueryRequest req1 = query_client.newMessage();
+				id++;
+				req1.setId(id + "");
+				req1.setQuery(q);
+
+				query_client.call(req1, new ServiceResponseListener<json_prolog_msgs.PrologQueryResponse>() {
+
+					@Override
+					public void onSuccess(json_prolog_msgs.PrologQueryResponse response) {
+						log.info("Query " + req1.getQuery() + "successful");
+					}
+
+					@Override
+					public void onFailure(RemoteException e) {
+						throw new RosRuntimeException(e);
+					}
+				});
+
+						//FIX: Query the next solution
+				final json_prolog_msgs.PrologNextSolutionRequest req2 = next_solution_client.newMessage();
+				req2.setId(id + "");
+
+				next_solution_client.call(req2, new ServiceResponseListener<json_prolog_msgs.PrologNextSolutionResponse>() {
+					@Override
+					public void onSuccess(json_prolog_msgs.PrologNextSolutionResponse response) {
+						log.info("Query " + req2.getId() + "successful!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					}
+
+					@Override
+					public void onFailure(RemoteException e) {
+						throw new RosRuntimeException(e);
+					}
+				});
+
+				// final json_prolog_msgs.PrologFinishRequest req3 = next_solution_client.newMessage();
+				// req3.setId(id + "");
+
+				// next_solution_client.call(req3, new ServiceResponseListener<json_prolog_msgs.PrologFinishResponse>() {
+				// 	@Override
+				// 	public void onSuccess(json_prolog_msgs.PrologFinishResponse response) {
+				// 		log.info("Query " + req3.getId() + "successful!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				// 	}
+
+				// 	@Override
+				// 	public void onFailure(RemoteException e) {
+				// 		throw new RosRuntimeException(e);
+				// 	}
+				// });
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
 
 		@Override 
 		public void run() {
-			RosUtilities.runRosjavaNode(pl, new String[]{"org.knowrob.json_prolog.Prolog"});
-
-			try {
-				
+			try {				
 				node.executeCancellableLoop(new CancellableLoop() {
 										
 					@Override
 					protected void loop() throws InterruptedException {
-						log.info("Yaaaayyy");
+						
 						currObj = detections.take();
 						//if object has not been seen before, start temporal representation
 						if (!objectsMap.containsKey(currObj.getName())){
-							log.info("Yaaaayyy2");
 							objectsMap.put(currObj.getName(), currObj);
 							
 							Matrix4d p = quaternionToMatrix(currObj.getPose().getPose());
@@ -142,9 +207,9 @@ public class Listener extends AbstractNodeMain {
 										+ currObj.getType() + ",'" + currObj.getPose().getHeader().getFrameId() + "',"
 										+ currObj.getWidth() + "," + currObj.getHeight() + "," + currObj.getDepth() 
 										+ ", [" + currObj.getPose().getHeader().getStamp() + "],  ObjInst)";
-							log.info("Yaaaayyy3");
-							pl.query(q);
-							log.info("Yaaaayyy4");
+
+
+							queryIt(q);
 							log.info(q);
 
 						}
@@ -158,21 +223,20 @@ public class Listener extends AbstractNodeMain {
 							Matrix4d p_old = quaternionToMatrix(oldObj.getPose().getPose());	
 							
 							//String format: perceive_objects(Name, PoseAsList, Type, Frame_id, Width, Height, Depth, [Begin, End], ObjInst) :- 
-							String q_old = "create_object_state_with_close('" +
-										oldObj.getName()+"', [" 
+							String q_old = "create_object_state_with_close(" +
+										oldObj.getName()+", [" 
 										+ p_old.m00 + "," + p_old.m01 + "," + p_old.m02 + "," + p_old.m03 + ","
 										+ p_old.m10 + "," + p_old.m11 + "," + p_old.m12 + "," + p_old.m13 + ","
 										+ p_old.m20 + "," + p_old.m21 + "," + p_old.m22 + "," + p_old.m23 + ","
 										+ p_old.m30 + "," + p_old.m31 + "," + p_old.m32 + "," + p_old.m33 + "], " 
-										+ oldObj.getType() + ",'" + oldObj.getPose().getHeader().getFrameId() + "',"
+										+ oldObj.getType() + "," + oldObj.getPose().getHeader().getFrameId() + ","
 										+ oldObj.getWidth() + "," + oldObj.getHeight() + "," + oldObj.getDepth() 
 										+ ", [" + oldObj.getPose().getHeader().getStamp() 
 										+ ", " + currObj.getPose().getHeader().getStamp() + "],  ObjInst)";
 	
 							// uncomment to see the resulting query printed to the KnowRob console
 							//System.err.println(q);
-							pl.query(q_old);
-							log.info("Yaaaayyy6");
+							queryIt(q_old);
 				
 							
 							//#######################################
@@ -203,7 +267,7 @@ public class Listener extends AbstractNodeMain {
 				for (Map.Entry<String, ObjectDetection> entry : objectsMap.entrySet()) {
 					Matrix4d p = quaternionToMatrix(entry.getValue().getPose().getPose());	
 					org.ros.message.Time now = node.getCurrentTime();
-					String q = "perceive_objects(" +
+					String q = "create_object_state_with_close(" +
 								entry.getValue().getName() +", [" 
 								+ p.m00 + "," + p.m01 + "," + p.m02 + "," + p.m03 + ","
 								+ p.m10 + "," + p.m11 + "," + p.m12 + "," + p.m13 + ","
@@ -216,7 +280,7 @@ public class Listener extends AbstractNodeMain {
 
 					// uncomment to see the resulting query printed to the KnowRob console
 					//System.err.println(q);
-					pl.query(q);
+					queryIt(q);
 				}
 			}
 		}
