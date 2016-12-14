@@ -1,0 +1,10 @@
+- git:
+    local-name: suturo_msgs
+    uri: https://github.com/suturo16/suturo_msgs.git
+- git:
+    local-name: stacks/knowrob
+    uri: https://github.com/knowrob/knowrob.git
+    version: master
+- git:
+    local-name: iai_common_msgs
+    uri: https://github.com/code-iai/iai_common_msgs.git
