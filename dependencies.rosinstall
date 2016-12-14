@@ -1,0 +1,3 @@
+- git:
+    local-name: suturo_msgs
+    uri: https://github.com/suturo16/suturo_msgs.git
