@@ -28,7 +28,7 @@ def listener():
     # run simultaneously.
     rospy.init_node('perception_listener', anonymous=True)
 
-    rospy.Subscriber("dummy_object_detections", ObjectDetection, callback)
+    rospy.Subscriber("percepteros/object_detection", ObjectDetection, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
