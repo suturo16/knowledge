@@ -1,0 +1,6 @@
+<launch>
+  <!-- <group name="object_state"> -->
+    <include file="$(find object_state)/launch/subscriber_py.launch" />  
+    <include file="$(find object_state)/launch/prolog.launch" />
+  <!-- </group> -->
+</launch>
