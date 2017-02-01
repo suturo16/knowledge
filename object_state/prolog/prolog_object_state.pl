@@ -16,6 +16,8 @@
       get_object_infos/6,
       seen_since/3,
       holds_suturo/2,
+      connect_frames/2,
+      disconnect_frames/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
@@ -29,6 +31,8 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
+      connect_frames(r,r),
+      disconnect_frames(r,r),
       seen_since(r,r,r),
       holds_suturo(r,?),
       dummy_perception(?).
@@ -162,6 +166,20 @@ holds_suturo(ObjInst, Fluent) :-
   owl_has(Fluent,knowrob:'temporalExtend',I),
   current_time(Now),
   interval_during([Now,Now],I).
+
+%% connect_frames(+ParentFrameID, +ChildFrameID)
+%
+% MOCKUP
+%
+connect_frames(ParentFrameID, ChildFrameID) :-
+	true.
+
+%% disconnect_frames(+ParentFrameID, +ChildFrameID)
+%
+% MOCKUP
+%
+disconnect_frames(ParentFrameID, ChildFrameID) :-
+	true.
 
 %%
 % Dummy object_state
