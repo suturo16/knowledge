@@ -138,9 +138,9 @@ get_object_infos(Name, Frame, Height, Width, Depth) :-
 % @param Width
 % @param Depth
 get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
-  %create_object_name(Name, FullName),
   FrameID = '\cake',
-  Timestamp = 0,
+  %Just give back the current time, edit this to use the time of the fluent
+  current_time(Timestamp),
   Height = 30.5,
   Width = 20.1,
   Depth = 10.1.
