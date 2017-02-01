@@ -13,6 +13,8 @@
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
+      get_object_infos/6,
+      seen_since/3,
       holds_suturo/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
@@ -26,6 +28,8 @@
       create_object_name(r,?),
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
+      get_object_infos(r,?,?,?,?,?),
+      seen_since(r,r,r),
       holds_suturo(r,?),
       dummy_perception(?).
 
@@ -124,6 +128,33 @@ get_object_infos(Name, Frame, Height, Width, Depth) :-
     %atom_number(WidthStr, Width),
   owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))).
     %atom_number(DepthStr, Depth).
+
+%% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
+% @TODO(Michael): Reiner Mockup --> Timestamp im Hauptcode implementieren
+%
+% @param Name name of the object
+% @param Frame 
+% @param Height
+% @param Width
+% @param Depth
+get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
+  %create_object_name(Name, FullName),
+  FrameID = '\cake',
+  Timestamp = 0,
+  Height = 30.5,
+  Width = 20.1,
+  Depth = 10.1.
+
+
+ %% seen_since(+Name, +FrameID, +Timestamp)
+ % Mockup for seen_since 
+ % @TODO(Michael): implementieren
+ %
+ % @TODO: Params beschreiben
+ %
+ seen_since(Name, FrameID, Timestamp):-
+   true.
+
 
 %% holds_suturo(+ObjInst, -Fluent)
 holds_suturo(ObjInst, Fluent) :-
