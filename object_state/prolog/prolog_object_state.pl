@@ -18,6 +18,7 @@
       dummy_perception_with_close/1,
       dummy_close/1,
       dummy_perception_with_close2/1
+      get_tf_infos/4
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -65,7 +66,7 @@
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
-    rdf_instance_from_class(FullName, ObjInst),
+    rdf_instance_from_class(FullName, ObjInst), %todo:nicht immer neues objekt erstellen
     create_fluent(ObjInst, Fluent),
     %rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, Frame))),
@@ -73,10 +74,12 @@ create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjI
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))).
 
-
+%todo:freeze
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+%gibt es obj vom typ? wenn ja, do:
     ignore(close_object_state(Name)),
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+%else: stop
 
 
 %% close_object_state(+Name) is probably det.
@@ -132,6 +135,12 @@ holds_suturo(ObjInst, Fluent) :-
   current_time(Now),
   interval_during([Now,Now],I).
 
+%% holds_suturo([FluentsList])
+%search open objects and save in list, typen ?!
+owl_has([Obj],rdf:type,Name), 
+holds_suturo(Head, Fluent),
+
+
 %%
 % Dummy object_state
 dummy_perception(Name) :-
@@ -145,3 +154,13 @@ dummy_perception_with_close2(Name) :-
 
 dummy_close(Name) :-
 	close_object_state(Name).
+
+%% get_tf_infos(Name,ParentFrame,PositionList,OrientationList)
+%
+% @Name the name of the object
+% @Type type of the returned objects
+% @ParentFrame
+% @PositionList
+% @OrientationList
+%get_tf_infos(Name, ParentFrame, PositionList, OrientationList) :-
+%  .
