@@ -10,6 +10,7 @@
       create_object_state/9,
       close_object_state/1,
       create_object_state_with_close/9,
+      create_fluent_pose/3,
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
@@ -19,7 +20,8 @@
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
-      dummy_perception_with_close2/1
+      dummy_perception_with_close2/1,
+      print_shit/1
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -31,6 +33,7 @@
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(r,?,?,?),
       holds_suturo(r,?),
+      print_shit(r),
       dummy_perception(?).
 
 %importing external libraries
@@ -68,21 +71,24 @@
 % @param Depth The depth of the object
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
-create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
+create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst),
-    create_fluent(ObjInst, Fluent), print('neee'),
+    create_fluent(ObjInst, Fluent),
     rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
-    create_fluent_pose(Fluent, Pose).
+    create_fluent_pose(Fluent, [Pose]).
+
+print_shit(A) :-
+  print(A).
 
 
-create_object_state_with_close(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :-
-    ignore(close_object_state(Name)), print('hallo'),
-    create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst).
+create_object_state_with_close(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :-
+    ignore(close_object_state(Name)),
+    create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst).
 
 %neu MSp
 create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
