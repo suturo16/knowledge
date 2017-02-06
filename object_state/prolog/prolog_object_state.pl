@@ -16,12 +16,14 @@
       get_object_infos/5,
       get_object_infos/6,
       get_object_position/4,
+      seen_since/3,
       holds_suturo/2,
+      connect_frames/2,
+      disconnect_frames/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
       dummy_perception_with_close2/1,
-      print_shit/1
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -32,6 +34,9 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(r,?,?,?),
+      connect_frames(r,r),
+      disconnect_frames(r,r),
+      seen_since(r,r,r),
       holds_suturo(r,?),
       print_shit(r),
       dummy_perception(?).
@@ -81,9 +86,6 @@ create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], 
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
     create_fluent_pose(Fluent, [Pose]).
-
-print_shit(A) :-
-  print(A).
 
 
 create_object_state_with_close(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :-
@@ -207,6 +209,20 @@ holds_suturo(ObjInst, Fluent) :-
     owl_has(Fluent,knowrob:'temporalExtend',I),
     current_time(Now),
     interval_during([Now,Now],I).
+
+%% connect_frames(+ParentFrameID, +ChildFrameID)
+%
+% MOCKUP
+%
+connect_frames(ParentFrameID, ChildFrameID) :-
+	true.
+
+%% disconnect_frames(+ParentFrameID, +ChildFrameID)
+%
+% MOCKUP
+%
+disconnect_frames(ParentFrameID, ChildFrameID) :-
+	true.
 
 %%
 % Dummy object_state
