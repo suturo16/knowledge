@@ -10,20 +10,20 @@
       create_object_state/9,
       close_object_state/1,
       create_object_state_with_close/9,
-      create_fluent_pose/3,
+      create_fluent_pose/2,
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
       get_object_infos/6,
-      get_object_position/4,
+      more_recent/1,
       seen_since/3,
+      get_object_position/4,
+      get_fluent_pose/3,
       holds_suturo/2,
-      connect_frames/2,
-      disconnect_frames/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
-      dummy_perception_with_close2/1,
+      dummy_perception_with_close2/1
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -33,7 +33,7 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
-      get_object_infos(r,?,?,?),
+      get_object_position(r,?,?,?),
       connect_frames(r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
@@ -76,21 +76,21 @@
 % @param Depth The depth of the object
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
-create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
+create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst),
     create_fluent(ObjInst, Fluent),
-    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
-    rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
+    %rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+    rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, Frame))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
-    rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
+    rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))).
     create_fluent_pose(Fluent, [Pose]).
 
 
-create_object_state_with_close(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :-
+create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     ignore(close_object_state(Name)),
-    create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst).
+    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 %neu MSp
 create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
@@ -108,7 +108,7 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % @param Name describes the class of the object
 close_object_state(Name) :- 
     create_object_name(Name, FullName),
-    owl_has(Obj,rdf:type,FullName),    
+    owl_has(Obj, rdf:type,FullName),    
     fluent_assert_end(Obj,P).
     
 
@@ -156,20 +156,13 @@ get_object_infos(Name, FrameID, Height, Width, Depth) :-
 % 
 get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
     owl_has(Obj,rdf:type,Name),
-    holds_suturo(Obj, Fluent),
     get_object_infos(Name, FrameID, Height, Width, Depth), 
-    most_recent(Fluent),  
-    owl_has(Fluent, knowrob:'startTime', literal(type(xsd:float, Timestamp))).
+    holds_suturo(Obj, Fluent),
+    owl_has(Fluent,knowrob:'temporalExtend',I),
+    owl_has(I, knowrob:'startTime', Timepoint),
+    create_timepoint(Time, Timepoint),
+    atom_number(Time, Timestamp).
 
-%% most_recent(Fluent)
-% method: there is no fluent with a more recent start time.
-%
-most_recent(Fluent) :-
-    rdf_has(Obj, knowrob:'temporalParts', Fluent),
-    rdf_has(Obj, knowrob:'temporalParts', Older),
-    rdf_has(Fluent, knowrob: 'startTime', T_f),
-    rdf_has(Older, knowrob: 'startTime', T_o),
-    T_f \= T_o, not(T_o > T_f).
 
 %% seen_since(+Name, +FrameID, +Timestamp) --> true/false
 %  MSp
@@ -179,15 +172,18 @@ most_recent(Fluent) :-
 seen_since(Name, FrameID, Timestamp) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
-    not(most_recent(Fluent)),
-    owl_has(Fluent, knowrob:'startTime', literal(type(xsd:float, Timestamp))).
+    owl_has(Fluent,knowrob:'temporalExtend',I),
+    owl_has(I, knowrob:'startTime', Timepoint),
+    create_timepoint(TimeStr, Timepoint),
+    atom_number(TimeStr, Time),
+    Time > Timestamp.
 
 
 %% get_object_position(+Name, -FrameID, -Position, -Orientation)
 % MSp
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
-get_object_infos(Name, FrameID, Height, Width, Depth, Position, Orientation) :-
+get_object_position(Name, FrameID, Position, Orientation) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
     get_object_infos(Name, FrameID, Height, Width, Depth),
@@ -230,10 +226,10 @@ dummy_perception(Name) :-
 	 create_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_perception_with_close(Name) :-
-	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined', 10.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_perception_with_close2(Name) :-
-	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined_a', 20.0, 14.0, 9.0, Begin, ObjInst).
+	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined_a', 5.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_close(Name) :-
 	 close_object_state(Name).
