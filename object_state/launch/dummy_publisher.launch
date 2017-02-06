@@ -1,0 +1,3 @@
+<launch>
+  <node name="perception_subscriber" pkg="object_state" type="subscriber.py" />
+</launch>

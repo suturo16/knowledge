@@ -7,15 +7,19 @@ from suturo_perception_msgs.msg import ObjectDetection
 
 def callback(currObj):
     prolog = json_prolog.Prolog()
-    query = prolog.query("create_object_state_with_close('" +
-                                        currObj.name+"', [" 
-                                        + str(0.00) + "," + str(0.01) + "," + str(0.02) + "," + str(0.03) + ","
-                                        + str(0.10) + "," + str(0.11) + "," + str(0.12) + "," + str(0.13) + ","
-                                        + str(0.20) + "," + str(0.21) + "," + str(0.22) + "," + str(0.23) + ","
-                                        + str(0.30) + "," + str(0.31) + "," + str(0.32) + "," + str(0.33) + "], " 
-                                        + str(currObj.type) + ",'" + str(currObj.pose.header.frame_id) + "',"
-                                        + str(currObj.width) + "," + str(currObj.height) + "," + str(currObj.depth) 
-                                        + ", [" + str(currObj.pose.header.stamp) + "],  ObjInst)")
+    query = prolog.query("create_object_state_with_close('" 
+                            + currObj.name+"', [ ["
+                            + str(currObj.pose.pose.position.x) + "," 
+                            + str(currObj.pose.pose.position.y) + "," 
+                            + str(currObj.pose.pose.position.z) + "],["
+                            + str(currObj.pose.pose.orientation.x) + "," 
+                            + str(currObj.pose.pose.orientation.y) + "," 
+                            + str(currObj.pose.pose.orientation.z) + "," 
+                            + str(currObj.pose.pose.orientation.w) + "] ], " 
+                            + str(currObj.type) + ",'" + str(currObj.pose.header.frame_id) + "',"
+                            + str(currObj.width) + "," + str(currObj.height) + "," + str(currObj.depth) + ", [" 
+                            + str(currObj.pose.header.stamp.secs) +"," + str(currObj.pose.header.stamp.nsecs) 
+                            + "],  ObjInst)")
     for solution in query.solutions():
         rospy.loginfo('Found solution.')
     query.finish()
