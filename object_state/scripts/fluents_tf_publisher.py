@@ -20,7 +20,6 @@ def startPublish():
 		#loop for all solutions from get_tf_infos(N,F,P,O)
 		for solution in query.solutions():
 			
-			rospy.loginfo(solution["Position"])
 			position = solution["Position"]
 			orientation = solution["Orientation"] 
 			
