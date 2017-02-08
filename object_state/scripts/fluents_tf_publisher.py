@@ -4,30 +4,41 @@ roslib.load_manifest('object_state')
 import rospy
 
 import tf
-#import objectdetection.msg
+import rospy
+from json_prolog import json_prolog
 
 def startPublish():
 
+	#invoke prolog, broadcaster
 	prolog = json_prolog.Prolog()
 	br = tf.TransformBroadcaster()
 	
-	while(true)
-		query = prolog.query("get_tf_infos(Name,ParentFrame,PositionList,OrientationList)")
-	    for solutions in query.solutions():
-	    	rospy.loginfo('At least I tried')
-	    	br.sendTransform((solution[[ParentFrame[0]]],))
-		query.finish()
-		return objects
-
-def handle_fluents_pose(msg, turtlename):
-    br.sendTransform((msg.x, msg.y, 0),
-                     tf.transformations.quaternion_from_euler(0, 0, msg.theta),
+	#do until killed (Ctrl-C)
+	while(True):
+		query = prolog.query("get_tf_infos(Name,FrameID,Position,Orientation)")
+		
+		#loop for all solutions from get_tf_infos(N,F,P,O)
+		for solution in query.solutions():
+			
+			rospy.loginfo(solution["Position"])
+			position = solution["Position"]
+			orientation = solution["Orientation"] 
+			
+			#pushing the aquired information to tf
+			br.sendTransform((float(position[0]), float(position[1]), float(position[2])),
+                     (float(orientation[0]), float(orientation[1]), float(orientation[2]), float(orientation[3])),
                      rospy.Time.now(),
-                     turtlename,
-                     "/odom_combined")
+                     '/' + solution['Name'],
+                     solution['FrameID'])
+		query.finish()
+
 
 if __name__ == '__main__':
 	#initialize the node 
-    rospy.init_node('fluents_tf_broadcaster')
-    startPublish()
-    rospy.spin()
+	rospy.init_node('fluents_tf_broadcaster')
+	
+	#do the main work
+	startPublish()
+
+	#repeat until stopped
+	rospy.spin()
