@@ -1,30 +1,31 @@
 /** <module> prolog_object_state
 
-@author Lukas Samel
+@author Lukas Samel; Michael Speer
 @license BSD
 */
 
 % defining functions
 :- module(prolog_object_state,
     [
-      create_object_state/9,
       close_object_state/1,
-      create_object_state_with_close/9,
       create_fluent_pose/2,
+      create_object_state/9,
+      create_object_state_with_close/9,
       create_object_name/2,
       create_temporal_name/2,
+      get_fluent_pose/3,
+      get_fluent_pose/3
       get_object_infos/5,
       get_object_infos/6,
+      get_object_position/4,
+      get_tf_infos/4,
+      more_recent/1,
       seen_since/3,
       holds_suturo/2,
-      connect_frames/2,
-      disconnect_frames/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
       dummy_perception_with_close2/1,
-      get_tf_infos/4,
-      get_fluent_pose/3
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -34,7 +35,7 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
-      get_object_infos(r,?,?,?),
+      get_object_position(r,?,?,?),
       connect_frames(r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
@@ -95,9 +96,9 @@ create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [B
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 %else: stop
 
-create_object_state_with_close(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :-
+create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     ignore(close_object_state(Name)),
-    create_object_state(Name, [Pose], Type, FrameID, Width, Height, Depth, [Begin], ObjInst).
+    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 %neu MSp
 create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
@@ -116,7 +117,7 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % @param Name describes the class of the object
 close_object_state(Name) :- 
     create_object_name(Name, FullName),
-    owl_has(Obj,rdf:type,FullName),    
+    owl_has(Obj, rdf:type,FullName),    
     fluent_assert_end(Obj,P).
     
 
@@ -164,20 +165,13 @@ get_object_infos(Name, FrameID, Height, Width, Depth) :-
 % 
 get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
     owl_has(Obj,rdf:type,Name),
-    holds_suturo(Obj, Fluent),
     get_object_infos(Name, FrameID, Height, Width, Depth), 
-    most_recent(Fluent),  
-    owl_has(Fluent, knowrob:'startTime', literal(type(xsd:float, Timestamp))).
+    holds_suturo(Obj, Fluent),
+    owl_has(Fluent,knowrob:'temporalExtend',I),
+    owl_has(I, knowrob:'startTime', Timepoint),
+    create_timepoint(Time, Timepoint),
+    atom_number(Time, Timestamp).
 
-%% most_recent(Fluent)
-% method: there is no fluent with a more recent start time.
-%
-most_recent(Fluent) :-
-    rdf_has(Obj, knowrob:'temporalParts', Fluent),
-    rdf_has(Obj, knowrob:'temporalParts', Older),
-    rdf_has(Fluent, knowrob: 'startTime', T_f),
-    rdf_has(Older, knowrob: 'startTime', T_o),
-    T_f \= T_o, not(T_o > T_f).
 
 %% seen_since(+Name, +FrameID, +Timestamp) --> true/false
 %  MSp
@@ -187,12 +181,15 @@ most_recent(Fluent) :-
 seen_since(Name, FrameID, Timestamp) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
-    not(most_recent(Fluent)),
-    owl_has(Fluent, knowrob:'startTime', literal(type(xsd:float, Timestamp))).
+    owl_has(Fluent,knowrob:'temporalExtend',I),
+    owl_has(I, knowrob:'startTime', Timepoint),
+    create_timepoint(TimeStr, Timepoint),
+    atom_number(TimeStr, Time),
+    Time > Timestamp.
 
 
 %% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
-% 
+% LSa
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
 get_tf_infos(Name, FrameID, Position, Orientation) :-

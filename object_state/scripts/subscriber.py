@@ -18,8 +18,7 @@ def callback(currObj):
                             + str(currObj.pose.pose.orientation.w) + "] ], " 
                             + str(currObj.type) + ",'" + str(currObj.pose.header.frame_id) + "',"
                             + str(currObj.width) + "," + str(currObj.height) + "," + str(currObj.depth) + ", [" 
-                            + str(currObj.pose.header.stamp.secs) +"," + str(currObj.pose.header.stamp.nsecs) 
-                            + "],  ObjInst)")
+                            + str(currObj.pose.header.stamp)+ "],  ObjInst)")
     for solution in query.solutions():
         rospy.loginfo('Found solution.')
     query.finish()
