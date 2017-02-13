@@ -180,7 +180,8 @@ seen_since(Name, FrameID, Timestamp) :-
     create_timepoint(TimeStr, Timepoint),
     atom_number(TimeStr, TimeFloat),
     number(Timestamp),
-    TimeFloat > Timestamp.
+    TimeFloat > Timestamp;
+    close_object_state(Name).
 
 
 %% get_object_position(+Name, -FrameID, -Position, -Orientation)
