@@ -91,17 +91,16 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-%gibt es obj vom typ? wenn ja, do:
+    not(isConnected(Name, _)) ->
     ignore(close_object_state(Name)),
-    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst);
+    false.
 
 
-create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    ignore(close_object_state(Name)),
-    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
-
-
-%neu MSp
+%% create_fluent_pose(+Fluent, +Pose)
+% MSp
+% @param Fluent temporal part of object
+% @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
     rdf_assert(Fluent, knowrob:'xPosOfObject', literal(type(xsd:float, PX))),
     rdf_assert(Fluent, knowrob:'yPosOfObject', literal(type(xsd:float, PY))),
