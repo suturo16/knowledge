@@ -122,8 +122,8 @@ close_object_state(Name) :-
     
 
 %% create_object_name(+Name,-FullName) is det.
-% Appends Name to 'http://knowrob.org/kb/knowrob.owl#'
-%
+% LSa
+% Appends Name to the knowrob domain.
 % @param Name content to be appended to the namespace
 % @preturns FullName the concatenated string
 create_object_name(Name, FullName) :-
@@ -159,7 +159,7 @@ get_object_infos(Name, FrameID, Height, Width, Depth) :-
 
 
 %% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
-%  MSp
+% MSp
 % @param Name name of the object
 % @param FrameID reference frame of object
 % @param Timestamp start time of most recent perception
@@ -195,6 +195,9 @@ seen_since(Name, FrameID, Timestamp) :-
 
 %% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
 % LSa
+% A function to bundle the required information for the TF-broadcaster.
+% @param Name 
+% @param FrameID 
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
 get_tf_infos(Name, FrameID, Position, Orientation) :-
@@ -205,6 +208,8 @@ get_tf_infos(Name, FrameID, Position, Orientation) :-
     get_fluent_pose(Fluent, Position, Orientation).
 
 
+%% get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW])
+% MSp
 get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Fluent, knowrob: 'xPosOfObject', literal(type(xsd: float, PX))),
     owl_has(Fluent, knowrob: 'yPosOfObject', literal(type(xsd: float, PY))),
