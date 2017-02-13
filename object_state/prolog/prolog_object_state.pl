@@ -1,6 +1,6 @@
 /** <module> prolog_object_state
 
-@author Lukas Samel; Michael Speer
+@author Lukas Samel, Michael Speer, Sascha Jongebloed 
 @license BSD
 */
 
@@ -15,10 +15,12 @@
       create_object_name/2,
       create_temporal_name/2,
       disconnect_frames/2,
+      dummy_perception2/1,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
       dummy_perception_with_close2/1,
+      isConnected/2,
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
@@ -26,6 +28,9 @@
       holds_suturo/2,
       seen_since/3
     ]).
+
+:- dynamic
+        isConnected/2.
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
       close_object_state(r,r,r,r,r,r,r,r,?),
@@ -89,6 +94,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
+% LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     atom_concat('/', Name, ChildFrameID),
@@ -113,7 +119,7 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 
 
 %% close_object_state(+Name) is probably det.
-%
+% SJo
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(Name) :- 
@@ -140,7 +146,7 @@ create_temporal_name(FullName, FullTemporalName) :-
 
 
 %% get_object_infos(+Name, -FrameID, -Height, -Width, -Depth)
-%
+% LSa
 % @param Name name of the object
 % @param FrameID reference frame of object
 % @param Height height of object
@@ -235,7 +241,11 @@ holds_suturo(ObjInst, Fluent) :-
 % A small function to connect two given frames.
 connect_frames(ParentFrameID, ChildFrameID, Pose) :-
 	atom_concat('/', Name, ChildFrameID),
-  get_object_infos(Name, FrameID, Height, Width, Depth),
+  atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+  get_object_infos(FullName, FrameID, Height, Width, Depth),
+  owl_has(Obj,rdf:type,FullName),
+  holds_suturo(Obj, Fluent),
+  owl_has(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
   create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
   assert(isConnected(ParentFrameID, ChildFrameID)).
 
@@ -263,3 +273,7 @@ dummy_perception_with_close2(Name) :-
 
 dummy_close(Name) :-
 	close_object_state(Name).
+
+% Dummy object_state
+dummy_perception2(Egal) :-
+   create_object_state('carrot1', [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).

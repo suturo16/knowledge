@@ -24,9 +24,10 @@ def connect_frames_service(req):
     (trans,rot) = optimusPrime.lookupTransform(child_frame, parent_frame, rospy.Time(0))
 
     # Invoke Prolog
+    print(parent_frame)
     prolog = json_prolog.Prolog()
-    query = prolog.query("connect_frames("+parent_frame+","+child_frame+
-        ",[ [ "+str(trans[0])+","+str(trans[1])+","+str(trans[2])+"], ["
+    query = prolog.query("connect_frames('"+parent_frame+"','"+child_frame+
+        "',[ [ "+str(trans[0])+","+str(trans[1])+","+str(trans[2])+"], ["
         +str(rot[0])+","+str(rot[1])+","+str(rot[2])+","+str(rot[3])+" ] ])")
     for solution in query.solutions():
         print str(solution)
