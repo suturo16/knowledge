@@ -14,18 +14,16 @@
       create_object_name/2,
       create_temporal_name/2,
       get_fluent_pose/3,
-      get_fluent_pose/3
       get_object_infos/5,
       get_object_infos/6,
-      get_object_position/4,
       get_tf_infos/4,
-      more_recent/1,
       seen_since/3,
+      rename_and_lookup/2,
       holds_suturo/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
-      dummy_perception_with_close2/1,
+      dummy_perception_with_close2/1
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -35,7 +33,6 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
-      get_object_position(r,?,?,?),
       connect_frames(r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
@@ -192,6 +189,9 @@ seen_since(Name, FrameID, Timestamp) :-
     TimeFloat > Timestamp;
     close_object_state(Name).
 
+%% 
+rename_and_lookup(Input1, Input2) :-
+  atom_concat(Input1,'/', Input2).
 
 %% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
 % LSa
