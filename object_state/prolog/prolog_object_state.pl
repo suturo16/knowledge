@@ -91,7 +91,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    not(isConnected(Name, _)) ->
+    atom_concat('/', Name, ChildFrameID),
+    not(isConnected(_ ,ChildFrameID)) ->
     ignore(close_object_state(Name)),
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst);
     false.
@@ -243,7 +244,7 @@ connect_frames(ParentFrameID, ChildFrameID, Pose) :-
 % LSa
 % A simple function to disconnect two given frames.
 disconnect_frames(ParentFrameID, ChildFrameID) :-
-  retract(ParentFrameID, ChildFrameID).
+  retract(isConnected(ParentFrameID, ChildFrameID)).
 
 
 %%
