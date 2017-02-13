@@ -80,7 +80,7 @@ create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjI
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst),
     create_fluent(ObjInst, Fluent),
-    %rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, Frame))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
@@ -161,7 +161,9 @@ get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
     owl_has(Fluent,knowrob:'temporalExtend',I),
     owl_has(I, knowrob:'startTime', Timepoint),
     create_timepoint(Time, Timepoint),
-    atom_number(Time, Timestamp).
+    atom_number(Time, Timestamp),
+    number(Timestamp).
+
 
 
 %% seen_since(+Name, +FrameID, +Timestamp) --> true/false
@@ -172,11 +174,13 @@ get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
 seen_since(Name, FrameID, Timestamp) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
+    owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
     owl_has(Fluent,knowrob:'temporalExtend',I),
     owl_has(I, knowrob:'startTime', Timepoint),
     create_timepoint(TimeStr, Timepoint),
-    atom_number(TimeStr, Time),
-    Time > Timestamp.
+    atom_number(TimeStr, TimeFloat),
+    number(Timestamp),
+    TimeFloat > Timestamp.
 
 
 %% get_object_position(+Name, -FrameID, -Position, -Orientation)
