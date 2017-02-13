@@ -8,22 +8,23 @@
 :- module(prolog_object_state,
     [
       close_object_state/1,
+      connect_frames/3,
       create_fluent_pose/2,
       create_object_state/9,
       create_object_state_with_close/9,
       create_object_name/2,
       create_temporal_name/2,
-      get_fluent_pose/3,
-      get_object_infos/5,
-      get_object_infos/6,
-      get_tf_infos/4,
-      seen_since/3,
-      rename_and_lookup/2,
-      holds_suturo/2,
+      disconnect_frames/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
       dummy_perception_with_close2/1
+      get_fluent_pose/3,
+      get_object_infos/5,
+      get_object_infos/6,
+      get_tf_infos/4,
+      holds_suturo/2,
+      seen_since/3,
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
@@ -33,7 +34,7 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
-      connect_frames(r,r),
+      connect_frames(r,r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
       holds_suturo(r,?),
@@ -86,16 +87,19 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
     create_fluent_pose(Fluent, Pose).
 
-%todo:freeze
+
+%% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
+% Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
 %gibt es obj vom typ? wenn ja, do:
     ignore(close_object_state(Name)),
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
-%else: stop
+
 
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     ignore(close_object_state(Name)),
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+
 
 %neu MSp
 create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
@@ -154,6 +158,7 @@ get_object_infos(Name, FrameID, Height, Width, Depth) :-
     owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))).
       %atom_number(DepthStr, Depth).
 
+
 %% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
 %  MSp
 % @param Name name of the object
@@ -169,7 +174,6 @@ get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
     create_timepoint(Time, Timepoint),
     atom_number(Time, Timestamp),
     number(Timestamp).
-
 
 
 %% seen_since(+Name, +FrameID, +Timestamp) --> true/false
@@ -189,9 +193,6 @@ seen_since(Name, FrameID, Timestamp) :-
     TimeFloat > Timestamp;
     close_object_state(Name).
 
-%% 
-rename_and_lookup(Input1, Input2) :-
-  atom_concat(Input1,'/', Input2).
 
 %% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
 % LSa
@@ -204,6 +205,7 @@ get_tf_infos(Name, FrameID, Position, Orientation) :-
     owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
     get_fluent_pose(Fluent, Position, Orientation).
 
+
 get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Fluent, knowrob: 'xPosOfObject', literal(type(xsd: float, PX))),
     owl_has(Fluent, knowrob: 'yPosOfObject', literal(type(xsd: float, PY))),
@@ -215,26 +217,29 @@ get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 
 
 %% holds_suturo(+ObjInst, -Fluent)
+% Custom built holds, since the provided holds does not work.
 holds_suturo(ObjInst, Fluent) :-
     owl_has(ObjInst,knowrob:'temporalParts',Fluent),
     owl_has(Fluent,knowrob:'temporalExtend',I),
     current_time(Now),
     interval_during([Now,Now],I).
 
-%% connect_frames(+ParentFrameID, +ChildFrameID)
-%
-% MOCKUP
-%
-connect_frames(ParentFrameID, ChildFrameID) :-
-	true.
+
+%% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
+% LSa
+% A small function to connect two given frames.
+connect_frames(ParentFrameID, ChildFrameID, Pose) :-
+	atom_concat('/', Name, ChildFrameID),
+  get_object_infos(Name, FrameID, Height, Width, Depth),
+  create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
+  assert(isConnected(ParentFrameID, ChildFrameID)).
+
 
 %% disconnect_frames(+ParentFrameID, +ChildFrameID)
-%
-% MOCKUP
-%
+% LSa
+% A simple function to disconnect two given frames.
 disconnect_frames(ParentFrameID, ChildFrameID) :-
-	true.
-
+  retract(ParentFrameID, ChildFrameID).
 
 
 %%
@@ -242,11 +247,14 @@ disconnect_frames(ParentFrameID, ChildFrameID) :-
 dummy_perception(Name) :-
 	 create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
+
 dummy_perception_with_close(Name) :-
 	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
+
 dummy_perception_with_close2(Name) :-
 	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
 
 dummy_close(Name) :-
 	close_object_state(Name).
