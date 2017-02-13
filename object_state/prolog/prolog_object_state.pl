@@ -18,13 +18,13 @@
       dummy_perception/1,
       dummy_perception_with_close/1,
       dummy_close/1,
-      dummy_perception_with_close2/1
+      dummy_perception_with_close2/1,
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
       get_tf_infos/4,
       holds_suturo/2,
-      seen_since/3,
+      seen_since/3
     ]).
 
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
