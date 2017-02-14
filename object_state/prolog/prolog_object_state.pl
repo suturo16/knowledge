@@ -8,6 +8,10 @@
 :- module(prolog_object_state,
     [
       close_object_state/1,
+      connect_frames1/1,
+      connect_frames2/1,
+      connect_frames3/2,
+      connect_frames4/1,
       connect_frames/3,
       create_fluent_pose/2,
       create_object_state/9,
@@ -272,8 +276,36 @@ dummy_perception_with_close2(Name) :-
 
 
 dummy_close(Name) :-
-	close_object_state(Name).
+	close_object_state(+Name).
 
 % Dummy object_state
 dummy_perception2(Egal) :-
-   create_object_state('carrot1', [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+   create_object_state_with_close('carrot1', [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+%% connect_frames1(+Name)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+connect_frames1(Name) :-
+create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+%% connect_frames2(+Name)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+connect_frames2(Name) :-
+   create_object_state_with_close(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+%% connect_frames3(+ParentFrameID, +ChildFrameID)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+connect_frames3(ParentFrameID, ChildFrameID) :-
+   disconnect_frames('/turtle1', '/carrot1').
+
+%% connect_frames4(+Name)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+connect_frames4(Name) :-
+   create_object_state_with_close(Name, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
