@@ -315,7 +315,7 @@ connect_frames4(Name) :-
 % LSa
 % Test function for documentation. Should not be used elsewhere.
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames5(ParentFrameID, ChildFrameID) :-
+connect_frames5(ParentFrameID, ChildFrameID, Pose) :-
    atom_concat('/', ParentFrameID, UsableParentFrameID),
    atom_concat('/', ChildFrameID, UsableChildFrameID),
    connect_frames(UsableParentFrameID, UsableChildFrameID).
