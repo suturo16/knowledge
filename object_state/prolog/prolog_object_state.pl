@@ -29,6 +29,7 @@
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
+      get_object_infos/8,
       get_tf_infos/4,
       holds_suturo/2,
       seen_since/3
@@ -44,6 +45,7 @@
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
+      get_object_infos(r,?,?,?,?,?,?,?),
       connect_frames(r,r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
@@ -90,7 +92,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst), %todo:nicht immer neues objekt erstellen
     create_fluent(ObjInst, Fluent),
-    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
@@ -151,35 +153,36 @@ create_temporal_name(FullName, FullTemporalName) :-
 
 
 %% get_object_infos(+Name, -FrameID, -Height, -Width, -Depth)
-% LSa
+% 
+get_object_infos(Name, FrameID, Height, Width, Depth) :-
+    get_object_infos(Name, FrameID, _, _, _, Height, Width, Depth).
+
+
+%% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
+% 
+get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
+    get_object_infos(Name, FrameID, _, Timestamp, _, Height, Width, Depth).
+
+
+%% get_object_infos(+Name, -FrameID, -Type, -Timestamp, -Pose, -Height, -Width, -Depth)
+% LSa, MSp
 % @param Name name of the object
-% @param FrameID reference frame of object
+% @param FrameID reference frame of object pose
+% @param Timestamp start time of most recent perception
+% @param Type type of the object
+% @param Pose list of [Position, Orientation] of object
 % @param Height height of object
 % @param Width width of object
 % @param Depth depth of object
-get_object_infos(Name, FrameID, Height, Width, Depth) :-
-    %create_object_name(Name, FullName),
+get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
     owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
     owl_has(Fluent, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
-      %atom_number(HeightStr, Height),
     owl_has(Fluent, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
-      %atom_number(WidthStr, Width),
-    owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))).
-      %atom_number(DepthStr, Depth).
-
-
-%% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
-% MSp
-% @param Name name of the object
-% @param FrameID reference frame of object
-% @param Timestamp start time of most recent perception
-% 
-get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
-    owl_has(Obj,rdf:type,Name),
-    get_object_infos(Name, FrameID, Height, Width, Depth), 
-    holds_suturo(Obj, Fluent),
+    owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
+    owl_has(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer,Type))),
+    get_fluent_pose(Fluent, Position, Orientation),
     owl_has(Fluent,knowrob:'temporalExtend',I),
     owl_has(I, knowrob:'startTime', Timepoint),
     create_timepoint(Time, Timepoint),
@@ -187,21 +190,14 @@ get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
     number(Timestamp).
 
 
-%% seen_since(+Name, +FrameID, +Timestamp) --> true/false
+%% seen_since(+Name, +FrameID, +TimeFloat) --> true/false
 %  MSp
 %  @param Name name of the object in database
 %  @param FrameID reference frame of object
-%  @param Timestamp timestamp to be asserted
-seen_since(Name, FrameID, Timestamp) :-
-    owl_has(Obj,rdf:type,Name),
-    holds_suturo(Obj, Fluent),
-    owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
-    owl_has(Fluent,knowrob:'temporalExtend',I),
-    owl_has(I, knowrob:'startTime', Timepoint),
-    create_timepoint(TimeStr, Timepoint),
-    atom_number(TimeStr, TimeFloat),
-    number(Timestamp),
-    TimeFloat > Timestamp;
+%  @param TimeFloat timestamp to be asserted
+seen_since(Name, FrameID, TimeFloat) :-
+    get_object_infos(Name, FrameID, _, Timestamp, _, _, _, _),
+    TimeFloat < Timestamp;
     close_object_state(Name).
 
 
@@ -247,10 +243,7 @@ holds_suturo(ObjInst, Fluent) :-
 connect_frames(ParentFrameID, ChildFrameID, Pose) :-
 	atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-  get_object_infos(FullName, FrameID, Height, Width, Depth),
-  owl_has(Obj,rdf:type,FullName),
-  holds_suturo(Obj, Fluent),
-  owl_has(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+  get_object_infos(FullName, _, Type, _, _, Height, Width, Depth),
   create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
   assert(isConnected(ParentFrameID, ChildFrameID)).
 
