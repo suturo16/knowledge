@@ -30,7 +30,9 @@ def listener():
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
     rospy.init_node('perception_listener', anonymous=True)
+    rospy.wait_for_service('json_prolog/simple_query', timeout=10)
 
+    
     rospy.Subscriber("percepteros/object_detection", ObjectDetection, callback)
 
     # spin() simply keeps python from exiting until this node is stopped

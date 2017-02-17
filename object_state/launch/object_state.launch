@@ -1,6 +1,6 @@
 <launch>
-  <!-- <group name="object_state"> -->
-    <include file="$(find object_state)/launch/subscriber_py.launch" />  
-    <include file="$(find object_state)/launch/prolog.launch" />
-  <!-- </group> -->
+	<include file="$(find object_state)/launch/prolog.launch" />
+	<node name="perception_subscriber" pkg="object_state" type="subscriber.py" />
+	<node name="connect_frames" pkg="object_state" type="connect_frames_bridge.py" />
+	<node name="tf_broadcaster" pkg="object_state" type="fluents_tf_publisher.py" />
 </launch>
