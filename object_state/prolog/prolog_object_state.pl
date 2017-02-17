@@ -12,6 +12,7 @@
       connect_frames2/1,
       connect_frames3/2,
       connect_frames4/1,
+      connect_frames5/2,
       connect_frames/3,
       create_fluent_pose/2,
       create_object_state/9,
@@ -309,3 +310,12 @@ connect_frames3(ParentFrameID, ChildFrameID) :-
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
 connect_frames4(Name) :-
    create_object_state_with_close(Name, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+
+%% connect_frames5(+ParentFrameID, +ChildFrameID)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+connect_frames5(ParentFrameID, ChildFrameID) :-
+   atom_concat('/', ParentFrameID, UsableParentFrameID),
+   atom_concat('/', ChildFrameID, UsableChildFrameID),
+   connect_frames(UsableParentFrameID, UsableChildFrameID).
