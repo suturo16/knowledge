@@ -30,6 +30,7 @@ def startPublish():
                      '/' + solution['Name'],
                      solution['FrameID'])
 		query.finish()
+		rospy.sleep(0.1)
 
 
 if __name__ == '__main__':
