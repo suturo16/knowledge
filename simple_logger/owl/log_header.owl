@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#">
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <!ENTITY log "http://knowrob.org/kb/cram_log.owl#">
+    <!ENTITY acat "http://knowrob.org/kb/acat.owl#">
+    <!ENTITY chemlab_actions "http://knowrob.org/kb/chemlab-actions.owl#">
+    <!ENTITY knowrob_cram "http://knowrob.org/kb/knowrob_cram.owl#">
+    <!ENTITY knowrob_sim "http://knowrob.org/kb/knowrob_sim.owl#">
+    <!ENTITY suturolog "package://high_level_planning/owl/suturolog.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/cram_log.owl#"
+     xml:base="http://knowrob.org/kb/cram_log.owl"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:log="http://knowrob.org/kb/cram_log.owl#"
+     xmlns:acat="http://knowrob.org/kb/acat.owl#"
+     xmlns:chemlab_actions="http://knowrob.org/kb/chemlab-actions.owl#"
+     xmlns:knowrob_cram="http://knowrob.org/kb/knowrob_cram.owl#"
+     xmlns:knowrob_sim="http://knowrob.org/kb/knowrob_sim.owl#">
+
+    <owl:Ontology rdf:about="package://high_level_planning/owl/suturolog.owl#">
+      <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+
+    <!-- Property Definitions -->
+
+    <owl:DatatypeProperty rdf:about="&suturolog;parameter">
+       	<rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+    <owl:ObjectProperty rdf:about="&knowrob;taskContext"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;taskSuccess"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;startTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;endTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;nextAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;designator"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;previousAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;lookAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;navigateAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;capturedImage"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;perceptionRequest"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;perceptionResult"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;gripperMovements"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;reachWithArm"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;moveArmAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;subAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectActedOn"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;unreachWithArm"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;actionCore"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;device"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;actionVerb"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;content"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;goal"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;amount"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectToBeStored"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;storingLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;failureHandlingClauses"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;linkToImageFile"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;rosTopic"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;captureTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;creationTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;cramSemrecVersion"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;creator"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;experiment"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;experimentName"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;owlExporterVersion"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;robot"/>
+
+    <!-- Class Definitions -->
+
+    <owl:Class rdf:about="&knowrob;CRAMAction"/>
+
+    <owl:Class rdf:about="&knowrob;HeadMovement"/>
+
+    <owl:Class rdf:about="&knowrob;BaseMovement"/>
+
+    <owl:Class rdf:about="&knowrob;PerceiveObject"/>
+
+    <owl:Class rdf:about="&knowrob;GripperMovement"/>
+
+    <owl:Class rdf:about="&knowrob;ArmMovement"/>
+
+    <owl:Class rdf:about="&knowrob;PickingUpAnObject"/>
+
+    <owl:Class rdf:about="&chemlab_actions;MovingObjectAtLocation"/>
+
+    <owl:Class rdf:about="&knowrob;PuttingDownAnObject"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Preparing"/>
+
+    <owl:Class rdf:about="&knowrob;HandlingADevice"/>
+
+    <owl:Class rdf:about="&knowrob;TurningOnPoweredDevice"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Aspirating"/>
+
+    <owl:Class rdf:about="&chemlab_actions;ChemlabContext"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Dispensing"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Storing"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Pipetting"/>
+
+    <owl:Class rdf:about="&chemlab_actions;TestingPHValue"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Pouring"/>
+
+    <owl:Class rdf:about="&knowrob;TurningOffPoweredDevice"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Neutralizing"/>
+
+    <owl:Class rdf:about="&knowrob;WithFailureHandling"/>
+
+    <owl:Class rdf:about="&knowrob;CameraImage"/>
+
+    <owl:Class rdf:about="&knowrob;CRAMActionDesignator"/>
+
+    <owl:Class rdf:about="&knowrob;CRAMDesignator"/>
+
+    <owl:Class rdf:about="&knowrob;TimePoint"/>
+
+    <owl:Class rdf:about="&knowrob;RobotExperiment"/>
+
+    <owl:Class rdf:about="&knowrob;AnnotationInformation"/>
+
+    <!-- Event Individuals -->

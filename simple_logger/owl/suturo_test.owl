@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#">
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <!ENTITY log "http://knowrob.org/kb/cram_log.owl#">
+    <!ENTITY acat "http://knowrob.org/kb/acat.owl#">
+    <!ENTITY chemlab_actions "http://knowrob.org/kb/chemlab-actions.owl#">
+    <!ENTITY knowrob_cram "http://knowrob.org/kb/knowrob_cram.owl#">
+    <!ENTITY knowrob_sim "http://knowrob.org/kb/knowrob_sim.owl#">
+    <!ENTITY suturolog "package://high_level_planning/owl/suturolog.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/cram_log.owl#"
+     xml:base="http://knowrob.org/kb/cram_log.owl"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:log="http://knowrob.org/kb/cram_log.owl#"
+     xmlns:acat="http://knowrob.org/kb/acat.owl#"
+     xmlns:chemlab_actions="http://knowrob.org/kb/chemlab-actions.owl#"
+     xmlns:knowrob_cram="http://knowrob.org/kb/knowrob_cram.owl#"
+     xmlns:knowrob_sim="http://knowrob.org/kb/knowrob_sim.owl#">
+
+    <owl:Ontology rdf:about="package://high_level_planning/owl/suturolog.owl#">
+      <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+
+    <!-- Property Definitions -->
+
+    <owl:DatatypeProperty rdf:about="&suturolog;parameter">
+       	<rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+    <owl:ObjectProperty rdf:about="&knowrob;taskContext"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;taskSuccess"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;startTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;endTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;nextAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;designator"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;previousAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;lookAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;navigateAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;capturedImage"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;perceptionRequest"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;perceptionResult"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;gripperMovements"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;reachWithArm"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;moveArmAtLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;subAction"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectActedOn"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;unreachWithArm"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;actionCore"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;device"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;actionVerb"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;content"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;goal"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;amount"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectToBeStored"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;storingLocation"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;failureHandlingClauses"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;linkToImageFile"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;rosTopic"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;captureTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;creationTime"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;cramSemrecVersion"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;creator"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;experiment"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;experimentName"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;owlExporterVersion"/>
+
+    <owl:ObjectProperty rdf:about="&knowrob;robot"/>
+
+    <!-- Class Definitions -->
+
+    <owl:Class rdf:about="&knowrob;CRAMAction"/>
+
+    <owl:Class rdf:about="&knowrob;HeadMovement"/>
+
+    <owl:Class rdf:about="&knowrob;BaseMovement"/>
+
+    <owl:Class rdf:about="&knowrob;PerceiveObject"/>
+
+    <owl:Class rdf:about="&knowrob;GripperMovement"/>
+
+    <owl:Class rdf:about="&knowrob;ArmMovement"/>
+
+    <owl:Class rdf:about="&knowrob;PickingUpAnObject"/>
+
+    <owl:Class rdf:about="&chemlab_actions;MovingObjectAtLocation"/>
+
+    <owl:Class rdf:about="&knowrob;PuttingDownAnObject"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Preparing"/>
+
+    <owl:Class rdf:about="&knowrob;HandlingADevice"/>
+
+    <owl:Class rdf:about="&knowrob;TurningOnPoweredDevice"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Aspirating"/>
+
+    <owl:Class rdf:about="&chemlab_actions;ChemlabContext"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Dispensing"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Storing"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Pipetting"/>
+
+    <owl:Class rdf:about="&chemlab_actions;TestingPHValue"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Pouring"/>
+
+    <owl:Class rdf:about="&knowrob;TurningOffPoweredDevice"/>
+
+    <owl:Class rdf:about="&chemlab_actions;Neutralizing"/>
+
+    <owl:Class rdf:about="&knowrob;WithFailureHandling"/>
+
+    <owl:Class rdf:about="&knowrob;CameraImage"/>
+
+    <owl:Class rdf:about="&knowrob;CRAMActionDesignator"/>
+
+    <owl:Class rdf:about="&knowrob;CRAMDesignator"/>
+
+    <owl:Class rdf:about="&knowrob;TimePoint"/>
+
+    <owl:Class rdf:about="&knowrob;RobotExperiment"/>
+
+    <owl:Class rdf:about="&knowrob;AnnotationInformation"/>
+
+    <!-- Event Individuals -->
+
+    <owl:NamedIndividual rdf:about="&suturolog;execute_1004A48C93">
+        <rdf:type rdf:resource="&suturolog;execute"/>
+        <knowrob:taskSuccess rdf:datatype="&xsd;String">success</knowrob:taskSuccess>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282086077695d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282118608327d9"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10054FB193"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10053538F3"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10050B1F33"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_1004D27AC3"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_1004AD0693"/>
+        <knowrob:previousAction rdf:resource="&suturolog;root_10070B1713"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">tray:GOAL-TYPE</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">(salt):INGREDIENTS</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;move-base_10054FB193">
+        <rdf:type rdf:resource="&suturolog;move-base"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282114565688d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282118597621d9"/>
+        <knowrob:previousAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <knowrob:nextAction rdf:resource="&suturolog;move-base_10053538F3"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">[POSESTAMPED
+   HEADER:
+     (HEADER (SEQ . 0) (STAMP . 0.0d0) (FRAME_ID . ))
+   POSE:
+     (POSE
+      (POSITION
+       . [POINT
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0])
+      (ORIENTATION
+       . [QUATERNION
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0
+            W:
+              0.0d0]))]:POSESTAMPED</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;move-base_10053538F3">
+        <rdf:type rdf:resource="&suturolog;move-base"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282110512404d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282114537327d9"/>
+        <knowrob:previousAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <knowrob:nextAction rdf:resource="&suturolog;move-base_10050B1F33"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">[POSESTAMPED
+   HEADER:
+     (HEADER (SEQ . 0) (STAMP . 0.0d0) (FRAME_ID . ))
+   POSE:
+     (POSE
+      (POSITION
+       . [POINT
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0])
+      (ORIENTATION
+       . [QUATERNION
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0
+            W:
+              0.0d0]))]:POSESTAMPED</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;move-base_10050B1F33">
+        <rdf:type rdf:resource="&suturolog;move-base"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282102453604d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282106475577d9"/>
+        <knowrob:previousAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <knowrob:nextAction rdf:resource="&suturolog;move-base_1004D27AC3"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">[POSESTAMPED
+   HEADER:
+     (HEADER (SEQ . 0) (STAMP . 0) (FRAME_ID . /map))
+   POSE:
+     (POSE
+      (POSITION
+       . [POINT
+            X:
+              -0.772d0
+            Y:
+              1.085d0
+            Z:
+              0.895d0])
+      (ORIENTATION
+       . [QUATERNION
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0
+            W:
+              1.0d0]))]:POSESTAMPED</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;move-base_1004D27AC3">
+        <rdf:type rdf:resource="&suturolog;move-base"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282094169448d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282098192426d9"/>
+        <knowrob:previousAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <knowrob:nextAction rdf:resource="&suturolog;move-base_1004AD0693"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">[POSESTAMPED
+   HEADER:
+     (HEADER (SEQ . 0) (STAMP . 0) (FRAME_ID . /map))
+   POSE:
+     (POSE
+      (POSITION
+       . [POINT
+            X:
+              -0.773d0
+            Y:
+              1.904d0
+            Z:
+              0.855d0])
+      (ORIENTATION
+       . [QUATERNION
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0
+            W:
+              1.0d0]))]:POSESTAMPED</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;move-base_1004AD0693">
+        <rdf:type rdf:resource="&suturolog;move-base"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282086108738d9"/>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282090128796d9"/>
+        <knowrob:previousAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&suturolog;parameter"/>
+                <owl:hasValue rdf:resource="&xsd;string">[POSESTAMPED
+   HEADER:
+     (HEADER (SEQ . 0) (STAMP . 0) (FRAME_ID . /map))
+   POSE:
+     (POSE
+      (POSITION
+       . [POINT
+            X:
+              -0.773d0
+            Y:
+              1.904d0
+            Z:
+              0.855d0])
+      (ORIENTATION
+       . [QUATERNION
+            X:
+              0.0d0
+            Y:
+              0.0d0
+            Z:
+              0.0d0
+            W:
+              1.0d0]))]:POSESTAMPED</owl:hasValue>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282086077695d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282118608327d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282114565688d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282118597621d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282110512404d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282114537327d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282102453604d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282106475577d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282094169448d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282098192426d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282086108738d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;timepoint_1.464282090128796d9">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&suturolog;RobotExperiment_asdfeddssd">
+        <rdf:type rdf:resource="&knowrob;RobotExperiment"/>
+        <knowrob:subAction rdf:resource="&suturolog;execute_1004A48C93"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10054FB193"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10053538F3"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_10050B1F33"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_1004D27AC3"/>
+        <knowrob:subAction rdf:resource="&suturolog;move-base_1004AD0693"/>
+        <knowrob:creator rdf:datatype="&xsd;string">Suturo</knowrob:creator>
+        <knowrob:description rdf:datatype="&xsd;string">Pick and place</knowrob:description>
+        <knowrob:experiment rdf:datatype="&xsd;string">Two arm pick and place</knowrob:experiment>
+        <knowrob:experimentName rdf:datatype="&xsd;string">exp-2016-05-26-19-01-22</knowrob:experimentName>
+        <knowrob:robot rdf:datatype="&xsd;string">PR2</knowrob:robot>
+        <knowrob:endTime rdf:resource="&suturolog;timepoint_1.464282090128796d9"/>
+        <knowrob:startTime rdf:resource="&suturolog;timepoint_1.464282082720506d9"/>
+    </owl:NamedIndividual>
+
+</rdf:RDF>

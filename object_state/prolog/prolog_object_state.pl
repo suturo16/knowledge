@@ -10,15 +10,9 @@
       create_object_state/9,
       close_object_state/1,
       create_object_state_with_close/9,
-      create_fluent_pose/2,
       create_object_name/2,
       create_temporal_name/2,
       get_object_infos/5,
-      get_object_infos/6,
-      more_recent/1,
-      seen_since/3,
-      get_object_position/4,
-      get_fluent_pose/3,
       holds_suturo/2,
       dummy_perception/1,
       dummy_perception_with_close/1,
@@ -32,13 +26,7 @@
       create_object_name(r,?),
       create_temporal_name(r,?),
       get_object_infos(r,?,?,?,?),
-      get_object_infos(r,?,?,?,?,?),
-      get_object_position(r,?,?,?),
-      connect_frames(r,r),
-      disconnect_frames(r,r),
-      seen_since(r,r,r),
       holds_suturo(r,?),
-      print_shit(r),
       dummy_perception(?).
 
 %importing external libraries
@@ -63,14 +51,13 @@
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
  
-%% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
+%% create_object_state(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
 % 
 % @param Name describes the class of the object
-% @param PoseAsList The pose of the object stored in a list of lists
+% @param PoseAsList The pose of the object stored in a list
 % @param Type The type of the object (see ObjectDetection.msg)
-% @param FrameID reference frame of object
 % @param Width The width of the object
 % @param Height The height of the object
 % @param Depth The depth of the object
@@ -80,27 +67,17 @@ create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjI
     create_object_name(Name, FullName),
     rdf_instance_from_class(FullName, ObjInst),
     create_fluent(ObjInst, Fluent),
-    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
+    %rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:float, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, Frame))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))).
-    create_fluent_pose(Fluent, [Pose]).
 
 
 create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     ignore(close_object_state(Name)),
     create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
-%neu MSp
-create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-    rdf_assert(Fluent, knowrob:'xPosOfObject', literal(type(xsd:float, PX))),
-    rdf_assert(Fluent, knowrob:'yPosOfObject', literal(type(xsd:float, PY))),
-    rdf_assert(Fluent, knowrob:'zPosOfObject', literal(type(xsd:float, PZ))),
-    rdf_assert(Fluent, knowrob:'xOriOfObject', literal(type(xsd:float, OX))),
-    rdf_assert(Fluent, knowrob:'yOriOfObject', literal(type(xsd:float, OY))),
-    rdf_assert(Fluent, knowrob:'zOriOfObject', literal(type(xsd:float, OZ))),
-    rdf_assert(Fluent, knowrob:'wOriOfObject', literal(type(xsd:float, OW))).
 
 %% close_object_state(+Name) is probably det.
 %
@@ -108,7 +85,7 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % @param Name describes the class of the object
 close_object_state(Name) :- 
     create_object_name(Name, FullName),
-    owl_has(Obj, rdf:type,FullName),    
+    owl_has(Obj,rdf:type,FullName),    
     fluent_assert_end(Obj,P).
     
 
@@ -118,7 +95,7 @@ close_object_state(Name) :-
 % @param Name content to be appended to the namespace
 % @preturns FullName the concatenated string
 create_object_name(Name, FullName) :-
-    atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName).
+  atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName).
 
 
 %% create_temporal_name(+FullName, -FullTemporalName) is det.
@@ -126,10 +103,10 @@ create_object_name(Name, FullName) :-
 % @param FullName full object name without temporal stamp  perception 
 % @returns FullTemporalName the concatenated string including the temporal stamp
 create_temporal_name(FullName, FullTemporalName) :-
-    atom_concat(FullName,'@t_i', FullTemporalName).
+  atom_concat(FullName,'@t_i', FullTemporalName).
 
 
-%% get_object_infos(+Name, -FrameID, -Height, -Width, -Depth)
+%% get_object_infos(+Name, -Frame, -Height, -Width, -Depth)
 %
 % @param Name name of the object
 % @param FrameID reference frame of object
@@ -180,8 +157,7 @@ seen_since(Name, FrameID, Timestamp) :-
     create_timepoint(TimeStr, Timepoint),
     atom_number(TimeStr, TimeFloat),
     number(Timestamp),
-    TimeFloat > Timestamp;
-    close_object_state(Name).
+    TimeFloat > Timestamp.
 
 
 %% get_object_position(+Name, -FrameID, -Position, -Orientation)
@@ -203,38 +179,23 @@ get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Fluent, knowrob: 'zOriOfObject', literal(type(xsd: float, OZ))),
     owl_has(Fluent, knowrob: 'wOriOfObject', literal(type(xsd: float, OW))).
 
-
 %% holds_suturo(+ObjInst, -Fluent)
 holds_suturo(ObjInst, Fluent) :-
-    owl_has(ObjInst,knowrob:'temporalParts',Fluent),
-    owl_has(Fluent,knowrob:'temporalExtend',I),
-    current_time(Now),
-    interval_during([Now,Now],I).
-
-%% connect_frames(+ParentFrameID, +ChildFrameID)
-%
-% MOCKUP
-%
-connect_frames(ParentFrameID, ChildFrameID) :-
-	true.
-
-%% disconnect_frames(+ParentFrameID, +ChildFrameID)
-%
-% MOCKUP
-%
-disconnect_frames(ParentFrameID, ChildFrameID) :-
-	true.
+  owl_has(ObjInst,knowrob:'temporalParts',Fluent),
+  owl_has(Fluent,knowrob:'temporalExtend',I),
+  current_time(Now),
+  interval_during([Now,Now],I).
 
 %%
 % Dummy object_state
 dummy_perception(Name) :-
-	 create_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+	create_object_state(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_perception_with_close(Name) :-
-	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined', 10.0, 14.0, 9.0, Begin, ObjInst).
+	create_object_state_with_close(Name, Pose, 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_perception_with_close2(Name) :-
-	 create_object_state_with_close(Name, Pose, 1.0, '/odom_combined_a', 5.0, 14.0, 9.0, Begin, ObjInst).
+	create_object_state_with_close(Name, Pose, 1.0, '/odom_combined_a', 20.0, 14.0, 9.0, Begin, ObjInst).
 
 dummy_close(Name) :-
-	 close_object_state(Name).
+	close_object_state(Name).
