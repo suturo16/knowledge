@@ -35,7 +35,8 @@ def startPublish():
 if __name__ == '__main__':
 	#initialize the node 
 	rospy.init_node('fluents_tf_broadcaster')
-	
+	rospy.wait_for_service('json_prolog/simple_query', timeout=10)
+
 	#do the main work
 	startPublish()
 
