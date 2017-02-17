@@ -1,3 +1,0 @@
-#!/bin/bash
-
-$(rospack find object_state)/perception_subscriber/build/install/perception_subscriber/bin/perception_subscriber com.github.rosjava.object_state.perception_subscriber.Listener
