@@ -311,4 +311,4 @@ connect_frames4(Name) :-
 connect_frames5(ParentFrameID, ChildFrameID) :-
    atom_concat('/', ParentFrameID, UsableParentFrameID),
    atom_concat('/', ChildFrameID, UsableChildFrameID),
-   connect_frames(UsableParentFrameID, UsableChildFrameID, [5.0,4.0.3.0]).
+   connect_frames(UsableParentFrameID, UsableChildFrameID, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]]).
