@@ -4,6 +4,7 @@ import roslib; roslib.load_manifest('json_prolog')
 import rospy
 from json_prolog import json_prolog
 from suturo_perception_msgs.msg import ObjectDetection
+import time
 
 
 object_map = {}
@@ -20,6 +21,7 @@ def callback(currObj):
     if ((not currObj.name in object_map) 
         or (not isNear(currObj, object_map[currObj.name])) 
         or (last_update_map[currObj.name].to_nsec() < rospy.Time.now().to_nsec() - TIMEOUT)):
+        befor = time.time()
         query = prolog.query("create_object_state_with_close('" 
                                 + currObj.name+"', [ ["
                                 + str(currObj.pose.pose.position.x) + "," 
@@ -33,9 +35,10 @@ def callback(currObj):
                                 + str(currObj.width) + "," + str(currObj.height) + "," + str(currObj.depth) + ", [" 
                                 + str(currObj.pose.header.stamp)+ "],  ObjInst)")
         rospy.loginfo('Send query')
-        #for solution in query.solutions():
-        #   rospy.loginfo('Found solution.')
+        for solution in query.solutions():
+           rospy.loginfo('Found solution.')
         query.finish()
+        rospy.loginfo('Took: ' + str(time.time() - befor))
         object_map[currObj.name] = currObj
         last_update_map[currObj.name] = rospy.Time.now()
 
