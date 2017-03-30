@@ -32,6 +32,8 @@
       get_object_infos/8,
       get_tf_infos/4,
       holds_suturo/2,
+      same_dimensions/2,
+      same_position/3,
       seen_since/3
     ]).
 
@@ -90,14 +92,17 @@
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
-    (owl_has(ObjInst,rdf:type,FullName) -> true; rdf_instance_from_class(FullName, ObjInst)), 
+    %following check verifies if object already exists, then add fluent otherwise create object
+    (owl_has(ObjInst,rdf:type,FullName),
+    %this should verify if an object is already known to the KB, but DOESNT WORK #######################################
+      known_object(FullName, Pose, Width, Height, Depth) 
+      -> true; rdf_instance_from_class(FullName, ObjInst)),
     create_fluent(ObjInst, Fluent),
     rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     rdf_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
-    write(ObjInst),
     create_fluent_pose(Fluent, Pose).
 
 
@@ -229,6 +234,51 @@ get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Fluent, knowrob: 'wOriOfObject', literal(type(xsd: float, OW))).
 
 
+%% known_object(+Name, +Pose, +Height, +Width, +Depth)
+%MSp
+% same_dimensions currently not used
+known_object(Name, [Position, _], Height, Width, Depth) :-
+    get_object_infos(Name, _, _, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+    (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
+    same_position(PrevPosition, Position, [Height, Width, Depth])).
+
+
+%% same_dimensions(+[PrevDim], +[CurDim])
+%MSp
+%@param PrevDim dimensions of object at previous timestamp
+%@param CurDim  dimensions of object at current  timestamp
+same_dimensions([E|PrevDim], CurDim) :-
+    length(PrevDim, 0) -> member(E, CurDim);
+    same_dimensions([E], CurDim), same_dimensions(PrevDim, CurDim).
+
+
+%% same_position(+[PrevPos], +[CurPos], +[Dimensions])
+%MSp
+%@param PrevPos position of object at previous timestamp
+%@param CurPos  position of object at current  timestamp
+%@param Dimensions tolerance allowed between positions to consider unchanged is maximum dimension of object
+same_position(PrevPos, CurPos, Dimensions) :-
+    euclidean_dist(PrevPos, CurPos, Dist),
+    max_member(Dmax, Dimensions),
+    Dist < Dmax.
+    
+
+%% euclidean_dist(+[PointA], +[PointB], -Dist)
+% MSp
+euclidean_dist(PointA, PointB, Dist) :-
+    length(PointA, Len), length(PointB, Len) ->
+    sqr_sum(PointA, PointB, SqrSum), Dist is sqrt(SqrSum); false.
+
+
+%% sqr_sum(+[A1|An], +[B1|Bn], -SqrSum)
+% MSp
+sqr_sum([A1|An], [B1|Bn], SqrSum) :-
+    length(An, 0) ->
+    SqrSum is ((A1-B1)^2.0);
+    sqr_sum(An, Bn, Sum),
+    SqrSum is Sum + ((A1-B1)^2.0).
+
+
 %% holds_suturo(+ObjInst, -Fluent)
 % Custom built holds, since the provided holds does not work.
 holds_suturo(ObjInst, Fluent) :-
@@ -259,15 +309,15 @@ disconnect_frames(ParentFrameID, ChildFrameID) :-
 %%
 % Dummy object_state
 dummy_perception(Name) :-
-	 create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+	 create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
 
 
 dummy_perception_with_close(Name) :-
-	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
 
 
 dummy_perception_with_close2(Name) :-
-	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
 
 
 dummy_close(Name) :-
