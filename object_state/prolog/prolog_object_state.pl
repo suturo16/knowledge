@@ -90,7 +90,7 @@
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     create_object_name(Name, FullName),
-    rdf_instance_from_class(FullName, ObjInst), %todo:nicht immer neues objekt erstellen
+    (owl_has(ObjInst,rdf:type,FullName) -> true; rdf_instance_from_class(FullName, ObjInst)), 
     create_fluent(ObjInst, Fluent),
     rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
