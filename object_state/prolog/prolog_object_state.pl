@@ -21,17 +21,21 @@
       create_temporal_name/2,
       disconnect_frames/2,
       dummy_perception2/1,
-      dummy_perception/1,
-      dummy_perception_with_close/1,
+      dummy_perception1/1,
+      dummy_perception_with_close1/1,
       dummy_close/1,
       dummy_perception_with_close2/1,
       isConnected/2,
+      multiple_objects_name/2,
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
       get_tf_infos/4,
+      get_max_num/2,
+      get_type_num/2,
       holds_suturo/2,
+      known_object/6,
       same_dimensions/2,
       same_position/3,
       seen_since/3
@@ -48,12 +52,13 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(r,?,?,?,?,?,?,?),
+      get_type_num(r,?),
       connect_frames(r,r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
       holds_suturo(r,?),
       print_shit(r),
-      dummy_perception(?).
+      dummy_perception1(?).
 
 %importing external libraries
 :- use_module(library('semweb/rdf_db')).
@@ -80,6 +85,7 @@
 %% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
+% with multiple objects the Type from perception is droped and replaced with the name, e.g. Type = cake
 % 
 % @param Name describes the class of the object
 % @param PoseAsList The pose of the object stored in a list of lists
@@ -91,14 +97,15 @@
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
-    create_object_name(Name, FullName),
+    (known_object(Type, Pose, Width, Height, Depth, Name) 
+    -> create_object_name(Name, FullName); 
+      multiple_objects_name(Type, NameNum), create_object_name(NameNum, FullName)),
     %following check verifies if object already exists, then add fluent otherwise create object
-    (owl_has(ObjInst,rdf:type,FullName),
+    (owl_has(ObjInst,rdf:type,FullName)
     %this should verify if an object is already known to the KB, but DOESNT WORK #######################################
-      known_object(FullName, Pose, Width, Height, Depth) 
       -> true; rdf_instance_from_class(FullName, ObjInst)),
     create_fluent(ObjInst, Fluent),
-    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer, Type))),
+    rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:string, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
     rdf_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     rdf_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
@@ -109,7 +116,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
-create_object_state_with_close(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    known_object(Type, Pose, Width, Height, Depth, Name),
     atom_concat('/', Name, ChildFrameID),
     not(isConnected(_ ,ChildFrameID)) ->
     ignore(close_object_state(Name)),
@@ -140,6 +148,45 @@ close_object_state(Name) :-
     owl_has(Obj, rdf:type,FullName),    
     fluent_assert_end(Obj,P).
     
+
+%% multiple_objects_name(+Type, -NameNum)
+% MSp
+% creates object name depending on how many other objects of same type exist
+% @param Name type leading to NameNum by appending iterating number
+% @param NameNum is the unique name of the new object in KB, e.g. cake32
+multiple_objects_name(Type, NameNum) :-
+    (get_max_num(Type, Num), number(Num)
+    -> Number is Num+1; Number is 1),
+    atom_concat(Type, Number, NameNum).
+
+
+%% get_max_num(+Type, - Number)
+% MSp
+% gets maximum number from name of object type
+get_max_num(Type, Number) :-
+    get_type_num(Type, NumA), get_type_num(Type, NumB), NumA > NumB
+    -> get_type_num(Type, Number), get_type_num(Type, NumC), Number > NumC;
+      get_type_num(Type, Number).
+
+
+%% get_type_num(+Type, -Number)
+% MSp
+% helper funciton for to get max Number in NameNum
+get_type_num(Type, Number) :-
+    get_object_infos(FullName,_,Type,_,_,_,_,_), create_object_name(NameNum,FullName),
+    atom_concat(Type, NumChar, NameNum), atom_number(NumChar, Number).
+
+
+%% strip_name_num(+NameNum, -Name)
+% MSp
+% removes appended numbers from object name
+% @param NameNum is the name with appended type count, e.g. cake32
+% @param Name is the type of the object
+strip_name_num(NameNum, Name) :-
+    sub_atom(NameNum, _,1,0,L), atom_number(L, _)
+    -> sub_string(NameNum,0,_,1, Sub), strip_name_num(Sub, Name);
+      Name = NameNum.
+
 
 %% create_object_name(+Name,-FullName) is det.
 % LSa
@@ -187,7 +234,7 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
     owl_has(Fluent, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     owl_has(Fluent, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     owl_has(Fluent, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
-    owl_has(Fluent, knowrob:'typeOfObject', literal(type(xsd:integer,Type))),
+    owl_has(Fluent, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
     get_fluent_pose(Fluent, Position, Orientation),
     owl_has(Fluent,knowrob:'temporalExtend',I),
     owl_has(I, knowrob:'startTime', Timepoint),
@@ -234,11 +281,11 @@ get_fluent_pose(Fluent, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Fluent, knowrob: 'wOriOfObject', literal(type(xsd: float, OW))).
 
 
-%% known_object(+Name, +Pose, +Height, +Width, +Depth)
+%% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
 % same_dimensions currently not used
-known_object(Name, [Position, _], Height, Width, Depth) :-
-    get_object_infos(Name, _, _, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+known_object(Type, [Position, _], Height, Width, Depth, Name) :-
+    get_object_infos(Name, _, Type, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
     same_position(PrevPosition, Position, [Height, Width, Depth])).
 
@@ -308,16 +355,24 @@ disconnect_frames(ParentFrameID, ChildFrameID) :-
 
 %%
 % Dummy object_state
-dummy_perception(Name) :-
-	 create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+dummy_perception1(Type) :-
+   % atom_concat(Type, '1', Name),
+	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [1.5E9], ObjInst).
 
 
-dummy_perception_with_close(Name) :-
-	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+dummy_perception2(Type) :-
+   % atom_concat(Type, '2', Name),
+   create_object_state(_, [[15.0,14.0,13.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [1.5E9], ObjInst).
 
 
-dummy_perception_with_close2(Name) :-
-	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+dummy_perception_with_close1(Type) :-
+    atom_concat(Type, '1', Name),
+	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+
+
+dummy_perception_with_close2(Type) :-
+    atom_concat(Type, '2', Name),
+	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
 
 
 dummy_close(Name) :-
