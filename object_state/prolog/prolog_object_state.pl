@@ -25,6 +25,7 @@
       dummy_perception_with_close1/1,
       dummy_close/1,
       dummy_perception_with_close2/1,
+      dummy_perception_with_close3/1,
       isConnected/2,
       multiple_objects_name/2,
       get_fluent_pose/3,
@@ -98,12 +99,12 @@
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (known_object(Type, Pose, Width, Height, Depth, Name) 
-    -> create_object_name(Name, FullName); 
-      multiple_objects_name(Type, NameNum), create_object_name(NameNum, FullName)),
-    %following check verifies if object already exists, then add fluent otherwise create object
-    (owl_has(ObjInst,rdf:type,FullName)
-    %this should verify if an object is already known to the KB, but DOESNT WORK #######################################
-      -> true; rdf_instance_from_class(FullName, ObjInst)),
+    -> create_object_name(Name, FullName),
+      owl_has(ObjInst,rdf:type,FullName)
+      ; multiple_objects_name(Type, NameNum), 
+      create_object_name(NameNum, FullName),
+      rdf_instance_from_class(FullName, ObjInst)),
+    
     create_fluent(ObjInst, Fluent),
     rdf_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:string, Type))),
     rdf_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
@@ -117,12 +118,13 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    known_object(Type, Pose, Width, Height, Depth, Name),
-    atom_concat('/', Name, ChildFrameID),
-    not(isConnected(_ ,ChildFrameID)) ->
-    ignore(close_object_state(Name)),
-    create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst);
-    false.
+    known_object(Type, Pose, Width, Height, Depth, Name)
+        -> atom_concat('/', Name, ChildFrameID),
+        not(isConnected(_ ,ChildFrameID))
+            -> ignore(close_object_state(Name)),
+            create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            ; false
+        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 
 %% create_fluent_pose(+Fluent, +Pose)
@@ -366,13 +368,18 @@ dummy_perception2(Type) :-
 
 
 dummy_perception_with_close1(Type) :-
-    atom_concat(Type, '1', Name),
-	 create_object_state_with_close(Name, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+   % atom_concat(Type, '1', Name),
+	 create_object_state_with_close(_, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 2.0, 4.0, 1.0, [1.5E9], ObjInst).
 
 
 dummy_perception_with_close2(Type) :-
-    atom_concat(Type, '2', Name),
-	 create_object_state_with_close(Name, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 20.0, 14.0, 9.0, [1.5E9], ObjInst).
+   % atom_concat(Type, '2', Name),
+   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [1.5E9], ObjInst).
+
+
+dummy_perception_with_close3(Type) :-
+   % atom_concat(Type, '2', Name),
+   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [1.5E9], ObjInst).
 
 
 dummy_close(Name) :-

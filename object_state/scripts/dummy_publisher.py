@@ -16,7 +16,7 @@ def talker(**kwargs):
         types = kwargs['types']
     if 'objects' in kwargs:
         objects = kwargs['objects']
-    objects = 1 #test with multiple objects of same type not yet done
+    #objects = 1 #test with multiple objects of same type not yet done
         
     names = ['misc', 'box', 'cylinder', 'sphere', 'cone', 'dropzone']
     types = min(types, len(names))
@@ -24,11 +24,13 @@ def talker(**kwargs):
     
     print("testing with %d types and %d objects per type" %(types, objects))
     sleep(2)
+    i = 1
     
     for type in range(0,types):
-        name = names[type]
         for v in range(0,objects):
+            name = "object" + str(i)
             data[name] = {\
+                'name' : names[type],
                 'position': {'x': float(randint(0,10)),
                              'y': float(randint(0,10)),
                              'z': float(randint(0,10))},
@@ -36,6 +38,7 @@ def talker(**kwargs):
                 'width' : float(randint(1,5)),
                 'height': float(randint(1,5)),
                 'depth' : float(randint(1,5))}
+            i += 1
     
     
     i = 0
@@ -44,26 +47,26 @@ def talker(**kwargs):
     rate = rospy.Rate(1) # 1hz
     
     while not rospy.is_shutdown():
-        name = random.choice(data.keys())
+        key = random.choice(data.keys())
         i += 1
         time = rospy.get_time()
 
-        obj = ObjectDetection(name = name)
+        obj = ObjectDetection(name = data[key]['name'])
         obj.pose.header.stamp.secs = int(time)
         obj.pose.header.stamp.nsecs= int((time % 1)*math.pow(10, 9))
         obj.pose.header.seq = i
         obj.pose.header.frame_id = 'odom_combined' #'head_mount_kinect_rgb_optical_frame'
-        obj.pose.pose.position.x = data[name]['position']['x']
-        obj.pose.pose.position.y = data[name]['position']['y']
-        obj.pose.pose.position.z = data[name]['position']['z']
+        obj.pose.pose.position.x = data[key]['position']['x']
+        obj.pose.pose.position.y = data[key]['position']['y']
+        obj.pose.pose.position.z = data[key]['position']['z']
         obj.pose.pose.orientation.x = 3.0 #data[name]['orientation']['x']
         obj.pose.pose.orientation.y = 8.0 #data[name]['orientation']['y']
         obj.pose.pose.orientation.z = 6.0 #data[name]['orientation']['z']
         obj.pose.pose.orientation.w = 4.0 #data[name]['orientation']['w']
-        obj.type = data[name]['type']
-        obj.width = data[name]['width']
-        obj.height = data[name]['height']
-        obj.depth = data[name]['depth']
+        obj.type = data[key]['type']
+        obj.width = data[key]['width']
+        obj.height = data[key]['height']
+        obj.depth = data[key]['depth']
         rospy.loginfo(obj)
         pub.publish(obj)
         rate.sleep()
