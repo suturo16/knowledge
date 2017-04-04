@@ -13,7 +13,7 @@
       connect_frames3/2,
       connect_frames4/1,
       connect_frames5/2,
-      connect_frames/3,
+      connect_frames/2,
       create_fluent_pose/2,
       create_object_state/9,
       create_object_state_with_close/9,
@@ -46,7 +46,7 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(r,?,?,?,?,?,?,?),
-      connect_frames(r,r,r),
+      connect_frames(r,r),
       disconnect_frames(r,r),
       seen_since(r,r,r),
       holds_suturo(r,?),
@@ -63,6 +63,7 @@
 :- use_module(library('knowrob_objects')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('knowrob_owl')).
+:- use_module(library('prython')).
 
 %registering namespace
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -74,6 +75,12 @@
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
+
+% Initialize python context
+:- source_file(File),
+   string_concat(Path,'/prolog_object_state.pl',File),
+   string_concat(Path,'/../scripts',FullPath),
+   add_py_path(FullPath).
  
 %% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
@@ -240,8 +247,10 @@ holds_suturo(ObjInst, Fluent) :-
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
 % LSa
 % A small function to connect two given frames.
-connect_frames(ParentFrameID, ChildFrameID, Pose) :-
-	atom_concat('/', Name, ChildFrameID),
+connect_frames(ParentFrameID, ChildFrameID) :-
+  py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
+  write(Pose),
+  atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
   get_object_infos(FullName, _, Type, _, _, Height, Width, Depth),
   create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
@@ -295,7 +304,7 @@ connect_frames2(Name) :-
 % Test function for documentation. Should not be used elsewhere.
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
 connect_frames3(ParentFrameID, ChildFrameID) :-
-   disconnect_frames('/turtle1', '/carrot1').
+   connect_frames('/baum', '/tisch').
 
 %% connect_frames4(+Name)
 % LSa

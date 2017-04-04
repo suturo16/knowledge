@@ -5,20 +5,35 @@ import rospy
 
 import tf
 import rospy
+import thread
 from json_prolog import json_prolog
 
-def startPublish():
+solutions = []
+
+def start_querying():
+	global solutions
 
 	#invoke prolog, broadcaster
 	prolog = json_prolog.Prolog()
-	br = tf.TransformBroadcaster()
 	
 	#do until killed (Ctrl-C)
-	while(True):
+	while(not rospy.is_shutdown()):
 		query = prolog.query("get_tf_infos(Name,FrameID,Position,Orientation)")
-		
+		temp = []
 		#loop for all solutions from get_tf_infos(N,F,P,O)
 		for solution in query.solutions():
+			temp.append(solution)
+			rospy.logerr(str(solution))
+		query.finish()
+		solutions = temp
+		rospy.sleep(0.1)
+
+def start_tf_publish():
+	br = tf.TransformBroadcaster()
+
+	while(not rospy.is_shutdown()):
+		#loop for all solutions from get_tf_infos(N,F,P,O)
+		for solution in solutions:
 			
 			position = solution["Position"]
 			orientation = solution["Orientation"] 
@@ -29,7 +44,6 @@ def startPublish():
                      rospy.Time.now(),
                      '/' + solution['Name'],
                      solution['FrameID'])
-		query.finish()
 		rospy.sleep(0.1)
 
 
@@ -39,7 +53,8 @@ if __name__ == '__main__':
 	rospy.wait_for_service('json_prolog/simple_query', timeout=10)
 
 	#do the main work
-	startPublish()
+	thread.start_new_thread(start_tf_publish, ())
+	start_querying()
 
 	#repeat until stopped
 	rospy.spin()
