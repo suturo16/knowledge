@@ -16,7 +16,7 @@ def callback(currObj):
                             + str(currObj.pose.pose.orientation.y) + "," 
                             + str(currObj.pose.pose.orientation.z) + "," 
                             + str(currObj.pose.pose.orientation.w) + "] ], " 
-                            + str(currObj.type) + ",'" + str(currObj.pose.header.frame_id) + "',"
+                            + currObj.name + ",'" + str(currObj.pose.header.frame_id) + "',"
                             + str(currObj.width) + "," + str(currObj.height) + "," + str(currObj.depth) + ", [" 
                             + str(currObj.pose.header.stamp)+ "],  ObjInst)")
     for solution in query.solutions():
