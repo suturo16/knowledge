@@ -32,6 +32,7 @@
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
+      get_object_infos/9,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -117,12 +118,13 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    known_object(Type, Pose, Width, Height, Depth, Name)
-    %    -> (atom_concat('/', Name, ChildFrameID),
-    %    not(isConnected(_ ,ChildFrameID))
-            -> ignore(close_object_state(Name)),
-            create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
-    %        ; false)
+    known_object(Type, Pose, Width, Height, Depth, FullName)
+        -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+          atom_concat('/', Name, ChildFrameID),
+          not(isConnected(_ ,ChildFrameID))
+            -> ignore(close_object_state(FullName)),
+            create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 
@@ -140,12 +142,12 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
     rdf_assert(Fluent, knowrob:'wOriOfObject', literal(type(xsd:float, OW))).
 
 
-%% close_object_state(+Name) is probably det.
+%% close_object_state(+FullName) is probably det.
 % SJo
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
-close_object_state(Name) :- 
-    owl_has(Obj, rdf:type,Name),    
+close_object_state(FullName) :- 
+    owl_has(Obj, rdf:type,FullName),    
     fluent_assert_end(Obj,P).
     
 
@@ -204,20 +206,20 @@ create_object_name(Name, FullName) :-
 create_temporal_name(FullName, FullTemporalName) :-
     atom_concat(FullName,'@t_i', FullTemporalName).
 
-
-%% get_object_infos(+Name, -FrameID, -Height, -Width, -Depth)
-% 
+ 
 get_object_infos(Name, FrameID, Height, Width, Depth) :-
-    get_object_infos(Name, FrameID, _, _, _, Height, Width, Depth).
+    get_object_infos(Name, FrameID, _, _, _, Height, Width, Depth,_).
 
 
-%% get_object_infos(+Name, -FrameID, -Timestamp, -Height, -Width, -Depth)
-% 
 get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
-    get_object_infos(Name, FrameID, _, Timestamp, _, Height, Width, Depth).
+    get_object_infos(Name, FrameID, _, Timestamp, _, Height, Width, Depth,_).
 
 
-%% get_object_infos(+Name, -FrameID, -Type, -Timestamp, -Pose, -Height, -Width, -Depth)
+get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth) :-
+    get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth,_).
+
+
+%% get_object_infos(+Name, -FrameID, -Type, -Timestamp, -Pose, -Height, -Width, -Depth, -Obj)
 % LSa, MSp
 % @param Name name of the object
 % @param FrameID reference frame of object pose
@@ -227,7 +229,8 @@ get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
 % @param Height height of object
 % @param Width width of object
 % @param Depth depth of object
-get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth) :-
+% @param Obj object ID in KB
+get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     owl_has(Obj,rdf:type,Name),
     holds_suturo(Obj, Fluent),
     owl_has(Fluent, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
@@ -357,27 +360,32 @@ disconnect_frames(ParentFrameID, ChildFrameID) :-
 % Dummy object_state
 dummy_perception1(Type) :-
    % atom_concat(Type, '1', Name),
-	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [1.5E9], ObjInst).
+   get_time(TimeFloat),
+	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception2(Type) :-
    % atom_concat(Type, '2', Name),
-   create_object_state(_, [[15.0,14.0,13.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [1.5E9], ObjInst).
+   get_time(TimeFloat),
+   create_object_state(_, [[15.0,14.0,13.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
-	 create_object_state_with_close(_, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 2.0, 4.0, 1.0, [1.5E9], ObjInst).
+   get_time(TimeFloat),
+	 create_object_state_with_close(_, [[9.0,6.0,2.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 2.0, 4.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
-   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [1.5E9], ObjInst).
+   get_time(TimeFloat),
+   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close3(Type) :-
    % atom_concat(Type, '2', Name),
-   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [1.5E9], ObjInst).
+   get_time(TimeFloat),
+   create_object_state_with_close(_, [[3.0,2.0,1.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [TimeFloat], ObjInst).
 
 
 dummy_close(Name) :-
