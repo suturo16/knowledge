@@ -21,7 +21,7 @@ def connect_frames_service(req):
     child_frame = req.childFrame
 
     # lockup the transform
-    (trans,rot) = optimusPrime.lookupTransform(child_frame, parent_frame, rospy.Time(0))
+    (trans,rot) = optimusPrime.lookupTransform(parent_frame, child_frame, rospy.Time(0))
 
     # Invoke Prolog
     print(parent_frame)
