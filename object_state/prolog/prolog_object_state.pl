@@ -98,9 +98,8 @@
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
-    (known_object(Type, Pose, Width, Height, Depth, Name) 
-    -> create_object_name(Name, FullName),
-      owl_has(ObjInst,rdf:type,FullName)
+    (nonvar(Name)
+    -> owl_has(ObjInst,rdf:type,Name)
       ; multiple_objects_name(Type, NameNum), 
       create_object_name(NameNum, FullName),
       rdf_instance_from_class(FullName, ObjInst)),
@@ -119,11 +118,11 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     known_object(Type, Pose, Width, Height, Depth, Name)
-        -> atom_concat('/', Name, ChildFrameID),
-        not(isConnected(_ ,ChildFrameID))
+    %    -> (atom_concat('/', Name, ChildFrameID),
+    %    not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(Name)),
             create_object_state(Name, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
-            ; false
+    %        ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 
@@ -146,8 +145,7 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(Name) :- 
-    create_object_name(Name, FullName),
-    owl_has(Obj, rdf:type,FullName),    
+    owl_has(Obj, rdf:type,Name),    
     fluent_assert_end(Obj,P).
     
 
