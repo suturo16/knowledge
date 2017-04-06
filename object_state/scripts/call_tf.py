@@ -9,4 +9,4 @@ def get_transform(parent_frame,child_frame):
     now = rospy.Time.now()
     listener.waitForTransform(child_frame, parent_frame, now, rospy.Duration(4.5))
     (trans,rot) = listener.lookupTransform(child_frame, parent_frame, rospy.Time(0))
-    return [trans, rot]
+    return [list(trans), list(rot)]

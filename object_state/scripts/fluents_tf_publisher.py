@@ -23,7 +23,7 @@ def start_querying():
 		#loop for all solutions from get_tf_infos(N,F,P,O)
 		for solution in query.solutions():
 			temp.append(solution)
-			rospy.logerr(str(solution))
+			#rospy.logerr(str(solution))
 		query.finish()
 		solutions = temp
 		rospy.sleep(0.1)

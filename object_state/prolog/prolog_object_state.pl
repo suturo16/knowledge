@@ -248,7 +248,7 @@ holds_suturo(ObjInst, Fluent) :-
 % LSa
 % A small function to connect two given frames.
 connect_frames(ParentFrameID, ChildFrameID) :-
-  py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
+  prython:py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
   write(Pose),
   atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
@@ -304,7 +304,7 @@ connect_frames2(Name) :-
 % Test function for documentation. Should not be used elsewhere.
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
 connect_frames3(ParentFrameID, ChildFrameID) :-
-   connect_frames('/baum', '/tisch').
+   connect_frames('/baum', '/table').
 
 %% connect_frames4(+Name)
 % LSa

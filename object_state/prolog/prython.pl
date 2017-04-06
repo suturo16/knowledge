@@ -40,7 +40,10 @@
       create_parameter_string/2,
       return_true_type/2,
       string_list_to_list/2,
+      string_list_to_list_one/2,
+      string_list_to_list_one/6,
       read_lines/2,
+      max_depth/2,
       remove_char/3
     ]).
 
@@ -56,18 +59,19 @@
 %
 py_call_base(PathTo,ScriptName,FunctionName,Parameter,Return):-
 	working_directory(OldPath,PathTo),
-  print('asdfdsfasdf'),
   create_parameter_string(Parameter,ParameterString),
 	atomic_list_concat(['import sys;import io; import ',ScriptName,
 		';save_out = sys.stdout;sys.stdout = io.BytesIO(); ret = ',ScriptName,'.'
 		,FunctionName,'(',ParameterString,');sys.stdout = save_out; print str(ret)'],CallArgu),
-  print(CallArgu),
 	setup_call_cleanup(
     process_create(path(python),['-c', CallArgu],[stdout(pipe(Out))]),
     read_lines(Out,OLines),
     close(Out)),
     atomic_list_concat(OLines,OLine), % To also get strings over more than one line
-    string_list_to_list(OLine,Return),
+    name(OLine,ReturnAsChrList),
+    delete(ReturnAsChrList,32,ReturnNoBlank),
+    name(ReturnPre,ReturnNoBlank),
+    string_list_to_list(ReturnPre,Return),
     working_directory(_,OldPath),!.
 
 %% py_call(+PathTo:string, +ScriptName:string, +FunctionName:string, +Parameter:list, ?ReturnTyped) is semidet.
@@ -125,8 +129,7 @@ create_parameter_string(Parameter,ParameterString) :-
   is_list(Parameter),
   maplist(create_parameter_string,Parameter,ParameterTrueTyped),
   atomic_list_concat(ParameterTrueTyped,',',Clist),
-  atom_string(Clist,ParameterString),
-  print(ParameterString).
+  atom_string(Clist,ParameterString).
 
 create_parameter_string(Parameter,ParameterString) :-
   atom(Parameter),
@@ -135,7 +138,7 @@ create_parameter_string(Parameter,ParameterString) :-
   reverse([39|Reversed], ReversedFull),
   name(ParameterString,ReversedFull).
 
-create_parameter_string(Parameter,ParameterString) :-
+create_parameter_string(Parameter,_) :-
   number(Parameter).  
 
 %% return_true_type(+Input:string, -TypedInput) is semidet.
@@ -147,34 +150,89 @@ create_parameter_string(Parameter,ParameterString) :-
 %
 return_true_type(Input, TypedInput) :-
 	(is_list(Input) -> maplist(return_true_type,Input,TypedInput));
-	(atom_number(Input,TypedInput)-> true;TypedInput=Input).	
+	(atom(Input)->
+    (atom_number(Input,TypedInput)-> 
+      true;
+      TypedInput=Input);
+    TypedInput=Input).	
 
-%% string_list_to_list(StrList, List) is semidet.
+
+%% string_list_to_list(Original, List) is semidet.
 %
-% Creates from a string in the form of a python list a list, e.g: '[1,2]' a list ['1','2']
+% Creates from a string in the form of a python list a list, e.g: '[1,2,[1,2]]' will bind List to ['1','2',['1','2']]
 %
-% @param Input A String
+% @param Original A String
 % @param TypedInput The value of the string in the right type
 %
-string_list_to_list(StrList, List) :-
-	name(StrList,[FirstChar|Rest]),
-	reverse(Rest, [LastChar|Reverse]),
-	reverse(Reverse,CleanedString),
-	delete(CleanedString,32,CleanedStringNoBlank),
-	((FirstChar=91,LastChar=93)
-	-> name(CleanedAtom,CleanedStringNoBlank),atomic_list_concat(List,',',CleanedAtom)).
+string_list_to_list(Original,List) :-
+  is_list(Original),
+  max_depth(Original,NumOfOList),
+  maplist(string_list_to_list_one,Original,NewList),
+  max_depth(NewList,NumOfNList),
+  (NumOfOList=\=NumOfNList ->
+    maplist(string_list_to_list,NewList,List);
+    List = NewList).
 
-string_list_to_list(StrList, List) :-
-	name(StrList,[FirstChar|Rest]),
-	reverse(Rest, [LastChar|_]),
-	((FirstChar=\=91;LastChar=\=93)
-	-> List = StrList).
+string_list_to_list(Original,List) :-
+  atom(Original),
+  string_list_to_list_one(Original,NewList),
+  (is_list(NewList) ->
+    string_list_to_list(NewList,List);
+    List=Original).
+  
+%% string_list_to_list(Original, List) is semidet.
+%
+% Help-function for string_list_to_list. It will not translate nested lists:
+% e.g. '[1,2,[1,2]]' will bind List to ['1','2','[1,2]']
+%
+% @param Original A String
+% @param TypedInput The value of the string in the right type
+%
+string_list_to_list_one(Original,List) :-
+  name(Original,OriginalStr),
+  string_list_to_list_one(OriginalStr,OriginalStr,0,[],[],List),!.
 
-string_list_to_list(StrList, List) :-
-	name(StrList,CharList),
-	length(CharList,Len),
-	( Len =< 1
-	-> List = StrList).
+string_list_to_list_one(Original,RestStr,0,CurrString,CurrList,List) :-
+  RestStr = [FirstChar|Rest],
+  (FirstChar=91
+    -> string_list_to_list_one(Original,Rest,1,CurrString,CurrList,List);(name(OriginalAtom,Original),List=OriginalAtom)).
+
+string_list_to_list_one(Original,RestStr,1,CurrString,CurrList,List) :-
+  RestStr = [FirstChar|Rest],
+  ((FirstChar=91
+    -> append(CurrString,[91],NewString),string_list_to_list_one(Original,Rest,2,NewString,CurrList,List));
+    (FirstChar=93
+      -> (Rest=[]->(name(CurrAtom,CurrString),append(CurrList,[CurrAtom],NewList),List=NewList);(name(OriginalAtom,Original),List=OriginalAtom)));
+    (FirstChar=44 
+      -> name(CurrAtom,CurrString),append(CurrList,[CurrAtom],NewList),string_list_to_list_one(Original,Rest,1,[],NewList,List));
+    (append(CurrString,[FirstChar],NewString),string_list_to_list_one(Original,Rest,1,NewString,CurrList,List))
+  ).
+
+string_list_to_list_one(Original,RestStr,CountBracket,CurrString,CurrList,List) :-
+  CountBracket >= 2,
+  RestStr = [FirstChar|Rest],
+  ((FirstChar=91
+    -> append(CurrString,[91],NewString),NewCountBracket is CountBracket + 1,string_list_to_list_one(Original,Rest,NewCountBracket,NewString,CurrList,List));
+  (FirstChar=93
+    -> append(CurrString,[93],NewString),NewCountBracket is CountBracket - 1,string_list_to_list_one(Original,Rest,NewCountBracket,NewString,CurrList,List));
+  (append(CurrString,[FirstChar],NewString),string_list_to_list_one(Original,Rest,CountBracket,NewString,CurrList,List))
+  ).
+
+%% max_depth(+List,-MaxDepth) is det
+% 
+% Calculates the max. depth of a nested list
+%
+% @param List
+% @MaxDepth The maximum depth of the list
+max_depth(List,MaxDepth) :-
+  (is_list(List) -> 
+    (maplist(max_depth,List,DepthList),
+    max_list(DepthList,MDepth),
+    MaxDepth is MDepth + 1)
+  ;MaxDepth = 0).
+
+max_depth([],MaxDepth) :-
+  MaxDepth = 0.
 
 %% read_lines(+Out, -Lines) is semidet.
 %
