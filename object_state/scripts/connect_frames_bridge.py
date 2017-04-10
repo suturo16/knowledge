@@ -21,7 +21,7 @@ def connect_frames_service(req):
     child_frame = req.childFrame
 
     # lockup the transform
-    (trans,rot) = optimusPrime.lookupTransform(child_frame, parent_frame, rospy.Time(0))
+    (trans,rot) = optimusPrime.lookupTransform(parent_frame, child_frame, rospy.Time(0))
 
     # Invoke Prolog
     print(parent_frame)
@@ -36,8 +36,6 @@ def connect_frames_service(req):
     return ConnectFramesResponse(True)
 
 
-# We are using the NAO API from Aldebaran, we start the session with the given IP address. And save the TTS as
-# a global variable in this script. That is the best way of getting it inside the Say Method.
 if __name__ == "__main__":
     rospy.init_node('connect_frames_node')
     # initializing our transformer!

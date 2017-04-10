@@ -44,7 +44,7 @@ def talker(**kwargs):
     i = 0
     pub = rospy.Publisher('percepteros/object_detection', ObjectDetection, queue_size=10)
     rospy.init_node('dummy_objects', anonymous=True)
-    rate = rospy.Rate(1) # 1hz
+    rate = rospy.Rate(500) # 1hz
     
     while not rospy.is_shutdown():
         key = random.choice(data.keys())
