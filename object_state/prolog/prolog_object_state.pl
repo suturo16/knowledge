@@ -276,8 +276,8 @@ seen_since(Name, FrameID, TimeFloat) :-
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
 get_tf_infos(Name, FrameID, Position, Orientation) :-
-    create_object_name(Name, FullName),
     owl_has(Obj,knowrob:'nameOfObject',FullName),
+    create_object_name(Name, FullName),
     holds(Obj, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
     get_fluent_pose(Obj, Position, Orientation).
 
