@@ -2,34 +2,29 @@
 
 
 <!DOCTYPE rdf:RDF [
+    <!ENTITY qudt "http://qudt.org/schema/qudt#" >
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
-    <!ENTITY srdl2 "http://knowrob.org/kb/srdl2.owl#" >
     <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
-    <!ENTITY srdl2-cap "http://knowrob.org/kb/srdl2-cap.owl#" >
-    <!ENTITY suturo-obj "package://object_state/owl/suturo_object.owl#" >
+    <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
 
 
 <rdf:RDF xmlns="package://object_state/owl/suturo_object.owl#"
      xml:base="package://object_state/owl/suturo_object.owl"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:srdl2="http://knowrob.org/kb/srdl2.owl#"
-     xmlns:srdl2-cap="http://knowrob.org/kb/srdl2-cap.owl#"
-     xmlns:SUTUROCAP="package://object_state/owl/suturo_object.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+     xmlns:qudt="http://qudt.org/schema/qudt#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
-    <owl:Ontology rdf:about="package://object_state/owl/suturo_object.owl">
-        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-cap.owl"/>
+    <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_objects.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
 
 
