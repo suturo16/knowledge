@@ -7,6 +7,7 @@
 % defining functions
 :- module(prolog_object_state,
     [
+      assign_obj_class/2,
       close_object_state/1,
       connect_frames1/1,
       connect_frames2/1,
@@ -28,6 +29,7 @@
       dummy_perception_with_close3/1,
       isConnected/2,
       multiple_objects_name/2,
+      get_class_name/2,
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
@@ -144,7 +146,7 @@ assign_obj_class(Type, ObjInst) :-
     create_object_name(ClassName,FullClass),
     owl_subclass_of(FullClass,knowrob:'SpatialThing-Localized')
     -> rdf_instance_from_class(FullClass, ObjInst);
-    rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst.
+    rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst).
 
 
 %% get_class_name(+Type, -ClassName)
