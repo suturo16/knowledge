@@ -1,33 +1,18 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://www.semanticweb.org/simba/ontologies/2017/4/untitled-ontology-12"
-     xml:base="http://www.semanticweb.org/simba/ontologies/2017/4/untitled-ontology-12"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+<rdf:RDF xmlns="http://knowrob.org/kb/test_actions.owl#"
+     xml:base="http://knowrob.org/kb/test_actions.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:qudt="http://qudt.org/schema/qudt#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/test_actions.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
         <owl:imports rdf:resource="package://object_state/owl/suturo_objects.owl"/>
     </owl:Ontology>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#objectActedOn -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
     
 
 
@@ -77,7 +62,6 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/test_actions.owl#cuttingAPieceOfFood1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood"/>
-        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/test_actions.owl#cake1"/>
     </owl:NamedIndividual>
 </rdf:RDF>
 
