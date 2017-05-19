@@ -34,13 +34,6 @@
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
     
 
-
-    <!-- http://knowrob.org/kb/srdl2-comp.owl#dependsOnComponent -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#dependsOnComponent"/>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -50,42 +43,157 @@
      -->
 
     
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability -->
 
-
-    <!-- http://knowrob.org/kb/srdl2-cap.owl#ArmCollisionCheckCapability -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#ArmCollisionCheckCapability"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability"/>
     
 
 
-    <!-- http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability -->
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability"/>
     
 
 
-    <!-- http://knowrob.org/kb/srdl2-comp.owl#ArmComponent -->
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#Capability -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-comp.owl#ArmComponent"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#Capability"/>
     
 
 
-    <!-- http://knowrob.org/kb/suturo-cap.owl#CommunicateWithHumanCapability -->
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#CommunicationCapability -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#CommunicateWithHumanCapability">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#CommunicationCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#PickingUpAnObjectCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#PickingUpAnObjectCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#PuttingDownAnObjectCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#PuttingDownAnObjectCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#move_base -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#DialogCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#DialogCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#CommunicationCapability"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#MoveAnObjectCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#MoveAnObjectCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/suturo-cap.owl#ObjectMovementCapability"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#PickingUpAnObjectCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#PuttingDownAnObjectCapability"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#ObjectMovementCapability -->
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#ObjectMovementCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#Capability"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#ArmCollisionCheckCapability"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">I wanted object movement to be an underclass of object manipulation but for that the ObjectManipulation class should have a couple less dependencies, not every manipulation has to be done with arms.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/suturo-cap.owl#StaticCapability"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system has an storage area for objects, for example a cup holder.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#StaticCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#StaticCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#Capability"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Capabilities that don&apos;t require any active movement or decision to be made by the system, for example having an object being placed inside a storage area.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#TransportingAnObjectCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#TransportingAnObjectCapability">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/suturo-cap.owl#ObjectMovementCapability"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#dependsOnComponent"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#ArmComponent"/>
-            </owl:Restriction>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/suturo-cap.owl#MoveAnObjectCapability"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability"/>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
         </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Transporting means to go over a bigger distance than it can be reached by arms length alone.</rdfs:comment>
     </owl:Class>
     
 
@@ -94,8 +202,4 @@
 
     <owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
 </rdf:RDF>
-
-
-
-<!-- Generated by the OWL API (version 4.2.6.20160910-2108) https://github.com/owlcs/owlapi -->
 
