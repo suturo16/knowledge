@@ -7,6 +7,7 @@
 % defining functions
 :- module(prolog_object_state,
     [
+      assign_obj_class/2,
       close_object_state/1,
       connect_frames1/1,
       connect_frames2/1,
@@ -28,6 +29,7 @@
       dummy_perception_with_close3/1,
       isConnected/2,
       multiple_objects_name/2,
+      get_class_name/2,
       get_fluent_pose/3,
       get_object_infos/5,
       get_object_infos/6,
@@ -69,6 +71,7 @@
 :- use_module(library('knowrob_coordinates')).
 :- use_module(library('knowrob_temporal')).
 :- use_module(library('knowrob_objects')).
+:- use_module(library('knowrob_owl')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('knowrob_owl')).
 :- use_module(library('prython')).
@@ -109,7 +112,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     -> owl_has(ObjInst,knowrob:'nameOfObject',Name)
       ; multiple_objects_name(Type, NameNum), 
       create_object_name(NameNum, FullName),
-      rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst),
+      assign_obj_class(Type,ObjInst),
       rdf_assert(ObjInst, knowrob:'nameOfObject',FullName)),
     
     create_fluent(ObjInst, Fluent),
@@ -133,6 +136,26 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+
+
+%% assign_obj_class(+Type, -ObjInst)
+% MSp
+% Initialized object of class from suturo_objects.owl ontology depending on object type.
+assign_obj_class(Type, ObjInst) :-
+    get_class_name(Type, ClassName),
+    create_object_name(ClassName,FullClass),
+    owl_subclass_of(FullClass,knowrob:'SpatialThing-Localized')
+    -> rdf_instance_from_class(FullClass, ObjInst);
+    rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst).
+
+
+%% get_class_name(+Type, -ClassName)
+% MSp
+% converts first letter of Type into capital letter
+get_class_name(Type, ClassName) :-
+    sub_atom(Type,0,1,_,C), char_code(C,I), 96<I, I<123
+    -> J is I-32, char_code(D,J), sub_atom(Type,1,_,0,Sub), atom_concat(D,Sub,ClassName)
+    ; ClassName = Type.
 
 
 %% create_fluent_pose(+Fluent, +Pose)
