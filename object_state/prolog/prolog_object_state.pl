@@ -16,6 +16,10 @@
       connect_frames5/2,
       connect_frames/2,
       create_fluent_pose/2,
+      test_swrl_project/2,
+      test_swrl_holds/2,
+      test/1,
+      test_rule_id/2,
       create_object_state/9,
       create_object_state_with_close/9,
       create_object_name/2,
@@ -147,6 +151,7 @@ assign_obj_class(Type, ObjInst) :-
     owl_subclass_of(FullClass,knowrob:'SpatialThing-Localized')
     -> rdf_instance_from_class(FullClass, ObjInst);
     rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst).
+
 
 
 %% get_class_name(+Type, -ClassName)
@@ -458,3 +463,30 @@ connect_frames5(ParentFrameID, ChildFrameID) :-
    atom_concat('/', ParentFrameID, UsableParentFrameID),
    atom_concat('/', ChildFrameID, UsableChildFrameID),
    connect_frames(UsableParentFrameID, UsableChildFrameID, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]]).
+
+test_rule_id(Id, Descr) :-
+  ( rdf_has(Descr, rdfs:label, literal(type(_,Id))) ;
+    rdf_has(Descr, rdfs:label, literal(Id)) ),
+  rdf_has(Descr, rdf:type, swrl:'Imp').
+
+test(swrl_parse_rules) :-
+  forall( rdf_has(Descr, rdf:type, swrl:'Imp'), (
+    rdf_swrl_rule(Descr, rule(Head,Body)),
+    Head \= [], Body \= []
+  )).
+
+test_swrl_holds(Id, Bindings) :-
+  test_rule_id(Id, Descr),
+  rdf_swrl_rule(Descr,Rule),
+  swrl_vars(Rule, Vars),
+  swrl_var_bindings(Vars,Bindings),
+  swrl_condition_satisfied(Rule,Vars).
+
+test_swrl_project(Id, Bindings) :-
+  test_rule_id(Id, Descr),
+  rdf_swrl_rule(Descr,Rule),
+  swrl_vars(Rule, Vars),
+  swrl_var_bindings(Vars,Bindings),
+  swrl_condition_satisfied(Rule,Vars),
+  swrl_implication_project(Rule,Vars).
+
