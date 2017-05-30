@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="package://object_state/owl/suturo_actions.owl#"
-     xml:base="package://object_state/owl/suturo_actions.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/suturo_actions.owl#"
+     xml:base="http://knowrob.org/kb/suturo_actions.owl"
      xmlns:qudt="http://qudt.org/schema/qudt#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -10,10 +10,12 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:computable="http://knowrob.org/kb/computable.owl#">
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:suturo-actions="package://object_state/owl/suturo_actions.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_actions.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
         <owl:imports rdf:resource="package://object_state/owl/suturo_objects.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-action%20object_state/owl/suturo_objects.owl"/>
     </owl:Ontology>
     
 
@@ -38,11 +40,40 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#objectActedOn -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#outputsCreated -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#outputsCreated"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Cake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Cake"/>
     
 
 
@@ -52,9 +83,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#SolidFood -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SolidFood"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#PieceOfCake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo_objects.owl#PieceOfCake"/>
     
 
 
@@ -66,10 +109,17 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <rdf:Description rdf:about="urn:swrl#x">
+    <rdf:Description rdf:about="urn:swrl#act">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#cake">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#piece">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description>
+        <rdfs:label>CuttingCake</rdfs:label>
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
         <swrl:body>
             <rdf:Description>
@@ -77,11 +127,36 @@
                 <rdf:first>
                     <rdf:Description>
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#Cheese"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:classPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#act"/>
                     </rdf:Description>
                 </rdf:first>
-                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#act"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#cake"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#Cake"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#cake"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
             </rdf:Description>
         </swrl:body>
         <swrl:head>
@@ -90,11 +165,24 @@
                 <rdf:first>
                     <rdf:Description>
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#SolidFood"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:classPredicate rdf:resource="http://knowrob.org/kb/suturo_objects.owl#PieceOfCake"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#piece"/>
                     </rdf:Description>
                 </rdf:first>
-                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#outputsCreated"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#act"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#piece"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
             </rdf:Description>
         </swrl:head>
     </rdf:Description>
