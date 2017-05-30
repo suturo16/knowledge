@@ -515,7 +515,7 @@
     <!-- http://knowrob.org/kb/pepper.owlJulietteY20MP -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/pepper.owlJulietteY20MP">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Robot"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#WheeledRobot"/>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -567,6 +567,12 @@
     <!-- http://knowrob.org/kb/knowrob.owl#TimePoint -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#WheeledRobot -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#WheeledRobot"/>
     
 
 
