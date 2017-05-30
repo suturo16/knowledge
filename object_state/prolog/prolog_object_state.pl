@@ -76,8 +76,8 @@
 :- use_module(library('knowrob_temporal')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_owl')).
+:- use_module(library('knowrob_srdl')).
 :- use_module(library('rdfs_computable')).
-:- use_module(library('knowrob_owl')).
 :- use_module(library('prython')).
 
 %registering namespace
@@ -88,6 +88,9 @@
 :- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl', [keep(true)]).
+
+%parse libraries
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
 
@@ -194,7 +197,7 @@ close_object_state(FullName) :-
 %    not( rdf_has(I, knowrob:'endTime', _) ),
 %    create_timepoint(Now, IntervalEnd),
 %    rdf_assert(I, knowrob:'endTime', IntervalEnd).
-    % fluent_assert_end(Obj,P).
+%    fluent_assert_end(Obj,P).
     
 
 %% multiple_objects_name(+Type, -NameNum)
@@ -279,13 +282,12 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Depth depth of object
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
-    owl_has(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    owl_has(Obj,knowrob:'nameOfObject',Name),
-    \+ rdf_has(Obj,rdf:type,knowrob:'TemporalPart'),
-    owl_has(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
-    owl_has(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
-    owl_has(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
-    owl_has(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
+    holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
+    owl_has(Obj,knowrob:'nameOfObject', Name),
+    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
+    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
+    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
+    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose(Obj, Position, Orientation),
     Timestamp = 1.0.
 
@@ -310,20 +312,20 @@ seen_since(Name, FrameID, TimeFloat) :-
 get_tf_infos(Name, FrameID, Position, Orientation) :-
     owl_has(Obj,knowrob:'nameOfObject',FullName),
     create_object_name(Name, FullName),
-    owl_has(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
+    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     get_fluent_pose(Obj, Position, Orientation).
 
 
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
 get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    owl_has(Object, knowrob: 'xCoord', literal(type(xsd: float, PX))),
-    owl_has(Object, knowrob: 'yCoord', literal(type(xsd: float, PY))),
-    owl_has(Object, knowrob: 'zCoord', literal(type(xsd: float, PZ))),
-    owl_has(Object, knowrob: 'qx', literal(type(xsd: float, OX))),
-    owl_has(Object, knowrob: 'qy', literal(type(xsd: float, OY))),
-    owl_has(Object, knowrob: 'qz', literal(type(xsd: float, OZ))),
-    owl_has(Object, knowrob: 'qu', literal(type(xsd: float, OW))).
+    holds(Object, knowrob: 'xCoord', literal(type(xsd: float, PX))),
+    holds(Object, knowrob: 'yCoord', literal(type(xsd: float, PY))),
+    holds(Object, knowrob: 'zCoord', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob: 'qx', literal(type(xsd: float, OX))),
+    holds(Object, knowrob: 'qy', literal(type(xsd: float, OY))),
+    holds(Object, knowrob: 'qz', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob: 'qu', literal(type(xsd: float, OW))).
 
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
