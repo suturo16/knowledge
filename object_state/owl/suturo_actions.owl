@@ -13,7 +13,7 @@
     <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_actions.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
         <owl:imports rdf:resource="package://object_state/owl/suturo_objects.owl"/>
-        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-action%20object_state/owl/suturo_objects.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-action.owl"/>
     </owl:Ontology>
     
 

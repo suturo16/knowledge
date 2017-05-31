@@ -76,8 +76,8 @@
 :- use_module(library('knowrob_temporal')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_owl')).
+:- use_module(library('knowrob_srdl')).
 :- use_module(library('rdfs_computable')).
-:- use_module(library('knowrob_owl')).
 :- use_module(library('prython')).
 
 %registering namespace
@@ -88,6 +88,9 @@
 :- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl', [keep(true)]).
+
+%parse libraries
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
 
@@ -119,13 +122,14 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
       assign_obj_class(Type,ObjInst),
       rdf_assert(ObjInst, knowrob:'nameOfObject',FullName)),
     
-    create_fluent(ObjInst, Fluent),
-    fluent_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:string, Type))),
-    fluent_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
-    fluent_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
-    fluent_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
-    fluent_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
-    create_fluent_pose(Fluent, Pose).
+    %previouslz used was this:
+    %create_fluent(ObjInst, Fluent), fluent_assert)(S,P,O)
+    assert_temporal_part(ObjInst, knowrob:'typeOfObject', Type),      % literal(type(xsd:string, Type))),
+    assert_temporal_part(ObjInst, knowrob:'frameOfObject', FrameID),  % literal(type(xsd:string, FrameID))),
+    assert_temporal_part(ObjInst, knowrob:'widthOfObject', Width),    % literal(type(xsd:float, Width))),
+    assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
+    assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
+    create_fluent_pose(ObjInst, Pose).
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
@@ -153,7 +157,6 @@ assign_obj_class(Type, ObjInst) :-
     rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst).
 
 
-
 %% get_class_name(+Type, -ClassName)
 % MSp
 % converts first letter of Type into capital letter
@@ -167,14 +170,14 @@ get_class_name(Type, ClassName) :-
 % MSp
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
-create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-    fluent_assert(Fluent, knowrob:'xPosOfObject', literal(type(xsd:float, PX))),
-    fluent_assert(Fluent, knowrob:'yPosOfObject', literal(type(xsd:float, PY))),
-    fluent_assert(Fluent, knowrob:'zPosOfObject', literal(type(xsd:float, PZ))),
-    fluent_assert(Fluent, knowrob:'xOriOfObject', literal(type(xsd:float, OX))),
-    fluent_assert(Fluent, knowrob:'yOriOfObject', literal(type(xsd:float, OY))),
-    fluent_assert(Fluent, knowrob:'zOriOfObject', literal(type(xsd:float, OZ))),
-    fluent_assert(Fluent, knowrob:'wOriOfObject', literal(type(xsd:float, OW))).
+create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
+    assert_temporal_part(ObjInst, knowrob:'xCoord', PX), % literal(type(xsd:float, PX))),
+    assert_temporal_part(ObjInst, knowrob:'yCoord', PY), % literal(type(xsd:float, PY))),
+    assert_temporal_part(ObjInst, knowrob:'zCoord', PZ), % literal(type(xsd:float, PZ))),
+    assert_temporal_part(ObjInst, knowrob:'qx', OX), % literal(type(xsd:float, OX))),
+    assert_temporal_part(ObjInst, knowrob:'qy', OY), % literal(type(xsd:float, OY))),
+    assert_temporal_part(ObjInst, knowrob:'qz', OZ), % literal(type(xsd:float, OZ))),
+    assert_temporal_part(ObjInst, knowrob:'qu', OW). % literal(type(xsd:float, OW))).
 
 
 %% close_object_state(+FullName) is probably det.
@@ -182,16 +185,19 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(FullName) :-
-    owl_has(Obj, knowrob:'nameOfObject', FullName),
+    owl_has(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
-    rdf_has(Obj, knowrob:'temporalParts',SubjectPart),
-    rdf_has(SubjectPart, P, _),
-    rdf_has(SubjectPart, knowrob:'temporalExtend', I),
-    not( rdf_has(I, knowrob:'endTime', _) ),
-    create_timepoint(Now, IntervalEnd),
-    rdf_assert(I, knowrob:'endTime', IntervalEnd).
-    % fluent_assert_end(Obj,P).
+    %forall(X,
+    assert_temporal_part_end(ObjInst, _, _, Now). %).
+
+%    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
+%    rdf_has(SubjectPart, P, _),
+%    rdf_has(SubjectPart, knowrob:'temporalExtend', I),
+%    not( rdf_has(I, knowrob:'endTime', _) ),
+%    create_timepoint(Now, IntervalEnd),
+%    rdf_assert(I, knowrob:'endTime', IntervalEnd).
+%    fluent_assert_end(Obj,P).
     
 
 %% multiple_objects_name(+Type, -NameNum)
@@ -276,9 +282,9 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Depth depth of object
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
-    holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
-    owl_has(Obj,knowrob:'nameOfObject',Name),
-    holds(Obj, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
+    holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
+    owl_has(Obj,knowrob:'nameOfObject', Name),
+    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
@@ -306,20 +312,20 @@ seen_since(Name, FrameID, TimeFloat) :-
 get_tf_infos(Name, FrameID, Position, Orientation) :-
     owl_has(Obj,knowrob:'nameOfObject',FullName),
     create_object_name(Name, FullName),
-    holds(Obj, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
+    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     get_fluent_pose(Obj, Position, Orientation).
 
 
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
 get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob: 'xPosOfObject', literal(type(xsd: float, PX))),
-    holds(Object, knowrob: 'yPosOfObject', literal(type(xsd: float, PY))),
-    holds(Object, knowrob: 'zPosOfObject', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob: 'xOriOfObject', literal(type(xsd: float, OX))),
-    holds(Object, knowrob: 'yOriOfObject', literal(type(xsd: float, OY))),
-    holds(Object, knowrob: 'zOriOfObject', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob: 'wOriOfObject', literal(type(xsd: float, OW))).
+    holds(Object, knowrob: 'xCoord', literal(type(xsd: float, PX))),
+    holds(Object, knowrob: 'yCoord', literal(type(xsd: float, PY))),
+    holds(Object, knowrob: 'zCoord', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob: 'qx', literal(type(xsd: float, OX))),
+    holds(Object, knowrob: 'qy', literal(type(xsd: float, OY))),
+    holds(Object, knowrob: 'qz', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob: 'qu', literal(type(xsd: float, OW))).
 
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
