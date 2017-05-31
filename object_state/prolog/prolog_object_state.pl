@@ -325,10 +325,14 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
 % same_dimensions currently not used
+% CHANGED, UNTESTED:  if frame differs, transform and proceed
+%           otherwise do as usual
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
-    get_object_infos(Name, _, Type, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
-    (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
-    same_position(PrevPosition, Position, [Height, Width, Depth])).
+    get_object_infos(Name, ChildFrameID, Type, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+    (not(ChildFrameID = '/odom_combined') -> prython:py_call('call_tf','get_transform',['/odom_combined',ChildFrameID], PrevPositionToOdom),
+      write(PrevPositionToOdom),
+      same_position(PrevPositionToOdom, Position, [Height, Width, Depth])
+      ;same_position(PrevPosition, Position, [Height, Width, Depth])).
 
 
 %% same_dimensions(+[PrevDim], +[CurDim])
@@ -392,7 +396,7 @@ disconnect_frames(ParentFrameID, ChildFrameID) :-
 dummy_perception1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception2(Type) :-
@@ -404,13 +408,13 @@ dummy_perception2(Type) :-
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state_with_close(_, [[1.0,1.0,1.0],[9.0,1.0,5.0,7.0]], Type, '/odom_combined', 10.0, 10.0, 10.0, [TimeFloat], ObjInst).
+	 create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], box, '/odom_combined', 10.0, 10.0, 10.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[0.0,0.0,0.0],[7.0,7.0,7.0,7.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[0.0,0.0,0.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close3(Type) :-
