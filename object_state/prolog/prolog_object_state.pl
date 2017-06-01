@@ -76,7 +76,7 @@
 :- use_module(library('knowrob_temporal')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_owl')).
-:- use_module(library('knowrob_srdl')).
+:- use_module(library('srdl2')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('prython')).
 
