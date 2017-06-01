@@ -298,14 +298,16 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Depth depth of object
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
-    holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
+    holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type)), Interval),
     owl_has(Obj,knowrob:'nameOfObject',Name),
     holds(Obj, knowrob:'frameOfObject', literal(type(xsd:string,FrameID))),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose(Obj, Position, Orientation),
-    Timestamp = 1.0.
+    current_time(Now),
+    interval_during(Now, Interval),
+    interval_start(Interval, Timestamp).
 
 get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
