@@ -17,7 +17,9 @@
       create_fluent_pose/2,
       create_fluent_pose_to_odom/2,
       create_object_state/9,
+      create_object_state/10,
       create_object_state_with_close/9,
+      create_object_state_with_close/10,
       create_object_name/2,
       create_temporal_name/2,
       disconnect_frames/2,
@@ -28,6 +30,8 @@
       dummy_perception_with_close2/1,
       dummy_perception_with_close3/1,
       isConnected/2,
+      manually_connect_frames/2,
+      manually_disconnect_frames/2,
       multiple_objects_name/2,
       get_fluent_pose/3,
       get_fluent_pose_to_odom/3,
@@ -36,6 +40,7 @@
       get_object_infos/8,
       get_object_infos/9,
       get_object_infos_to_odom/5,
+      get_object_infos_to_odom/6,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -124,6 +129,23 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     create_fluent_pose(Fluent, Pose),
     create_fluent_pose_to_odom(Fluent, Pose).
 
+create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
+    (nonvar(Name)
+    -> owl_has(ObjInst,knowrob:'nameOfObject',Name)
+      ; multiple_objects_name(Type, NameNum), 
+      create_object_name(NameNum, FullName),
+      rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst),
+      rdf_assert(ObjInst, knowrob:'nameOfObject',FullName)),
+    
+    create_fluent(ObjInst, Fluent),
+    fluent_assert(Fluent, knowrob:'typeOfObject', literal(type(xsd:string, Type))),
+    fluent_assert(Fluent, knowrob:'frameOfObject', literal(type(xsd:string, FrameID))),
+    fluent_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
+    fluent_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
+    fluent_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
+    create_fluent_pose(Fluent, Pose),
+    create_fluent_pose_to_odom(Fluent, PoseToOdom).
+
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
@@ -138,6 +160,18 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
+%% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
+% LSa, MSp
+% Creates a fluent and closes the corresponding old TemporalPart.
+create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    known_object(Type, PoseToOdom, Width, Height, Depth, FullName)
+      -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+         atom_concat('/', Name, ChildFrameID),
+          not(isConnected(_ ,ChildFrameID))
+            -> ignore(close_object_state(FullName)),
+            create_object_state(FullName, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            ; false)
+        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 %% create_fluent_pose(+Fluent, +Pose)
 % MSp
@@ -280,6 +314,14 @@ get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose_to_odom(Obj, Position, Orientation).
 
+get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Depth) :-
+    owl_has(Obj,knowrob:'nameOfObject',Name),
+    holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
+    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
+    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
+    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
+    get_fluent_pose_to_odom(Obj, Position, Orientation).
+
 %% seen_since(+Name, +FrameID, +TimeFloat) --> true/false
 %  MSp
 %  @param Name name of the object in database
@@ -331,7 +373,7 @@ get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 %MSp
 % same_dimensions currently not used
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
-    get_object_infos_to_odom(Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+    get_object_infos_to_odom(Name, Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
     same_position(PrevPosition, Position, [Height, Width, Depth])).
 
@@ -380,8 +422,8 @@ connect_frames(ParentFrameID, ChildFrameID) :-
   write(Pose),
   atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-  get_object_infos(FullName, _, Type, _, _, Height, Width, Depth),
-  create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
+  get_object_infos_to_odom(FullName, Type, PoseToOdom, Height, Width, Depth),
+  create_object_state_with_close(Name, Pose, PoseToOdom, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
   assert(isConnected(ParentFrameID, ChildFrameID)).
 
 
@@ -409,13 +451,13 @@ dummy_perception2(Type) :-
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 10.0, 10.0, 10.0, [TimeFloat], ObjInst).
+	 create_object_state_with_close(_, [[1.0,0.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[0.0,0.0,0.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[2.0,2.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close3(Type) :-
@@ -452,6 +494,24 @@ connect_frames2(Name) :-
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
 connect_frames3(ParentFrameID, ChildFrameID) :-
    connect_frames('/baum', '/table').
+
+%% manually_connect_frames(+ParentFrame, +ChildFrame)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+manually_connect_frames(ParentFrame, ChildFrame) :-
+  atom_concat('/', ParentFrame, ParentFrameStitched),
+  atom_concat('/', ChildFrame, ChildFrameStitched),
+  connect_frames(ParentFrameStitched, ChildFrameStitched).
+
+%% manually_disconnect_frames(+ParentFrame, +ChildFrame)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+manually_disconnect_frames(ParentFrame, ChildFrame) :-
+  atom_concat('/', ParentFrame, ParentFrameStitched),
+  atom_concat('/', ChildFrame, ChildFrameStitched),
+  disconnect_frames(ParentFrameStitched, ChildFrameStitched).
 
 %% connect_frames4(+Name)
 % LSa
