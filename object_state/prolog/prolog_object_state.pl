@@ -15,6 +15,7 @@
       connect_frames5/2,
       connect_frames/2,
       create_fluent_pose/2,
+      create_fluent_pose_to_odom/2,
       create_object_state/9,
       create_object_state_with_close/9,
       create_object_name/2,
@@ -29,10 +30,12 @@
       isConnected/2,
       multiple_objects_name/2,
       get_fluent_pose/3,
+      get_fluent_pose_to_odom/3,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
       get_object_infos/9,
+      get_object_infos_to_odom/5,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -118,7 +121,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     fluent_assert(Fluent, knowrob:'widthOfObject', literal(type(xsd:float, Width))),
     fluent_assert(Fluent, knowrob:'heightOfObject',literal(type(xsd:float, Height))),
     fluent_assert(Fluent, knowrob:'depthOfObject', literal(type(xsd:float, Depth))),
-    create_fluent_pose(Fluent, Pose).
+    create_fluent_pose(Fluent, Pose),
+    create_fluent_pose_to_odom(Fluent, Pose).
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
@@ -148,6 +152,18 @@ create_fluent_pose(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
     fluent_assert(Fluent, knowrob:'zOriOfObject', literal(type(xsd:float, OZ))),
     fluent_assert(Fluent, knowrob:'wOriOfObject', literal(type(xsd:float, OW))).
 
+%% create_fluent_pose_to_odom(+Fluent, +Pose)
+% MSp
+% @param Fluent temporal part of object
+% @param Pose list of lists [[3],[4]] position and orientation
+create_fluent_pose_to_odom(Fluent, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
+    fluent_assert(Fluent, knowrob:'xPosOfObjectToOdom', literal(type(xsd:float, PX))),
+    fluent_assert(Fluent, knowrob:'yPosOfObjectToOdom', literal(type(xsd:float, PY))),
+    fluent_assert(Fluent, knowrob:'zPosOfObjectToOdom', literal(type(xsd:float, PZ))),
+    fluent_assert(Fluent, knowrob:'xOriOfObjectToOdom', literal(type(xsd:float, OX))),
+    fluent_assert(Fluent, knowrob:'yOriOfObjectToOdom', literal(type(xsd:float, OY))),
+    fluent_assert(Fluent, knowrob:'zOriOfObjectToOdom', literal(type(xsd:float, OZ))),
+    fluent_assert(Fluent, knowrob:'wOriOfObjectToOdom', literal(type(xsd:float, OW))).
 
 %% close_object_state(+FullName) is probably det.
 % SJo
@@ -257,6 +273,13 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
     get_fluent_pose(Obj, Position, Orientation),
     Timestamp = 1.0.
 
+get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
+    holds(Obj, knowrob:'typeOfObject', literal(type(xsd:string,Type))),
+    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
+    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
+    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
+    get_fluent_pose_to_odom(Obj, Position, Orientation).
+
 %% seen_since(+Name, +FrameID, +TimeFloat) --> true/false
 %  MSp
 %  @param Name name of the object in database
@@ -293,12 +316,22 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob: 'zOriOfObject', literal(type(xsd: float, OZ))),
     holds(Object, knowrob: 'wOriOfObject', literal(type(xsd: float, OW))).
 
+%% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% MSp
+get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+    holds(Object, knowrob: 'xPosOfObjectToOdom', literal(type(xsd: float, PX))),
+    holds(Object, knowrob: 'yPosOfObjectToOdom', literal(type(xsd: float, PY))),
+    holds(Object, knowrob: 'zPosOfObjectToOdom', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob: 'xOriOfObjectToOdom', literal(type(xsd: float, OX))),
+    holds(Object, knowrob: 'yOriOfObjectToOdom', literal(type(xsd: float, OY))),
+    holds(Object, knowrob: 'zOriOfObjectToOdom', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob: 'wOriOfObjectToOdom', literal(type(xsd: float, OW))).
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
 % same_dimensions currently not used
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
-    get_object_infos(Name, _, Type, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+    get_object_infos_to_odom(Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
     same_position(PrevPosition, Position, [Height, Width, Depth])).
 

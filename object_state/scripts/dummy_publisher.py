@@ -18,7 +18,7 @@ def talker(**kwargs):
         objects = kwargs['objects']
     #objects = 1 #test with multiple objects of same type not yet done
         
-    names = ['misc', 'box', 'cylinder', 'sphere', 'cone', 'dropzone']
+    names = ['Cake', 'Box', 'Cylinder', 'Sphere', 'Cone', 'Dropzone']
     types = min(types, len(names))
     data = {}
     
@@ -59,10 +59,10 @@ def talker(**kwargs):
         obj.pose.pose.position.x = data[key]['position']['x']
         obj.pose.pose.position.y = data[key]['position']['y']
         obj.pose.pose.position.z = data[key]['position']['z']
-        obj.pose.pose.orientation.x = 3.0 #data[name]['orientation']['x']
-        obj.pose.pose.orientation.y = 8.0 #data[name]['orientation']['y']
-        obj.pose.pose.orientation.z = 6.0 #data[name]['orientation']['z']
-        obj.pose.pose.orientation.w = 4.0 #data[name]['orientation']['w']
+        obj.pose.pose.orientation.x = 0.0 #data[name]['orientation']['x']
+        obj.pose.pose.orientation.y = 0.0 #data[name]['orientation']['y']
+        obj.pose.pose.orientation.z = 0.0 #data[name]['orientation']['z']
+        obj.pose.pose.orientation.w = 1.0 #data[name]['orientation']['w']
         obj.type = data[key]['type']
         obj.width = data[key]['width']
         obj.height = data[key]['height']
