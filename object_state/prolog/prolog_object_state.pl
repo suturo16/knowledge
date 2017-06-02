@@ -39,6 +39,7 @@
       get_object_infos/6,
       get_object_infos/8,
       get_object_infos/9,
+      get_robot_with_cap_for/2,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -85,9 +86,9 @@
 :- rdf_db:rdf_register_ns(srdl2, 'http://knowrob.org/kb/srdl2.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2cap, 'http://knowrob.org/kb/srdl2-cap.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(map_obj, 'http://knowrob.org/kb/ccrl2_map_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_act, 'package://object_state/owl/suturo_actions.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_cap, 'http://knowrob.org/kb/suturo-cap.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl', [keep(true)]).
 
 %parse libraries
@@ -375,6 +376,14 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
     SqrSum is ((A1-B1)^2.0);
     sqr_sum(An, Bn, Sum),
     SqrSum is Sum + ((A1-B1)^2.0).
+
+
+%% get_robot_with_cap_for(+Action, -Robot)
+% MSp
+% Returns robot with capabilities to do Action
+get_robot_with_cap_for(Action, Robot) :-
+    foreach(required_cap_for_action(Action,Cap),
+        cap_available_on_robot(Cap,Robot)).
 
 
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
