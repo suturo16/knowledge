@@ -79,6 +79,8 @@
 :- use_module(library('srdl2')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('prython')).
+:- use_module(library('swrl')).
+
 
 %registering namespace
 :- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -90,11 +92,15 @@
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl', [keep(true)]).
 :- rdf_db:rdf_register_prefix(test_actions, 'http://knowrob.org/kb/test_actions.owl#', [keep(true)]).
-
+:- rdf_db:rdf_register_prefix(test_swrl, 'http://knowrob.org/kb/swrl_test#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 
 %parse libraries
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
+:- owl_parse('package://knowrob_common/owl/swrl_test.owl').
+:- owl_parse('package://object_state/owl/test_actions.owl').
+
 
 % Initialize python context
 :- source_file(File),

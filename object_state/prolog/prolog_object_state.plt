@@ -34,7 +34,7 @@
 test(swrl_CuttingCake, [nondet]) :-
   %%% new rule -- needs to be debugged
   \+ owl_has(suturo_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, _),
-  rdf_swrl_load('CuttingCake'),
+  rdf_swrl_project('CuttingCake'),
   owl_has(suturo_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, Piece),
   owl_individual_of(Piece, suturo_actions:'PieceOfCake').
 
