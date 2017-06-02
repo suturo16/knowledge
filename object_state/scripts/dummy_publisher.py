@@ -18,7 +18,7 @@ def talker(**kwargs):
         objects = kwargs['objects']
     #objects = 1 #test with multiple objects of same type not yet done
         
-    names = ['Cake', 'Box', 'Cylinder', 'Sphere', 'Cone', 'Dropzone']
+    names = ['cake', 'box', 'cylinder', 'sphere', 'cone', 'dropzone']
     types = min(types, len(names))
     data = {}
     
