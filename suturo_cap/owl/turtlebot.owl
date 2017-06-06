@@ -350,6 +350,18 @@
     
 
 
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+    
+
+
     <!-- http://knowrob.org/kb/srdl2-cap.owl#move_base -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
@@ -381,6 +393,10 @@
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+                    </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
                         <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
