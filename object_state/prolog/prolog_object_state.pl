@@ -60,6 +60,7 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(?,?,?,?,?,?,?,?),
+      get_robot_with_cap_for(r,?),
       connect_frames(r,r),
       get_type_num(r,?),
       disconnect_frames(r,r),
@@ -216,7 +217,8 @@ close_object_state(FullName) :-
 % @param NameNum is the unique name of the new object in KB, e.g. cake32
 multiple_objects_name(Type, NameNum) :-
     (get_max_num(Type, Num), number(Num)
-    -> Number is Num+1; Number is 1),
+    -> Number is Num+1; Nu    rdf_equal(Action,Act),
+mber is 1),
     atom_concat(Type, Number, NameNum).
 
 
@@ -393,6 +395,10 @@ get_robot_with_cap_for(Action, Robot) :-
     rdf_equal(Action,Act),
     foreach(required_cap_for_action(Act,Cap),
         cap_available_on_robot(Cap,Rob)),Robot = Rob.
+
+get_list_of_robots_with_cap(Action, Robots) :-
+    bagof(required_cap_for_action(Action,Capa),nonvar(Capa),Caps),
+    setof(member(Cap, Caps), cap_available_on_robot(Cap,Rob), Robots).
 
 
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)

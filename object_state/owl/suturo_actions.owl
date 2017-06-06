@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://knowrob.org/kb/suturo_actions.owl#"
-     xml:base="http://knowrob.org/kb/swrl_test"
+     xml:base="http://knowrob.org/kb/suturo_actions.owl"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -35,6 +35,12 @@
     
 
 
+    <!-- http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled -->
+
+    <owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+    
+
+
     <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#comment"/>
@@ -64,6 +70,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -89,7 +101,22 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#CuttingAPieceOfFood">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#dependsOnCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
     
 
 
@@ -99,9 +126,24 @@
     
 
 
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability"/>
+    
+
+
     <!-- http://knowrob.org/kb/suturo_objects.owl#PieceOfCake -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/suturo_objects.owl#PieceOfCake"/>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</swrla:isRuleEnabled>
+    </rdf:Description>
     
 
 
@@ -123,7 +165,6 @@
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description>
-        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</swrla:isRuleEnabled>
         <rdfs:comment>Describes the action effect of cutting cake</rdfs:comment>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CuttingCake</rdfs:label>
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
