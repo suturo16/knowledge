@@ -525,6 +525,18 @@
                     </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
                         <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#ObjectRecognitionCapability"/>
                     </owl:Restriction>
                     <owl:Restriction>
@@ -579,6 +591,24 @@
     <!-- http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#ArmMotionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#BodyMotionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#GripperMotionCapability"/>
     
 
 

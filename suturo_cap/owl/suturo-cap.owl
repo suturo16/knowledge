@@ -14,6 +14,7 @@
      xmlns:dc="http://purl.org/dc/elements/1.1/">
     <owl:Ontology rdf:about="http://knowrob.org/kb/suturo-cap.owl">
         <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-cap.owl"/>
+        <owl:imports rdf:resource="package://object_state/owl/suturo_objects.owl"/>
     </owl:Ontology>
     
 

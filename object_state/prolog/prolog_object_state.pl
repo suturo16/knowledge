@@ -390,8 +390,9 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
 % MSp
 % Returns robot with capabilities to do Action
 get_robot_with_cap_for(Action, Robot) :-
-    foreach(required_cap_for_action(Action,Cap),
-        cap_available_on_robot(Cap,Robot)).
+    rdf_equal(Action,Act),
+    foreach(required_cap_for_action(Act,Cap),
+        cap_available_on_robot(Cap,Rob)),Robot = Rob.
 
 
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
