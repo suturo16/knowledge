@@ -41,3 +41,4 @@
 :- owl_parse('package://object_state/owl/suturo_actions.owl').
 :- owl_parse('package://suturo_cap/owl/pepper.owl').
 :- owl_parse('package://suturo_cap/owl/PR2.owl').
+:- owl_parse('package://suturo_cap/owl/suturo-cap.owl').
