@@ -217,8 +217,7 @@ close_object_state(FullName) :-
 % @param NameNum is the unique name of the new object in KB, e.g. cake32
 multiple_objects_name(Type, NameNum) :-
     (get_max_num(Type, Num), number(Num)
-    -> Number is Num+1; Nu    rdf_equal(Action,Act),
-mber is 1),
+    -> Number is Num+1; rdf_equal(Action,Act), Number is 1),
     atom_concat(Type, Number, NameNum).
 
 
