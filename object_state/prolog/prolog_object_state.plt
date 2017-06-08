@@ -23,8 +23,18 @@
 :- use_module(library('swrl')).
 
 :- owl_parser:owl_parse('package://object_state/owl/test_actions.owl').
+:- owl_parser:owl_parse('package://object_state/owl/suturo_actions.owl').
+:- owl_parser:owl_parse('package://object_state/owl/suturo_objects.owl').
 
-:- rdf_db:rdf_register_prefix(suturo_actions, 'http://knowrob.org/kb/suturo_actions#', [keep(true)]).
+
+:- rdf_db:rdf_register_ns(suturo_actions, 'http://knowrob.org/kb/suturo_actions.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_objects, 'http://knowrob.org/kb/suturo_objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(test_actions, 'http://knowrob.org/kb/test_actions.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
+
+:- rdf_db:rdf_register_prefix(suturo_actions, 'http://knowrob.org/kb/suturo_actions.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(suturo_objects, 'http://knowrob.org/kb/suturo_objects.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(test_actions, 'http://knowrob.org/kb/test_actions.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -32,10 +42,9 @@
 %%
 % Unit-Test for the cutting Action
 test(swrl_CuttingCake, [nondet]) :-
-  %%% new rule -- needs to be debugged
-  \+ owl_has(suturo_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, _),
+  \+ owl_has(test_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, _),
   rdf_swrl_project('CuttingCake'),
-  owl_has(suturo_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, Piece),
-  owl_individual_of(Piece, suturo_actions:'PieceOfCake').
+  owl_has(test_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, Piece),
+  owl_individual_of(Piece, suturo_objects:'PieceOfCake').
 
 :- end_tests(object_state).
