@@ -107,7 +107,7 @@
 :- owl_parse('package://knowrob_map_data/owl/ccrl2_semantic_map.owl').
 :- owl_parse('package://knowrob_common/owl/swrl_test.owl').
 :- owl_parse('package://object_state/owl/test_actions.owl').
-
+:- owl_parse('package://object_state/owl/suturo_objects.owl').
 
 % Initialize python context
 :- source_file(File),
@@ -228,13 +228,13 @@ create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-    assert_temporal_part(ObjInst, knowrob:'xPosOfObjectToOdom', PX),
-    assert_temporal_part(ObjInst, knowrob:'yPosOfObjectToOdom', PY),
-    assert_temporal_part(ObjInst, knowrob:'zPosOfObjectToOdom', PZ),
-    assert_temporal_part(ObjInst, knowrob:'xOriOfObjectToOdom', OX),
-    assert_temporal_part(ObjInst, knowrob:'yOriOfObjectToOdom', OY),
-    assert_temporal_part(ObjInst, knowrob:'zOriOfObjectToOdom', OZ),
-    assert_temporal_part(ObjInst, knowrob:'wOriOfObjectToOdom', OW).
+    assert_temporal_part(ObjInst, knowrob:'xCoordToOdom', PX),
+    assert_temporal_part(ObjInst, knowrob:'yCoordToOdom', PY),
+    assert_temporal_part(ObjInst, knowrob:'zCoordToOdom', PZ),
+    assert_temporal_part(ObjInst, knowrob:'qxToOdom', OX),
+    assert_temporal_part(ObjInst, knowrob:'qyToOdom', OY),
+    assert_temporal_part(ObjInst, knowrob:'qzToOdom', OZ),
+    assert_temporal_part(ObjInst, knowrob:'quToOdom', OW).
 
 %% close_object_state(+FullName) is probably det.
 % SJo
@@ -504,7 +504,7 @@ dummy_perception2(Type) :-
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state_with_close(_, [[1.0,0.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+	 create_object_state_with_close(_, [[7.0,0.0,2.0],[0.0,0.0,0.0,2.0]], Type, '/odom_combined', 6.0, 4.0, 5.0, [TimeFloat], ObjInst).
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
