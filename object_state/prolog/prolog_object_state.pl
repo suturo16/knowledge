@@ -504,12 +504,12 @@ dummy_perception2(Type) :-
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state_with_close(_, [[7.0,0.0,2.0],[0.0,0.0,0.0,2.0]], Type, '/odom_combined', 6.0, 4.0, 5.0, [TimeFloat], ObjInst).
+	 create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[2.0,2.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[3.0,3.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
 
 dummy_perception_with_close3(Type) :-
    % atom_concat(Type, '2', Name),
