@@ -403,13 +403,13 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 %% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
 get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob:'xPosOfObjectToOdom', literal(type(xsd: float, PX))),
-    holds(Object, knowrob:'yPosOfObjectToOdom', literal(type(xsd: float, PY))),
-    holds(Object, knowrob:'zPosOfObjectToOdom', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob:'xOriOfObjectToOdom', literal(type(xsd: float, OX))),
-    holds(Object, knowrob:'yOriOfObjectToOdom', literal(type(xsd: float, OY))),
-    holds(Object, knowrob:'zOriOfObjectToOdom', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob:'wOriOfObjectToOdom', literal(type(xsd: float, OW))).
+    holds(Object, knowrob:'xCoordToOdom', literal(type(xsd: float, PX))),
+    holds(Object, knowrob:'yCoordToOdom', literal(type(xsd: float, PY))),
+    holds(Object, knowrob:'zCoordToOdom', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob:'qxToOdom', literal(type(xsd: float, OX))),
+    holds(Object, knowrob:'qyToOdom', literal(type(xsd: float, OY))),
+    holds(Object, knowrob:'qzToOdom', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob:'quToOdom', literal(type(xsd: float, OW))).
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
