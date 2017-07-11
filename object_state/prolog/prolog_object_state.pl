@@ -131,7 +131,7 @@
 % @param ObjInst The created object instance (optional:to be returned)
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
-    -> owl_has(ObjInst,knowrob:'nameOfObject',Name)
+    -> holds(ObjInst,knowrob:'nameOfObject',Name)
       ; multiple_objects_name(Type, NameNum), 
       create_object_name(NameNum, FullName),
       assign_obj_class(Type,ObjInst),
@@ -149,7 +149,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
-    -> owl_has(ObjInst,knowrob:'nameOfObject',Name)
+    -> holds(ObjInst,knowrob:'nameOfObject',Name)
       ; multiple_objects_name(Type, NameNum), 
       create_object_name(NameNum, FullName),
       rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst),
@@ -215,37 +215,51 @@ get_class_name(Type, ClassName) :-
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-    assert_temporal_part(ObjInst, knowrob:'xCoord', PX), % literal(type(xsd:float, PX))),
-    assert_temporal_part(ObjInst, knowrob:'yCoord', PY), % literal(type(xsd:float, PY))),
-    assert_temporal_part(ObjInst, knowrob:'zCoord', PZ), % literal(type(xsd:float, PZ))),
-    assert_temporal_part(ObjInst, knowrob:'qx', OX), % literal(type(xsd:float, OX))),
-    assert_temporal_part(ObjInst, knowrob:'qy', OY), % literal(type(xsd:float, OY))),
-    assert_temporal_part(ObjInst, knowrob:'qz', OZ), % literal(type(xsd:float, OZ))),
-    assert_temporal_part(ObjInst, knowrob:'qu', OW). % literal(type(xsd:float, OW))).
+	PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
+    assert_temporal_part(ObjInst, knowrob:'xCoord', PXVal), % literal(type(xsd:float, PX))),
+	PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
+    assert_temporal_part(ObjInst, knowrob:'yCoord', PYVal), % literal(type(xsd:float, PY))),
+	PZVal_=literal(type(xsd:'float',PZ)), rdf_global_term(PZVal_, PZVal),
+    assert_temporal_part(ObjInst, knowrob:'zCoord', PZVal), % literal(type(xsd:float, PZ))),
+	OXVal_=literal(type(xsd:'float',OX)), rdf_global_term(OXVal_, OXVal),
+    assert_temporal_part(ObjInst, knowrob:'qx', OXVal), % literal(type(xsd:float, OX))),
+	OYVal_=literal(type(xsd:'float',OY)), rdf_global_term(OYVal_, OYVal),
+    assert_temporal_part(ObjInst, knowrob:'qy', OYVal), % literal(type(xsd:float, OY))),
+	OZVal_=literal(type(xsd:'float',OZ)), rdf_global_term(OZVal_, OZVal),
+    assert_temporal_part(ObjInst, knowrob:'qz', OZVal), % literal(type(xsd:float, OZ))),
+	OUVal_=literal(type(xsd:'float',OW)), rdf_global_term(OUVal_, OUVal),
+    assert_temporal_part(ObjInst, knowrob:'qu', OUVal). % literal(type(xsd:float, OW))).
 
 %% create_fluent_pose_to_odom(+Fluent, +Pose)
 % MSp
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-    assert_temporal_part(ObjInst, knowrob:'xCoordToOdom', PX),
-    assert_temporal_part(ObjInst, knowrob:'yCoordToOdom', PY),
-    assert_temporal_part(ObjInst, knowrob:'zCoordToOdom', PZ),
-    assert_temporal_part(ObjInst, knowrob:'qxToOdom', OX),
-    assert_temporal_part(ObjInst, knowrob:'qyToOdom', OY),
-    assert_temporal_part(ObjInst, knowrob:'qzToOdom', OZ),
-    assert_temporal_part(ObjInst, knowrob:'quToOdom', OW).
+    PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
+    assert_temporal_part(ObjInst, knowrob:'xCoordToOdom', PXVal), % literal(type(xsd:float, PX))),
+	PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
+    assert_temporal_part(ObjInst, knowrob:'yCoordToOdom', PYVal), % literal(type(xsd:float, PY))),
+	PZVal_=literal(type(xsd:'float',PZ)), rdf_global_term(PZVal_, PZVal),
+    assert_temporal_part(ObjInst, knowrob:'zCoordToOdom', PZVal), % literal(type(xsd:float, PZ))),
+	OXVal_=literal(type(xsd:'float',OX)), rdf_global_term(OXVal_, OXVal),
+    assert_temporal_part(ObjInst, knowrob:'qxToOdom', OXVal), % literal(type(xsd:float, OX))),
+	OYVal_=literal(type(xsd:'float',OY)), rdf_global_term(OYVal_, OYVal),
+    assert_temporal_part(ObjInst, knowrob:'qyToOdom', OYVal), % literal(type(xsd:float, OY))),
+	OZVal_=literal(type(xsd:'float',OZ)), rdf_global_term(OZVal_, OZVal),
+    assert_temporal_part(ObjInst, knowrob:'qzToOdom', OZVal), % literal(type(xsd:float, OZ))),
+	OUVal_=literal(type(xsd:'float',OW)), rdf_global_term(OUVal_, OUVal),
+    assert_temporal_part(ObjInst, knowrob:'quToOdom', OUVal). % literal(type(xsd:float, OW))).
 
 %% close_object_state(+FullName) is probably det.
 % SJo
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(FullName) :-
-    owl_has(ObjInst, knowrob:'nameOfObject', FullName),
+    holds(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
-    %forall(X,
-    assert_temporal_part_end(ObjInst, _, _, Now). %).
+    forall((holds(ObjInst,P,O),O \= FullName), 
+    assert_temporal_part_end(ObjInst, P, O, Now)),!.
 
 %    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
 %    rdf_has(SubjectPart, P, _),
@@ -339,15 +353,16 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    owl_has(Obj,knowrob:'nameOfObject', Name),
+    holds(Obj,knowrob:'nameOfObject', Name),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
-    get_fluent_pose(Obj, Position, Orientation),
+    once(get_fluent_pose(Obj, Position, Orientation)),
+   	ignore((
     current_time(Now),
     interval_during(Now, Interval),
-    interval_start(Interval, Timestamp).
+    interval_start(Interval, Timestamp))).
 
 get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'typeOfObject', Type),
@@ -357,7 +372,7 @@ get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     get_fluent_pose_to_odom(Obj, Position, Orientation).
 
 get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Depth) :-
-    owl_has(Obj,knowrob:'nameOfObject',Name),
+    holds(Obj,knowrob:'nameOfObject',Name),
     holds(Obj, knowrob:'typeOfObject', Type),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
@@ -383,7 +398,7 @@ seen_since(Name, FrameID, TimeFloat) :-
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
 get_tf_infos(Name, FrameID, Position, Orientation) :-
-    owl_has(Obj,knowrob:'nameOfObject',FullName),
+    holds(Obj,knowrob:'nameOfObject',FullName),
     create_object_name(Name, FullName),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     get_fluent_pose(Obj, Position, Orientation).
@@ -499,22 +514,22 @@ dummy_perception1(Type) :-
 dummy_perception2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state(_, [[15.0,14.0,13.0],[6.0,7.0,8.0,9.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [TimeFloat], ObjInst).
+   create_object_state(_, [[15.0,14.0,13.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [TimeFloat], ObjInst).
 
 dummy_perception_with_close1(Type) :-
    % atom_concat(Type, '1', Name),
    get_time(TimeFloat),
-	 create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+	 create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 2.0, 2.0, [TimeFloat], ObjInst).
 
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[3.0,3.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
 
 dummy_perception_with_close3(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[3.0,2.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[5.0,-1.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [TimeFloat], ObjInst).
 
 
 dummy_close(Name) :-
