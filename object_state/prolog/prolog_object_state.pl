@@ -201,6 +201,7 @@ get_class_name(Type, ClassName) :-
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
+	write('Test'),
 	PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
     assert_temporal_part(ObjInst, knowrob:'xCoord', PXVal), % literal(type(xsd:float, PX))),
 	PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
@@ -341,13 +342,13 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    holds(Obj,knowrob:'nameOfObject', Name),
+    owl_has(Obj,knowrob:'nameOfObject', Name),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose(Obj, Position, Orientation),
-   	get_current_temporal_part_time(ObjInst,Timestamp).
+   	get_current_temporal_part_time(Obj,Timestamp).
 
 
 get_current_temporal_part_time(ObjInst,Timestamp) :-
@@ -403,25 +404,25 @@ get_tf_infos(Name, FrameID, Position, Orientation) :-
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
 get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob: 'xCoord', literal(type(xsd: float, PX))),
-    holds(Object, knowrob: 'yCoord', literal(type(xsd: float, PY))),
-    holds(Object, knowrob: 'zCoord', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob: 'qx', literal(type(xsd: float, OX))),
-    holds(Object, knowrob: 'qy', literal(type(xsd: float, OY))),
-    holds(Object, knowrob: 'qz', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob: 'qu', literal(type(xsd: float, OW))).
+    holds(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
+    holds(Object, knowrob:'yCoord', literal(type(xsd: float, PY))),
+    holds(Object, knowrob:'zCoord', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob:'qx', literal(type(xsd: float, OX))),
+    holds(Object, knowrob:'qy', literal(type(xsd: float, OY))),
+    holds(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob:'qu', literal(type(xsd: float, OW))).
 
 
-%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+%% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
-get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob: 'xCoordToOdom', literal(type(xsd: float, PX))),
-    holds(Object, knowrob: 'yCoordToOdom', literal(type(xsd: float, PY))),
-    holds(Object, knowrob: 'zCoordToOdom', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob: 'qxToOdom', literal(type(xsd: float, OX))),
-    holds(Object, knowrob: 'qyToOdom', literal(type(xsd: float, OY))),
-    holds(Object, knowrob: 'qzToOdom', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob: 'quToOdom', literal(type(xsd: float, OW))).
+get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+    holds(Object, knowrob:'xCoordToOdom', literal(type(xsd: float, PX))),
+    holds(Object, knowrob:'yCoordToOdom', literal(type(xsd: float, PY))),
+    holds(Object, knowrob:'zCoordToOdom', literal(type(xsd: float, PZ))),
+    holds(Object, knowrob:'qxToOdom', literal(type(xsd: float, OX))),
+    holds(Object, knowrob:'qyToOdom', literal(type(xsd: float, OY))),
+    holds(Object, knowrob:'qzToOdom', literal(type(xsd: float, OZ))),
+    holds(Object, knowrob:'quToOdom', literal(type(xsd: float, OW))).
 
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)

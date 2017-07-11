@@ -66,9 +66,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#quToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quToOdom"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#qx -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qx"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#qxToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qxToOdom"/>
     
 
 
@@ -78,9 +90,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#qyToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qyToOdom"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#qz -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qz"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#qzToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qzToOdom"/>
     
 
 
@@ -90,9 +114,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#xCoordToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#xCoordToOdom"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#yCoord -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#yCoordToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#yCoordToOdom"/>
     
 
 
@@ -102,59 +138,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/suturo_objects.owl#quToOdom -->
+    <!-- http://knowrob.org/kb/knowrob.owl#zCoordToOdom -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#qxToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qxToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#qyToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qyToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#qzToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qzToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#xCoordToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#xCoordToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#yCoordToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#yCoordToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_objects.owl#zCoordToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#zCoordToOdom">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
-    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#zCoordToOdom"/>
     
 
 
