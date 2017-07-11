@@ -47,6 +47,7 @@
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
+      get_current_temporal_part_time/2,
       known_object/6,
       same_dimensions/2,
       same_position/3,
@@ -353,16 +354,20 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    holds(Obj,knowrob:'nameOfObject', Name),
+    owl_has(Obj,knowrob:'nameOfObject', Name),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     once(get_fluent_pose(Obj, Position, Orientation)),
-   	ignore((
-    current_time(Now),
-    interval_during(Now, Interval),
-    interval_start(Interval, Timestamp))).
+   	get_current_temporal_part_time(ObjInst,Timestamp).
+
+get_current_temporal_part_time(ObjInst,Timestamp) :-
+	temporal_part(ObjInst, TemporalPart, TemporalExtend),
+	\+ rdf_has(TemporalExtend, knowrob:endTime, _),
+	rdf_has(TemporalExtend,knowrob:startTime,TimePoint),
+	create_timepoint(TimestampStr,TimePoint),
+	atom_number(TimestampStr,Timestamp),!.
 
 get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'typeOfObject', Type),
