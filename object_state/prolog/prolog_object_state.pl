@@ -11,7 +11,6 @@
       close_object_state/1,
       connect_frames1/1,
       connect_frames2/1,
-      connect_frames3/2,
       connect_frames4/1,
       connect_frames5/2,
       connect_frames/2,
@@ -39,6 +38,7 @@
       get_object_infos/6,
       get_object_infos/8,
       get_object_infos/9,
+      get_object_infos_to_odom/8,
       get_robot_with_cap_for/2,
       get_tf_infos/4,
       get_max_num/2,
@@ -47,7 +47,9 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3
+      seen_since/3,
+      test_connect_frames/2,
+      test_disconnect_frames/2
     ]).
 
 :- dynamic
@@ -428,14 +430,10 @@ get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
 % same_dimensions currently not used
-% CHANGED, UNTESTED:  if frame differs, transform and proceed
-%           otherwise do as usual
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
-    get_object_infos(Name, ChildFrameID, Type, _, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
-    (not(ChildFrameID = '/odom_combined') -> prython:py_call('call_tf','get_transform',['/odom_combined',ChildFrameID], PrevPositionToOdom),
-      write(PrevPositionToOdom),
-      same_position(PrevPositionToOdom, Position, [Height, Width, Depth])
-      ;same_position(PrevPosition, Position, [Height, Width, Depth])).
+    get_object_infos_to_odom(Name, Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
+    (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
+same_position(PrevPosition, Position, [Height, Width, Depth])).
 
 
 %% same_dimensions(+[PrevDim], +[CurDim])
@@ -530,7 +528,7 @@ dummy_perception_with_close1(Type) :-
 dummy_perception_with_close2(Type) :-
    % atom_concat(Type, '2', Name),
    get_time(TimeFloat),
-   create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
+   create_object_state_with_close(_, [[3.0,-4.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
 
 
 dummy_perception_with_close3(Type) :-
@@ -565,12 +563,24 @@ connect_frames2(Name) :-
    create_object_state_with_close(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 
 
-%% connect_frames3(+ParentFrameID, +ChildFrameID)
+%% test_connect_frames(+ParentFrameID, +ChildFrameID)
 % LSa
 % Test function for documentation. Should not be used elsewhere.
 % DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames3(ParentFrameID, ChildFrameID) :-
-   connect_frames('/baum', '/table').
+test_connect_frames(Frame1,Frame2) :-
+	atom_concat('/', Frame1, Frame1Comp),
+	atom_concat('/', Frame2, Frame2Comp),
+	connect_frames(Frame1Comp, Frame2Comp).
+
+
+%% test_disconnect_frames(+ParentFrameID, +ChildFrameID)
+% LSa
+% Test function for documentation. Should not be used elsewhere.
+% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
+test_disconnect_frames(Frame1,Frame2) :-
+	atom_concat('/', Frame1, Frame1Comp),
+	atom_concat('/', Frame2, Frame2Comp),
+	disconnect_frames(Frame1Comp, Frame2Comp).
 
 
 %% connect_frames4(+Name)
