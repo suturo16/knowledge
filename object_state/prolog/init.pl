@@ -22,9 +22,16 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_objects).
+:- register_ros_package(knowrob_actions).
 :- register_ros_package(object_state).
+:- register_ros_package(knowrob_srdl).
 
 :- use_module(library('prolog_object_state')).
+:- use_module(library('test_calls')).
+:- use_module(library('srdl2')).
+:- use_module(library('knowrob_owl')).
+:- use_module(library('swrl')).
+:- use_module(library('owl_computable')). % needed for computables in restricted actions
 %% further will be added
 
 
@@ -32,5 +39,7 @@
 % parse OWL files, register name spaces
 
 :- owl_parse('package://knowrob_common/owl/knowrob.owl').
+:- owl_parse('package://knowrob_common/owl/knowrob_common.owl').
 :- owl_parse('package://object_state/owl/suturo_objects.owl').
-:- use_module(library('knowrob_owl')).
+:- owl_parse('package://object_state/owl/suturo_actions.owl').
+:- owl_parse('package://object_state/owl/test_actions.owl').
