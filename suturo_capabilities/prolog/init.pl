@@ -8,11 +8,9 @@
 
 :- use_module(library('suturo_capabilities')).
 :- use_module(library('srdl2')).
-
+:- use_module(library('knowrob_owl')).
 
 %% further will be added
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
@@ -25,4 +23,3 @@
 :- owl_parse('package://suturo_capabilities/owl/turtlebot.owl').
 :- owl_parse('package://suturo_capabilities/owl/suturo-cap.owl').
 
-:- use_module(library('knowrob_owl')).
