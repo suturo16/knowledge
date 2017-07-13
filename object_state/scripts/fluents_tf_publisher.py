@@ -26,7 +26,7 @@ def start_querying():
 			#rospy.logerr(str(solution))
 		query.finish()
 		solutions = temp
-		rospy.sleep(0.1)
+		rospy.sleep(1)
 
 def start_tf_publish():
 	br = tf.TransformBroadcaster()
@@ -34,7 +34,8 @@ def start_tf_publish():
 	while(not rospy.is_shutdown()):
 		#loop for all solutions from get_tf_infos(N,F,P,O)
 		for solution in solutions:
-			
+			#rospy.logerr("TEST")
+		
 			position = solution["Position"]
 			orientation = solution["Orientation"] 
 			
@@ -44,7 +45,7 @@ def start_tf_publish():
                      rospy.Time.now(),
                      '/' + solution['Name'],
                      solution['FrameID'])
-		rospy.sleep(0.1)
+			rospy.sleep(0.1)
 
 
 if __name__ == '__main__':
