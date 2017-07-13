@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="package://object_state/owl/suturo_object.owl#"
+     xml:base="package://object_state/owl/suturo_object.owl"
+     xmlns:qudt="http://qudt.org/schema/qudt#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_recipes.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#hasIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Baked -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Baked"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Cake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Cake">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Egg-Chickens"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Sugar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#WheatFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Egg-Chickens -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Egg-Chickens">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#FoodIngredientOnly"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#FoodIngredientOnly -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#FoodIngredientOnly"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Grilled -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Grilled"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Meat -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Meat"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Milk -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Milk">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#FoodIngredientOnly"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Pancake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Pancake">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Egg-Chickens"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#WheatFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Sugar -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Sugar">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#FoodIngredientOnly"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#WheatFlour -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#WheatFlour"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_recipes.owl#Omelette -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Omelette">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Baked"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Egg-Chickens"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_recipes.owl#Steak -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Steak">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Grilled"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Meat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
