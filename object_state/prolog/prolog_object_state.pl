@@ -7,29 +7,15 @@
 % defining functions
 :- module(prolog_object_state,
     [
-      assign_obj_class/2,
-      close_object_state/1,
-      connect_frames1/1,
-      connect_frames2/1,
-      connect_frames4/1,
-      connect_frames5/2,
-      connect_frames/2,
       create_fluent_pose/2,
-      test_swrl_project/2,
-      test_swrl_holds/2,
-      test/1,
-      test_rule_id/2,
       create_object_state/9,
       create_object_state_with_close/9,
       create_object_name/2,
       create_temporal_name/2,
+      assign_obj_class/2,
+      close_object_state/1,
+      connect_frames/2,
       disconnect_frames/2,
-      dummy_perception2/1,
-      dummy_perception1/1,
-      dummy_perception_with_close1/1,
-      dummy_close/1,
-      dummy_perception_with_close2/1,
-      dummy_perception_with_close3/1,
       isConnected/2,
       multiple_objects_name/2,
       get_class_name/2,
@@ -39,7 +25,6 @@
       get_object_infos/8,
       get_object_infos/9,
       get_object_infos_to_odom/8,
-      get_robot_with_cap_for/2,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -47,9 +32,7 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3,
-      test_connect_frames/2,
-      test_disconnect_frames/2
+      seen_since/3
     ]).
 
 :- dynamic
@@ -63,14 +46,10 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(?,?,?,?,?,?,?,?),
-      get_robot_with_cap_for(r,?),
       connect_frames(r,r),
       get_type_num(r,?),
       disconnect_frames(r,r),
-      seen_since(r,r,r),
-      holds_suturo(r,?),
-      print_shit(r),
-      dummy_perception1(?).
+      seen_since(r,r,r).
 
 %importing external libraries
 :- use_module(library('semweb/rdf_db')).
@@ -203,7 +182,6 @@ get_class_name(Type, ClassName) :-
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-	write('Test'),
 	PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
     assert_temporal_part(ObjInst, knowrob:'xCoord', PXVal), % literal(type(xsd:float, PX))),
 	PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
@@ -471,20 +449,6 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
     sqr_sum(An, Bn, Sum),
     SqrSum is Sum + ((A1-B1)^2.0).
 
-
-%% get_robot_with_cap_for(+Action, -Robot)
-% MSp
-% Returns robot with capabilities to do Action
-get_robot_with_cap_for(Action, Robot) :-
-    rdf_equal(Action,Act),
-    foreach(required_cap_for_action(Act,Cap),
-        cap_available_on_robot(Cap,Rob)),Robot = Rob.
-
-get_list_of_robots_with_cap(Action, Robots) :-
-    bagof(required_cap_for_action(Action,Capa),nonvar(Capa),Caps),
-    setof(member(Cap, Caps), cap_available_on_robot(Cap,Rob), Robots).
-
-
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
 % LSa
 % A small function to connect two given frames.
@@ -503,129 +467,3 @@ connect_frames(ParentFrameID, ChildFrameID) :-
 % A simple function to disconnect two given frames.
 disconnect_frames(ParentFrameID, ChildFrameID) :-
   retract(isConnected(ParentFrameID, ChildFrameID)).
-
-
-%%
-% Dummy object_state
-dummy_perception1(Type) :-
-   % atom_concat(Type, '1', Name),
-   get_time(TimeFloat),
-	 create_object_state(_, [[5.0,4.0,3.0],[6.0,7.0,8.0,1.0]], Type, '/odom_combined', 1.0, 1.0, 1.0, [TimeFloat], ObjInst).
-
-
-dummy_perception2(Type) :-
-   % atom_concat(Type, '2', Name),
-   get_time(TimeFloat),
-   create_object_state(_, [[15.0,14.0,13.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 4.0, 9.0, [TimeFloat], ObjInst).
-
-
-dummy_perception_with_close1(Type) :-
-   % atom_concat(Type, '1', Name),
-   get_time(TimeFloat),
-	create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 2.0, 2.0, [TimeFloat], ObjInst).
-
-
-dummy_perception_with_close2(Type) :-
-   % atom_concat(Type, '2', Name),
-   get_time(TimeFloat),
-   create_object_state_with_close(_, [[3.0,-4.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
-
-
-dummy_perception_with_close3(Type) :-
-   % atom_concat(Type, '2', Name),
-   get_time(TimeFloat),
-   create_object_state_with_close(_, [[5.0,-1.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.0, 1.0, 2.0, [TimeFloat], ObjInst).
-
-
-dummy_close(Name) :-
-  create_object_name(Name,FullName),
-	close_object_state(FullName).
-
-
-% Dummy object_state
-dummy_perception2(Egal) :-
-   create_object_state_with_close('carrot1', [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
-
-
-%% connect_frames1(+Name)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames1(Name) :-
-create_object_state(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
-
-
-%% connect_frames2(+Name)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames2(Name) :-
-   create_object_state_with_close(Name, [[5.0,4.0,3.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
-
-
-%% test_connect_frames(+ParentFrameID, +ChildFrameID)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-test_connect_frames(Frame1,Frame2) :-
-	atom_concat('/', Frame1, Frame1Comp),
-	atom_concat('/', Frame2, Frame2Comp),
-	connect_frames(Frame1Comp, Frame2Comp).
-
-
-%% test_disconnect_frames(+ParentFrameID, +ChildFrameID)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-test_disconnect_frames(Frame1,Frame2) :-
-	atom_concat('/', Frame1, Frame1Comp),
-	atom_concat('/', Frame2, Frame2Comp),
-	disconnect_frames(Frame1Comp, Frame2Comp).
-
-
-%% connect_frames4(+Name)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames4(Name) :-
-   create_object_state_with_close(Name, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 1.0, '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
-
-
-%% connect_frames5(+ParentFrameID, +ChildFrameID)
-% LSa
-% Test function for documentation. Should not be used elsewhere.
-% DO NOT MODIFY - REFERENCED IN DOCUMENTARY.
-connect_frames5(ParentFrameID, ChildFrameID) :-
-   atom_concat('/', ParentFrameID, UsableParentFrameID),
-   atom_concat('/', ChildFrameID, UsableChildFrameID),
-   connect_frames(UsableParentFrameID, UsableChildFrameID, [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]]).
-
-
-test_rule_id(Id, Descr) :-
-  ( rdf_has(Descr, rdfs:label, literal(type(_,Id))) ;
-    rdf_has(Descr, rdfs:label, literal(Id)) ),
-  rdf_has(Descr, rdf:type, swrl:'Imp').
-
-test(swrl_parse_rules) :-
-  forall( rdf_has(Descr, rdf:type, swrl:'Imp'), (
-    rdf_swrl_rule(Descr, rule(Head,Body)),
-    Head \= [], Body \= []
-  )).
-
-
-test_swrl_holds(Id, Bindings) :-
-  test_rule_id(Id, Descr),
-  rdf_swrl_rule(Descr,Rule),
-  swrl_vars(Rule, Vars),
-  swrl_var_bindings(Vars,Bindings),
-  swrl_condition_satisfied(Rule,Vars).
-
-
-test_swrl_project(Id, Bindings) :-
-  test_rule_id(Id, Descr),
-  rdf_swrl_rule(Descr,Rule),
-  swrl_vars(Rule, Vars),
-  swrl_var_bindings(Vars,Bindings),
-  swrl_condition_satisfied(Rule,Vars),
-  swrl_implication_project(Rule,Vars).
-
