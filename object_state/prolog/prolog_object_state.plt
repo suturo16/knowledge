@@ -40,11 +40,12 @@
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 
 %%
-% Unit-Test for the cutting Action
+% LSa
+% Unit-Test for the cutting action effect.
 test(swrl_CuttingCake, [nondet]) :-
   \+ owl_has(test_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, _),
   rdf_swrl_project('CuttingCake'),
   owl_has(test_actions:'cuttingAPieceOfFood1', knowrob:outputsCreated, Piece),
   owl_individual_of(Piece, suturo_objects:'PieceOfCake').
 
-:- end_tests(object_state).
+:- end_tests(object_state). 
