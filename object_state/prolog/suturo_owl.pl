@@ -1,15 +1,16 @@
 :- module(suturo_owl,
-	  [ owl_individual_from_class/2,
+	  [ owl_instance_from_class/2,
 	  	get_class_facts/3
 	  ]).
 
 
-owl_individual_from_class(Individual, Class) :-
-	owl_individual_of(Individual,Class),
+owl_instance_from_class(Individual, Class) :-
+	rdf_instance_from_class(Individual,Class),
 	forall(get_class_facts(Class,Property,Value),
 		rdf_assert(Individual,Property,Value)).
 
 get_class_facts(Class, Property, Value) :- 
-	rdf_has(Class, owl:subClassOf, _A),
-	rdf_has(_A,owl:onProperty,Property), 
-	rdf_has(_A, owl:hasValue, Value).
+		rdf_has(Class,rdfs:subClassOf,A),
+		rdf_has(A,owl:hasValue,Value),
+		rdf_has(A,owl:onProperty,Property).
+
