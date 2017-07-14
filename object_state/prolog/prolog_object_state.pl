@@ -20,14 +20,15 @@
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
-      get_info/2,
-      get_info/3,
+      %get_info/2,
+      %get_info/3,
       get_object/2,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
       get_object_infos/9,
-      get_object_infos_to_odom/8,
+      get_object_infos_to_odom/5,
+      get_object_infos_to_odom/6,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -35,9 +36,10 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3,
+      seen_since/3 /*,
       set_info/2,
       set_info/3
+      */
     ]).
 
 :- dynamic
@@ -357,6 +359,7 @@ get_info(Variables, Returns) :-
 
 %% get_info(Vars, Rets, ObjInst)
 % MSp
+/*
 get_info([Var|Vars],[Ret|Rets], ObjInst) :-
     Namespace = knowrob,
     rdf_global_id(Namespace:Var, NsVar),
@@ -365,10 +368,11 @@ get_info([Var|Vars],[Ret|Rets], ObjInst) :-
       rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val)),
     Ret = [Var,Val],
     get_info(Vars, Rets, ObjInst).
+    */
 
-\** get_info([Cond1|Conds],[], ObjInst) :-
-    Namespace = knowrob,
-    ( /** either Var is Condition or Variable */
+ /* get_info([Cond1|Conds],[], ObjInst) :-
+      Namespace = knowrob,
+    ( %either Var is Condition or Variable
       is_list(Var) ->
       [Cond,Val] = Cond1, rdf_global_id(Namespace:Cond, NsVar)
       ; rdf_global_id(Namespace:Var, NsVar)
@@ -380,11 +384,12 @@ get_info([Var|Vars],[Ret|Rets], ObjInst) :-
       ; strip_literal_type(RDFvalue, Val)
       ),
     (nonvar(Cond) -> Ret = Var; Ret = [Var,Val]),
-    get_object_infos(Conds, Returns, ObjInst),!. *\
+    get_object_infos(Conds, Returns, ObjInst),!. */
 
+/*
 get_info([],[]).
 get_info([],[], _).
-
+*/
 
 
 %% get_object(+Conditions, -ObjInst)
