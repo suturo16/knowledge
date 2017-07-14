@@ -184,13 +184,15 @@ assign_obj_class(Type, ObjInst) :-
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
+    forall((
     write(Type),
     Ns = knowrob,
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     rdf_has(Id,rdfs:subClassOf,A),
     rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
-    rdf_has(A,owl:onClass,PartClass),
+    rdf_has(A,owl:onClass,PartClass)),
+    (write(PartClass),
     owl_instance_from_class(PartClass,PartInd),
     rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
     create_object_name(PhysicalPartType, PartClass),
@@ -201,7 +203,7 @@ create_physical_parts(Type,ObjInst) :-
     owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
     create_object_name(ParentNameWithoutKnowrob, ParentName),
     atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
-    rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID).
+    rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))).
 
 
 %% get_class_name(+Type, -ClassName)
@@ -514,7 +516,9 @@ get_tf_infos(Name, FrameID, Position, Orientation) :-
     holds(Obj,knowrob:'nameOfObject',FullName),
     create_object_name(Name, FullName),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
-    get_fluent_pose(Obj, Position, Orientation).
+    (holds(Obj, knowrob:'xCoord', _) -> 
+      get_fluent_pose(Obj, Position, Orientation); 
+      get_pose(Obj, Position, Orientation)).
 
 
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
@@ -527,6 +531,17 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'qy', literal(type(xsd: float, OY))),
     holds(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
     holds(Object, knowrob:'qu', literal(type(xsd: float, OW))).
+
+%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% MSp
+get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+    owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
+    owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PY))),
+    owl_has(Object, knowrob:'zCoord', literal(type(xsd: float, PZ))),
+    owl_has(Object, knowrob:'qx', literal(type(xsd: float, OX))),
+    owl_has(Object, knowrob:'qy', literal(type(xsd: float, OY))),
+    owl_has(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
+    owl_has(Object, knowrob:'qu', literal(type(xsd: float, OW))).
 
 
 %% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
