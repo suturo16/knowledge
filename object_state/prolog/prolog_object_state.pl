@@ -20,7 +20,9 @@
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
-      get_object_infos/3,
+      get_info/2,
+      get_info/3,
+      get_object/2,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
@@ -33,7 +35,9 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3
+      seen_since/3,
+      set_info/2,
+      set_info/3
     ]).
 
 :- dynamic
@@ -44,7 +48,10 @@
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
       create_object_name(r,?),
       create_temporal_name(r,?),
-      get_object_infos(r,?,r),
+      set_info(r,r),
+      set_info(r,r,r),
+      get_info(r,r),
+      get_info(r,r,?),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(?,?,?,?,?,?,?,?),
@@ -163,17 +170,18 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
 % MSp
 % Initialized object of class from suturo_objects.owl ontology depending on object type.
 assign_obj_class(Type, ObjInst) :-
-    get_class_name(Type, ClassName),
-    create_object_name(ClassName,FullClass),
-    owl_subclass_of(FullClass,knowrob:'SpatialThing-Localized')
-    -> rdf_instance_from_class(FullClass, ObjInst);
-    rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst).
+    Ns = knowrob,
+    get_class_name(Type, Name),
+    rdf_global_id(Ns:Name, Id),
+    owl_subclass_of(Id, Class),
+    rdf_instance_from_class(Class, ObjInst),!.
 
 
 %% get_class_name(+Type, -ClassName)
 % MSp
 % converts first letter of Type into capital letter
 get_class_name(Type, ClassName) :-
+    not((var(Type), var(ClassName))),
     sub_atom(Type,0,1,_,C), char_code(C,I), 96<I, I<123
     -> J is I-32, char_code(D,J), sub_atom(Type,1,_,0,Sub), atom_concat(D,Sub,ClassName)
     ; ClassName = Type.
@@ -300,21 +308,69 @@ create_temporal_name(FullName, FullTemporalName) :-
 
 
 %%##########################################################################################################
-%%##########################################################################################################
+%%################################### Ja, Servus und so weiter !!! #########################################
 %%##########################################################################################################
 %%################################################  NEU  ###################################################
+%%######################################## brought to you by me ############################################
 %%##########################################################################################################
 %%##########################################################################################################
-%%##########################################################################################################
-%% get_object_infos(Variables, Returns)
+
+/**
+set_info(ParamName, List) :-
+    Ns = knowrob,
+    \+ ( rdf_has(ParamName, _, _)),
+    \+ ((rdf_equal(Ns:ParamName, Id),rdf_has(Id,_,_))),
+    assign_obj_class(ParamName, ObjInst), !,
+    set_info(ObjInst, List).
+
+
+set_info(Obj, List) :-
+    Ns = knowrob,
+    \+ once(rdf_has(ParamName, _, _)),
+    once((rdf_equal(Ns:ParamName, Id),rdf_has(Id,_,_))),
+    set_info(Id, List).
+*/
+
+%% set_info(ObjInst, [[P,Val]|More])
 % MSp
-% @param Variables a list of variables with and without values to query from KB
-% @param Returns a list with the variables and all values or None
-get_object_infos([Var|Vars],[Ret|Returns], ObjInst) :-
+% saves knowledge value O as relation P to S
+% @param ObjInst the target object or thing for the P related value Val
+% @param P the relation the value Val has to subject S
+% @param Val the value of the P related object
+set_info(ObjInst, [[P,Val]|More]) :-
+    rdf_has(ObjInst, _, _), \+ rdf_has(_, _, ObjInst), %ObjInst is Obj!
+    Namespace = knowrob,
+    rdf_global_id(Namespace:P, Id),
+    ignore(forall( holds(ObjInst, Id, EndVal),
+    assert_temporal_part_end(ObjInst, Id, EndVal))),
+    assert_temporal_part(ObjInst, Id, Val),
+    set_info(ObjInst, More),!.
+
+set_info(_, []).
+
+%% get_info(+Variables, -Returns)
+get_info(Variables, Returns) :-
+    setof(X, (member(X, Variables), is_list(X)), Conds),
+    setof(Y, (member(Y, Variables), not(is_list(Y))), Vars),
+    get_object(Conds, ObjInst),
+    get_info(Vars, Returns, ObjInst).
+
+%% get_info(Vars, Rets, ObjInst)
+% MSp
+get_info([Var|Vars],[Ret|Rets], ObjInst) :-
+    Namespace = knowrob,
+    rdf_global_id(Namespace:Var, NsVar),
+    holds(ObjInst, NsVar, RDFvalue),
+    once(
+      rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val)),
+    Ret = [Var,Val],
+    get_info(Vars, Rets, ObjInst).
+
+\** get_info([Cond1|Conds],[], ObjInst) :-
     Namespace = knowrob,
     ( /** either Var is Condition or Variable */
       is_list(Var) ->
-      [Cond,Val] = Var, rdf_global_id(Namespace:Cond, NsVar)
+      [Cond,Val] = Cond1, rdf_global_id(Namespace:Cond, NsVar)
       ; rdf_global_id(Namespace:Var, NsVar)
       ), 
     holds(ObjInst, NsVar, RDFvalue),
@@ -324,9 +380,27 @@ get_object_infos([Var|Vars],[Ret|Returns], ObjInst) :-
       ; strip_literal_type(RDFvalue, Val)
       ),
     (nonvar(Cond) -> Ret = Var; Ret = [Var,Val]),
-    get_object_infos(Vars, Returns, ObjInst).
+    get_object_infos(Conds, Returns, ObjInst),!. *\
 
-get_object_infos([],[], _).
+get_info([],[]).
+get_info([],[], _).
+
+
+
+%% get_object(+Conditions, -ObjInst)
+% MSp
+% Helper to identify a certain Object according to given Conditions
+get_object([[Cond,Val]|Conds], ObjInst) :-
+    Namespace = knowrob,
+    rdf_global_id(Namespace:Cond, NsVar),
+    holds(ObjInst, NsVar, RDFvalue), 
+    once( 
+      rdf_global_id(_:Val, RDFvalue) ; strip_literal_type(RDFvalue, Val)),
+    get_object(Conds, ObjInst).
+
+get_object([], _).
+
+%%################################################  Alt  ###################################################
 
  
 get_object_infos(Name, FrameID, Height, Width, Depth) :-
