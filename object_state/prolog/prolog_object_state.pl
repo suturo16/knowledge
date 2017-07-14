@@ -134,7 +134,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
     assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
     create_fluent_pose(ObjInst, Pose),
-    create_fluent_pose_to_odom(ObjInst, Pose).
+    create_fluent_pose_to_odom(ObjInst, Pose),
+    ignore(create_physical_parts(Type,ObjInst)).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
@@ -158,8 +159,10 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    write('T1'),
     known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+          write('T3'),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)),
@@ -177,6 +180,28 @@ assign_obj_class(Type, ObjInst) :-
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
     rdf_instance_from_class(Class, ObjInst),!.
+
+
+%Creates individuals for all physical parts
+create_physical_parts(Type,ObjInst) :-
+    write(Type),
+    Ns = knowrob,
+    get_class_name(Type, Name),
+    rdf_global_id(Ns:Name, Id),
+    rdf_has(Id,rdfs:subClassOf,A),
+    rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
+    rdf_has(A,owl:onClass,PartClass),
+    owl_instance_from_class(PartClass,PartInd),
+    rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
+    create_object_name(PhysicalPartType, PartClass),
+    multiple_objects_name(PhysicalPartType, NameNum), 
+    write(NameNum),
+    create_object_name(NameNum, FullName),
+    rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
+    owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
+    create_object_name(ParentNameWithoutKnowrob, ParentName),
+    atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
+    rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID).
 
 
 %% get_class_name(+Type, -ClassName)
