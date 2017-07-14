@@ -1,0 +1,137 @@
+ö<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-139"
+     xml:base="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-139"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_cafetaria.owl">
+        <owl:imports rdf:resource="package://catering_queries/owl/suturo_customer_model.owl"/>
+        <owl:imports rdf:resource="http://knowrob.org/kb/suturo_objects.owl"/>
+        <owl:imports rdf:resource="http://knowrob.org/kb/IAI-kitchen-knowledge.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#locatedAt -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#locatedAt"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-139#RestaurantTable -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RestaurantTable">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/knowrob.owl#EatingTable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#Visit -->
+
+    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob.owl#Visit">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#locatedAt"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-139#RestaurantTable"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-139#table1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob.owl#table1">
+        <knowrob:qu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</knowrob:qu>
+        <knowrob:qx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:qx>
+        <knowrob:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:qy>
+        <knowrob:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:qz>
+        <knowrob:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:xCoord>
+        <knowrob:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:yCoord>
+        <knowrob:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</knowrob:zCoord>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
