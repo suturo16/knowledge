@@ -3,15 +3,13 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_objects).
-:- register_ros_package(object_state).
 :- register_ros_package(catering_queries).
 
 :- use_module(library('catering_queries')).
 :- use_module(library('suturo_restaurant_organization')).
+:- use_module(library('dialog_management')).
 
 %% further will be added
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
