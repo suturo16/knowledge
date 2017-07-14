@@ -7,6 +7,7 @@
 :- register_ros_package(catering_queries).
 
 :- use_module(library('catering_queries')).
+:- use_module(library('suturo_restaurant_organization')).
 
 %% further will be added
 
