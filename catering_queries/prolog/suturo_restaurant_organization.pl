@@ -10,7 +10,7 @@
       get_customer_infos/3,
       get_open_orders_of/3,
       get_open_orders_with_customer_infos/5,
-      get_tree_table/1      
+      get_free_table/1      
     ]).
 
 %getCustomerInfos(+CustomerID,-Name,-Place)
@@ -31,5 +31,6 @@ get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,Amount) :-
       Amount=1.
 
 %getFreeTables(-NameOfFreeTable)
-get_tree_table(NameOfFreeTable) :-
-      NameOfFreeTables='table2'.
+get_free_table(NameOfFreeTable) :-
+      owl_has(Table,rdf:type,knowrob:'RestaurantTable'),
+      \+ (owl_has(_,knowrob:'locatedAt',Table)).

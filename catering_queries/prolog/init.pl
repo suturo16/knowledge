@@ -18,5 +18,6 @@
 
 :- owl_parse('package://object_state/owl/suturo_objects.owl').
 :- owl_parse('package://catering_queries/owl/suturo_recipes.owl').
+:- owl_parse('package://catering_queries/owl/suturo_cafetaria.owl').
 
 :- use_module(library('knowrob_owl')).
