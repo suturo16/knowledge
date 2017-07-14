@@ -20,6 +20,7 @@
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
+      get_object_infos/3,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
@@ -43,6 +44,7 @@
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
       create_object_name(r,?),
       create_temporal_name(r,?),
+      get_object_infos(r,?,r),
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(?,?,?,?,?,?,?,?),
@@ -147,7 +149,7 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    known_object(Type, Pose, Width, Height, Depth, FullName)
+    known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
@@ -295,6 +297,36 @@ create_object_name(Name, FullName) :-
 % @returns FullTemporalName the concatenated string including the temporal stamp
 create_temporal_name(FullName, FullTemporalName) :-
     atom_concat(FullName,'@t_i', FullTemporalName).
+
+
+%%##########################################################################################################
+%%##########################################################################################################
+%%##########################################################################################################
+%%################################################  NEU  ###################################################
+%%##########################################################################################################
+%%##########################################################################################################
+%%##########################################################################################################
+%% get_object_infos(Variables, Returns)
+% MSp
+% @param Variables a list of variables with and without values to query from KB
+% @param Returns a list with the variables and all values or None
+get_object_infos([Var|Vars],[Ret|Returns], ObjInst) :-
+    Namespace = knowrob,
+    ( /** either Var is Condition or Variable */
+      is_list(Var) ->
+      [Cond,Val] = Var, rdf_global_id(Namespace:Cond, NsVar)
+      ; rdf_global_id(Namespace:Var, NsVar)
+      ), 
+    holds(ObjInst, NsVar, RDFvalue),
+    %unpack/strip the value from the #ns or xsd_type
+    once(
+      rdf_global_id(_:Val, RDFvalue)
+      ; strip_literal_type(RDFvalue, Val)
+      ),
+    (nonvar(Cond) -> Ret = Var; Ret = [Var,Val]),
+    get_object_infos(Vars, Returns, ObjInst).
+
+get_object_infos([],[], _).
 
  
 get_object_infos(Name, FrameID, Height, Width, Depth) :-
