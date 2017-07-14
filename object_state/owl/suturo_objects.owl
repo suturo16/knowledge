@@ -82,81 +82,114 @@
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#depthOfObject"/>
     
 
+
     <!-- http://knowrob.org/kb/knowrob.owl#heightOfObject -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
     
 
+
     <!-- http://knowrob.org/kb/knowrob.owl#lengthOfObject -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#lengthOfObject"/>
-
-     <!-- http://knowrob.org/kb/knowrob.owl#widthOfObject -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
     
+
 
     <!-- http://knowrob.org/kb/knowrob.owl#qu -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qu"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#quToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quToOdom"/>
+    
 
 
     <!-- http://knowrob.org/kb/knowrob.owl#qx -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qx"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#qxToOdom -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qxToOdom"/>
+    
 
 
     <!-- http://knowrob.org/kb/knowrob.owl#qy -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qy"/>
     
-    <!-- http://knowrob.org/kb/knowrob.owl#qz -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qz"/>
-
-    <!-- http://knowrob.org/kb/knowrob.owl#quToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quToOdom"/>
-
-    <!-- http://knowrob.org/kb/knowrob.owl#qxToOdom -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qxToOdom"/>
 
     <!-- http://knowrob.org/kb/knowrob.owl#qyToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qyToOdom"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#qz -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qz"/>
+    
+
 
     <!-- http://knowrob.org/kb/knowrob.owl#qzToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qzToOdom"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#radius -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#radius"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#widthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+    
+
 
     <!-- http://knowrob.org/kb/knowrob.owl#xCoord -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#xCoord"/>
     
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#xCoordToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#xCoordToOdom"/>
     
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#yCoord -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#yCoord"/>
     
-    <!-- http://knowrob.org/kb/knowrob.owl#radius -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#radius"/>
-
-    <!-- http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject"/>
 
     <!-- http://knowrob.org/kb/knowrob.owl#yCoordToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#yCoordToOdom"/>
     
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#zCoord -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+    
+
 
     <!-- http://knowrob.org/kb/knowrob.owl#zCoordToOdom -->
 
@@ -395,8 +428,50 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.045</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.03</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -426,8 +501,50 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SupportingPlane"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.955</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">-0.296</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.075</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.23</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.01</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
