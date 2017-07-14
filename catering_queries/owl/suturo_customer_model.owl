@@ -138,21 +138,21 @@
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/knowrob.owl#Event"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#deliveredAmount"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#deliveredAmount"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#itemName"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#itemName"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#orderedAmount"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#orderedAmount"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
             </owl:Restriction>
@@ -163,12 +163,12 @@
 
     <!-- http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#Visit -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#Visit">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Visit">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/knowrob.owl#Event"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#hasOrder"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#Order"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasOrder"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Order"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -192,7 +192,7 @@
             <rdf:Description rdf:about="http://ias.cs.tum.edu/kb/knowrob.owl#MentalEvent"/>
             <rdf:Description rdf:about="http://ias.cs.tum.edu/kb/knowrob.owl#PhysicalEvent"/>
             <rdf:Description rdf:about="http://ias.cs.tum.edu/kb/knowrob.owl#SensoryEvent"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/sascha/ontologies/2017/6/untitled-ontology-140#Visit"/>
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob.owl#Visit"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
