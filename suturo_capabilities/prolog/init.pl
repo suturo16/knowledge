@@ -22,4 +22,6 @@
 :- owl_parse('package://suturo_capabilities/owl/PR2.owl').
 :- owl_parse('package://suturo_capabilities/owl/turtlebot.owl').
 :- owl_parse('package://suturo_capabilities/owl/suturo-cap.owl').
+:- owl_parse('package://suturo_capabilities/owl/suturo_actions.owl').
+
 
