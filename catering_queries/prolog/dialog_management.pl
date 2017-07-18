@@ -19,13 +19,17 @@
 
 assert_dialog_element(JSONString) :-
     create_dialog_element(JSONString,_),
-    rdf_swrl_load.
+    swrl:rdf_swrl_name(Descr,'SetCakeWithCustomer'),
+    rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
+    strip_literal_type(VarLiteral, Var),
+    rdf_swrl_project(Descr, [var(Var,Act)]).
 
 create_dialog_element(JSONString,DialogElement) :-
     atom(JSONString),
     rdf_instance_from_class(knowrob:'DialogElement', DialogElement),
+    rdf_assert(DialogElement,knowrob:'checked',literal(type(xsd:boolean,false))),
     extract_guest_id(JSONString,GuestID),
-    rdf_assert(DialogElement,knowrob:'guestID',GuestID),
+    rdf_assert(DialogElement,knowrob:'guestID',literal(type(xsd:string,GuestID))),
     extract_query_element(JSONString,Query),
     rdf_assert(DialogElement,knowrob:'dialogQuery',Query).
 
@@ -68,8 +72,15 @@ assert_query_properties([QueryElement|Rest],DialogQuery) :-
 	Ns = knowrob,
 	atomic_list_concat([Property|[Value|_]],':',QueryElement),
 	rdf_global_id(Ns:Property, PropertyName),
-	rdf_assert(DialogQuery,PropertyName,Value),
+	rdf_assert_with_literal(DialogQuery,PropertyName,Value),
 	assert_query_properties(Rest,DialogQuery).
+
+rdf_assert_with_literal(S,P,Value) :-
+  rdf_has(P, rdf:type, owl:'DatatypeProperty'),
+  (  rdf_phas(P, rdfs:range, Range)
+  -> rdf_assert(S, P, literal(type(Range,Value)))
+  ;  rdf_assert(S, P, literal(Value))
+  ), !.
 
 %% get_class_name(+Type, -ClassName)
 % MSp
