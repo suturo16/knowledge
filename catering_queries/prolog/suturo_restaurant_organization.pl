@@ -8,8 +8,8 @@
 :- module(suturo_restaurant_organization,
     [
       get_customer_infos/3,
-      get_open_orders_of/3,
-      get_open_orders_with_customer_infos/5,
+      get_open_orders_of/4,
+      get_open_orders_with_customer_infos/6,
       get_free_table/1      
     ]).
 
@@ -19,16 +19,17 @@ get_customer_infos(CustomerID,Name,Place) :-
 
 
 %getOpenOrdersOf(+customerID,-Item,-Amount)
-get_open_orders_of(CustomerID,Item,Amount) :-
-      get_open_orders_with_customer_infos(CustomerID,_,_,Item,Amount).
+get_open_orders_of(CustomerID,Item,TotalAmount,Delivered) :-
+      get_open_orders_with_customer_infos(CustomerID,_,_,Item,TotalAmount,DeliveredAmount).
 
 
 %getOpenOrdersWithCustomerInfos(+CustomerID,-Name,-Place,-Good,-Amount)
-get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,Amount) :-
+get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,DeliveredAmount) :-
       Name='michael',
       Place='table1',
       Item='cake',
-      Amount=1.
+      TotalAmount=1,
+      DeliveredAmount=0.
 
 %getFreeTables(-NameOfFreeTable)
 get_free_table(NameOfFreeTable) :-

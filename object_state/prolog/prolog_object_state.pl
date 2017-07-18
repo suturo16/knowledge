@@ -48,7 +48,7 @@
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
       create_object_name(r,?),
       create_temporal_name(r,?),
-      create_physical_parts()
+      create_physical_parts(r,r),
       set_info(r,r),
       set_info(r,r,r),
       get_info(r,r),
@@ -183,6 +183,7 @@ assign_obj_class(Type, ObjInst) :-
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
+	write('michael\n'),
     % build knowrob:Class
     Ns = knowrob,
     get_class_name(Type, Name),
@@ -196,7 +197,9 @@ create_physical_parts(Type,ObjInst) :-
       rdf_has(Id,rdfs:subClassOf,A),
       rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
       rdf_has(A,owl:onClass,PartClass)
+      write(PartClass),
     ),(
+      write(PartClass),
       rdf_instance_from_class(PartClass,PartInd),
       rdf_assert(ObjInst,knowrob:'physicalParts',PartInd))
       %create_object_name(PhysicalPartType, PartClass),
@@ -389,9 +392,6 @@ get_info(Variables, Returns) :-
     get_object(Conds, ObjInst),
     (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
       length(Vars,0), get_info(ObjInst, Returns)).
-
-get_info(ObjName, Returns) :-
-
 
 get_info(ObjInst, Returns) :-
     not(is_list(ObjInst)), var(Returns), 
