@@ -349,18 +349,18 @@ create_temporal_name(FullName, FullTemporalName) :-
 %%##########################################################################################################
 set_info(Thing, Info) :-
     not(rdf_has(Thing, rdf:type, _)),(
-    % if specified by name update object
+    % #if specified by name update object
     (member([nameOfObject,Name],Info),
     holds(ObjInst, knowrob:nameOfObject, Name);
     holds(ObjInst, knowrob:nameOfObject, Thing)),
     set_info(ObjInst, Info);
-    % if Thing is instance of class in knowrob
+    % #if Thing is instance of class in knowrob
     owl_subclass_of(Id, knowrob:'SpatialThing'), 
     rdf_global_id(knowrob:Thing,Id), 
     assign_obj_class(Thing, ObjInst),
     set_info(ObjInst, Info)
-    % if Thing is not specified but can be uniquely identified
-    % TODO check and uncomment if required
+    % #if Thing is not specified but can be uniquely identified
+    % #TODO check and uncomment if required
     % setof(Obj, (setof(X, (member(X, Info), is_list(X)), Conds),
     %            get_object(Obj)), Objs),
     % length(Objs, 1), [ObjInst|_] = Objs,
@@ -374,7 +374,7 @@ set_info(Thing, Info) :-
 % @param P the relation the value Val has to subject S
 % @param Val the value of the P related object
 set_info(ObjInst, [[P,Val]|More]) :-
-    rdf_has(ObjInst, rdf:type, _), %check that ObjInst is object
+    rdf_has(ObjInst, rdf:type, _), % #check that ObjInst is object
     Ns = knowrob,
     rdf_global_id(Ns:P, Id),
     ignore(forall( holds(ObjInst, Id, EndVal),
@@ -393,9 +393,15 @@ get_info(Variables, Returns) :-
     (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
       length(Vars,0), get_info(ObjInst, Returns)).
 
+get_info(ObjName, Returns) :-
+    not(is_list(ObjInst)), var(Returns),
+    Ns = knowrob, rdf_global_id(Ns:ObjName, ObjInst),
+    rdf_has(ObjInst, rdf:type, _),
+    get_info(ObjInst, Returns).
+
 get_info(ObjInst, Returns) :-
     not(is_list(ObjInst)), var(Returns), 
-    %check that ObjInst is object:
+    % #check that ObjInst is object:
     rdf_has(ObjInst, rdf:type, _),  
     Ns = knowrob,
     findall([Var,Val], (
