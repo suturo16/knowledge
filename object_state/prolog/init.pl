@@ -30,7 +30,6 @@
 :- use_module(library('test_calls')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_owl')).
-:- use_module(library('suturo_owl')).
 :- use_module(library('swrl')).
 :- use_module(library('owl_computable')). % needed for computables in restricted actions
 %% further will be added
