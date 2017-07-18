@@ -49,6 +49,7 @@
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
       create_object_name(r,?),
       create_temporal_name(r,?),
+      create_physical_parts()
       set_info(r,r),
       set_info(r,r,r),
       get_info(r,r),
@@ -183,26 +184,28 @@ assign_obj_class(Type, ObjInst) :-
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
-    forall((
-    write(Type),
+    % build knowrob:Class
     Ns = knowrob,
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
-    rdf_has(Id,rdfs:subClassOf,A),
-    rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
-    rdf_has(A,owl:onClass,PartClass)),
-    (write(PartClass),
-    rdf_instance_from_class(PartClass,PartInd),
-    rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
-    create_object_name(PhysicalPartType, PartClass),
-    multiple_objects_name(PhysicalPartType, NameNum), 
-    write(NameNum),
-    create_object_name(NameNum, FullName),
-    rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
+    % build parent frame id
     owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
     create_object_name(ParentNameWithoutKnowrob, ParentName),
     atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
-    rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))).
+    % foreach physical part assert connection to object
+    forall((
+      rdf_has(Id,rdfs:subClassOf,A),
+      rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
+      rdf_has(A,owl:onClass,PartClass)
+    ),(
+      rdf_instance_from_class(PartClass,PartInd),
+      rdf_assert(ObjInst,knowrob:'physicalParts',PartInd))
+      %create_object_name(PhysicalPartType, PartClass),
+      %multiple_objects_name(PhysicalPartType, NameNum), 
+      %create_object_name(NameNum, FullName),
+      %rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
+      %rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))
+    ).
 
 
 %% get_class_name(+Type, -ClassName)
@@ -388,6 +391,9 @@ get_info(Variables, Returns) :-
     (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
       length(Vars,0), get_info(ObjInst, Returns)).
 
+get_info(ObjName, Returns) :-
+
+
 get_info(ObjInst, Returns) :-
     not(is_list(ObjInst)), var(Returns), 
     %check that ObjInst is object:
@@ -402,16 +408,15 @@ get_info(ObjInst, Returns) :-
 
 %% get_info(Vars, Rets, ObjInst)
 % MSp
-get_info([Var|Vars],[Ret|Rets], ObjInst) :-
+get_info(Variables,Returns, ObjInst) :-
     Ns = knowrob,
-    holds(ObjInst, NsVar, RDFvalue),
-    rdf_global_id(Ns:Var, NsVar),
-    once(
-      rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val)),
-    Ret = [Var,Val],
-    get_info(Vars, Rets, ObjInst).
-
-get_info([],[], _).
+    findall([Var, Val], (
+      member(Var, Variables),
+      rdf_global_id(Ns:Var, NsVar),
+      holds(ObjInst, NsVar, RDFvalue),
+      once(
+        rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
+      Returns).
 
 
 %% get_object(+Conditions, -ObjInst)
