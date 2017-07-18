@@ -179,7 +179,7 @@ assign_obj_class(Type, ObjInst) :-
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
-    rdf_instance_from_class(Class, ObjInst),!.
+    owl_instance_from_class(Class, ObjInst),!.
 
 
 %Creates individuals for all physical parts
