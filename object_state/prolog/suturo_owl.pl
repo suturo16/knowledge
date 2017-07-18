@@ -4,8 +4,8 @@
 	  ]).
 
 
-owl_instance_from_class(Individual, Class) :-
-	rdf_instance_from_class(Individual,Class),
+owl_instance_from_class(Class, Individual) :-
+	rdf_instance_from_class(Class,Individual),
 	forall(get_class_facts(Class,Property,Value),
 		rdf_assert(Individual,Property,Value)).
 
