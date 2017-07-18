@@ -10,7 +10,9 @@
       get_customer_infos/3,
       get_open_orders_of/4,
       get_open_orders_with_customer_infos/6,
-      get_free_table/1      
+      get_free_table/1,
+      set_delivered_amount/2,
+      increase_delivered_amount/1
     ]).
 
 %getCustomerInfos(+CustomerID,-Name,-Place)
@@ -35,3 +37,11 @@ get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,Deliv
 get_free_table(NameOfFreeTable) :-
       owl_has(Table,rdf:type,knowrob:'RestaurantTable'),
       \+ (owl_has(_,knowrob:'locatedAt',Table)).
+
+% set_delivered_amount(+CustomerID,+Amount)
+set_delivered_amount(CustomerID,Amount) :-
+    true.
+
+% increase_delivered_amount(+CustomerID)
+increase_delivered_amount(CustomerID) :-
+  true.
