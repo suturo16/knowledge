@@ -314,22 +314,25 @@ create_temporal_name(FullName, FullTemporalName) :-
 %%######################################## brought to you by me ############################################
 %%##########################################################################################################
 %%##########################################################################################################
-
-/**
-set_info(ParamName, List) :-
-    Ns = knowrob,
-    \+ ( rdf_has(ParamName, _, _)),
-    \+ ((rdf_equal(Ns:ParamName, Id),rdf_has(Id,_,_))),
-    assign_obj_class(ParamName, ObjInst), !,
-    set_info(ObjInst, List).
-
-
-set_info(Obj, List) :-
-    Ns = knowrob,
-    \+ once(rdf_has(ParamName, _, _)),
-    once((rdf_equal(Ns:ParamName, Id),rdf_has(Id,_,_))),
-    set_info(Id, List).
-*/
+set_info(Thing, Info) :-
+    not(rdf_has(Thing, rdf:type, _)),(
+    % if specified by name update object
+    (member([nameOfObject,Name],Info),
+    holds(ObjInst, knowrob:nameOfObject, Name);
+    holds(ObjInst, knowrob:nameOfObject, Thing)),
+    set_info(ObjInst, Info);
+    % if Thing is instance of class in knowrob
+    owl_subclass_of(Id, knowrob:'SpatialThing'), 
+    rdf_global_id(knowrob:Thing,Id), 
+    assign_obj_class(Thing, ObjInst),
+    set_info(ObjInst, Info)
+    % if Thing is not specified but can be uniquely identified
+    % TODO check and uncomment if required
+    % setof(Obj, (setof(X, (member(X, Info), is_list(X)), Conds),
+    %            get_object(Obj)), Objs),
+    % length(Objs, 1), [ObjInst|_] = Objs,
+    % set_info(ObjInst, Info).
+    ),!.
 
 %% set_info(ObjInst, [[P,Val]|More])
 % MSp
@@ -338,9 +341,9 @@ set_info(Obj, List) :-
 % @param P the relation the value Val has to subject S
 % @param Val the value of the P related object
 set_info(ObjInst, [[P,Val]|More]) :-
-    rdf_has(ObjInst, _, _), \+ rdf_has(_, _, ObjInst), %ObjInst is Obj!
-    Namespace = knowrob,
-    rdf_global_id(Namespace:P, Id),
+    rdf_has(ObjInst, rdf:type, _), %check that ObjInst is object
+    Ns = knowrob,
+    rdf_global_id(Ns:P, Id),
     ignore(forall( holds(ObjInst, Id, EndVal),
     assert_temporal_part_end(ObjInst, Id, EndVal))),
     assert_temporal_part(ObjInst, Id, Val),
@@ -350,49 +353,46 @@ set_info(_, []).
 
 %% get_info(+Variables, -Returns)
 get_info(Variables, Returns) :-
-    setof(X, (member(X, Variables), is_list(X)), Conds),
-    setof(Y, (member(Y, Variables), not(is_list(Y))), Vars),
+    is_list(Variables), var(Returns),
+    findall(X, (member(X, Variables), is_list(X)), Conds),
+    findall(Y, (member(Y, Variables), not(is_list(Y))), Vars),
     get_object(Conds, ObjInst),
-    get_info(Vars, Returns, ObjInst).
+    (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
+      length(Vars,0), get_info(ObjInst, Returns)).
+
+get_info(ObjInst, Returns) :-
+    not(is_list(ObjInst)), var(Returns), 
+    %check that ObjInst is object:
+    rdf_has(ObjInst, rdf:type, _),  
+    Ns = knowrob,
+    findall([Var,Val], (
+      holds(ObjInst, NsVar, RDFvalue),
+      rdf_global_id(Ns:Var, NsVar),
+      once(
+        rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
+      Returns).
 
 %% get_info(Vars, Rets, ObjInst)
 % MSp
 get_info([Var|Vars],[Ret|Rets], ObjInst) :-
-    Namespace = knowrob,
-    rdf_global_id(Namespace:Var, NsVar),
+    Ns = knowrob,
+    rdf_global_id(Ns:Var, NsVar),
     holds(ObjInst, NsVar, RDFvalue),
     once(
       rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val)),
     Ret = [Var,Val],
     get_info(Vars, Rets, ObjInst).
 
-\** get_info([Cond1|Conds],[], ObjInst) :-
-    Namespace = knowrob,
-    ( /** either Var is Condition or Variable */
-      is_list(Var) ->
-      [Cond,Val] = Cond1, rdf_global_id(Namespace:Cond, NsVar)
-      ; rdf_global_id(Namespace:Var, NsVar)
-      ), 
-    holds(ObjInst, NsVar, RDFvalue),
-    %unpack/strip the value from the #ns or xsd_type
-    once(
-      rdf_global_id(_:Val, RDFvalue)
-      ; strip_literal_type(RDFvalue, Val)
-      ),
-    (nonvar(Cond) -> Ret = Var; Ret = [Var,Val]),
-    get_object_infos(Conds, Returns, ObjInst),!. *\
 
-get_info([],[]).
 get_info([],[], _).
-
 
 
 %% get_object(+Conditions, -ObjInst)
 % MSp
 % Helper to identify a certain Object according to given Conditions
 get_object([[Cond,Val]|Conds], ObjInst) :-
-    Namespace = knowrob,
-    rdf_global_id(Namespace:Cond, NsVar),
+    Ns = knowrob,
+    rdf_global_id(Ns:Cond, NsVar),
     holds(ObjInst, NsVar, RDFvalue), 
     once( 
       rdf_global_id(_:Val, RDFvalue) ; strip_literal_type(RDFvalue, Val)),
