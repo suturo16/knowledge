@@ -52,6 +52,7 @@
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#deliveredAmount">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     </owl:DatatypeProperty>
     
 
@@ -95,6 +96,7 @@
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#orderedAmount">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     </owl:DatatypeProperty>
     
 

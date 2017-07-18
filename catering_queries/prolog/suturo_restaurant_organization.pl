@@ -12,6 +12,7 @@
       get_open_orders_with_customer_infos/6,
       get_free_table/1,
       set_delivered_amount/2,
+      increase_delivered_amount/2,
       increase_delivered_amount/1
     ]).
 
@@ -27,21 +28,46 @@ get_open_orders_of(CustomerID,Item,TotalAmount,Delivered) :-
 
 %getOpenOrdersWithCustomerInfos(+CustomerID,-Name,-Place,-Good,-Amount)
 get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,DeliveredAmount) :-
-      Name='michael',
-      Place='table1',
-      Item='cake',
-      TotalAmount=1,
-      DeliveredAmount=0.
+    holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    (holds(Obj,rdf:type,knowrob:'Customer'),!),
+    holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name))),
+    ignore(holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name)))),
+    holds(Obj,knowrob:'visit',Visit),
+    ignore(holds(Visit,knowrob:'locatedAt',Place)),
+    holds(Visit,knowrob:'hasOrder',Order),
+    holds(Order,knowrob:'itemName',literal(type(xsd:string,Item))),
+    holds(Order,knowrob:'orderedAmount',literal(type(xsd:int,TotalAmount))),
+    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:int,DeliveredAmount))). %# This parameter isn#t always needed
+
 
 %getFreeTables(-NameOfFreeTable)
 get_free_table(NameOfFreeTable) :-
-      owl_has(Table,rdf:type,knowrob:'RestaurantTable'),
-      \+ (owl_has(_,knowrob:'locatedAt',Table)).
+      owl_has(NameOfFreeTable,rdf:type,knowrob:'RestaurantTable'),
+      \+ (holds(_,knowrob:'locatedAt',NameOfFreeTable)).
 
 % set_delivered_amount(+CustomerID,+Amount)
 set_delivered_amount(CustomerID,Amount) :-
-    true.
+    (holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    holds(Obj,rdf:type,knowrob:'Customer'),!),
+    holds(Obj,knowrob:'visit',Visit),
+    holds(Visit,knowrob:'hasOrder',Order),
+    %# Replace the deliveredAmount value by the new value
+    current_time(Now),
+    forall((holds(Order,knowrob:'deliveredAmount',O)), 
+    assert_temporal_part_end(Order, knowrob:'deliveredAmount', O, Now)),
+    assert_temporal_part(Order, knowrob:'deliveredAmount', Amount).
 
 % increase_delivered_amount(+CustomerID)
+increase_delivered_amount(CustomerID,Amount) :-
+    (holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    holds(Obj,rdf:type,knowrob:'Customer'),!),
+    holds(Obj,knowrob:'visit',Visit),
+    holds(Visit,knowrob:'hasOrder',Order),
+    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:int,DeliveredAmount))),
+    (atom(DeliveredAmount) -> atom_number(DeliveredAmount,DAAsNumber);DAAsNumber = DeliveredAmount),
+    (atom(Amount) -> atom_number(Amount,AmountAsNumber);AmountAsNumber = Amount),
+    DeliveredAmountNew is DAAsNumber + AmountAsNumber,
+    set_delivered_amount(CustomerID,DeliveredAmountNew).
+
 increase_delivered_amount(CustomerID) :-
-  true.
+    increase_delivered_amount(CustomerID,1).
