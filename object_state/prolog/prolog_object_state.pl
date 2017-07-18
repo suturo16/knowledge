@@ -20,8 +20,8 @@
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
-      %get_info/2,
-      %get_info/3,
+      get_info/2,
+      get_info/3,
       get_object/2,
       get_object_infos/5,
       get_object_infos/6,
@@ -36,10 +36,9 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3 /*,
+      seen_since/3,
       set_info/2,
       set_info/3
-      */
     ]).
 
 :- dynamic
