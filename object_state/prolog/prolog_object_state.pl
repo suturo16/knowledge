@@ -120,10 +120,7 @@
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
-      ; multiple_objects_name(Type, NameNum), 
-      create_object_name(NameNum, FullName),
-      assign_obj_class(Type,ObjInst),
-      rdf_assert(ObjInst, knowrob:'nameOfObject',FullName)),
+      ; assign_obj_class(Type,ObjInst)),
     
     %previously used was this:
     %create_fluent(ObjInst, Fluent), fluent_assert)(S,P,O)
@@ -157,10 +154,8 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    write('T1'),
     known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-          write('T3'),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)),
@@ -178,31 +173,30 @@ assign_obj_class(Type, ObjInst) :-
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
     rdf_instance_from_class(Class, ObjInst),
+    % #Creates name
+    multiple_objects_name(Type, NameNum), 
+    create_object_name(NameNum, FullName),
+    rdf_assert(ObjInst, knowrob:'nameOfObject',FullName),
+    %# Adds the physicalParts. BE CAREFUL: nameOfObject for ObjInst needed
     ignore(create_physical_parts(Type,ObjInst)),!.
 
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
-	write('michael\n'),
     % build knowrob:Class
     Ns = knowrob,
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
-    write(Id),
     % build parent frame id
     owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
-    write(ParentName),
     create_object_name(ParentNameWithoutKnowrob, ParentName),
     atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
-    write(ParentNameWithoutKnowrob),
     % foreach physical part assert connection to object
     forall((
       rdf_has(Id,rdfs:subClassOf,A),
       rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
-      rdf_has(A,owl:onClass,PartClass),
-      write(PartClass)
+      rdf_has(A,owl:onClass,PartClass)
     ),(
-      write(PartClass),
       rdf_instance_from_class(PartClass,PartInd),
       rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
       create_object_name(PhysicalPartType, PartClass),
@@ -613,7 +607,6 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
 % A small function to connect two given frames.
 connect_frames(ParentFrameID, ChildFrameID) :-
   prython:py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
-  write(Pose),
   atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
   get_object_infos(FullName, _, Type, _, _, Height, Width, Depth),
