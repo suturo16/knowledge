@@ -134,8 +134,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
     assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
     create_fluent_pose(ObjInst, Pose),
-    create_fluent_pose_to_odom(ObjInst, Pose),
-    ignore(create_physical_parts(Type,ObjInst)).
+    create_fluent_pose_to_odom(ObjInst, Pose).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
@@ -179,7 +178,8 @@ assign_obj_class(Type, ObjInst) :-
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
-    rdf_instance_from_class(Class, ObjInst),!.
+    rdf_instance_from_class(Class, ObjInst),
+    ignore(create_physical_parts(Type,ObjInst)),!.
 
 
 %Creates individuals for all physical parts
