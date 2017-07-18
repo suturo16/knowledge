@@ -10,7 +10,7 @@
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:computable="http://knowrob.org/kb/computable.owl#">
-    <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_objects.owl">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/suturo_object.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
     
@@ -30,6 +30,23 @@
     <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#physicalParts -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#physicalParts"/>
     
 
 
@@ -57,6 +74,24 @@
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
     </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#depthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#depthOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#heightOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#lengthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#lengthOfObject"/>
     
 
 
@@ -108,6 +143,24 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#radius -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#radius"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#widthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#xCoord -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#xCoord"/>
@@ -144,6 +197,16 @@
     
 
 
+    <!-- http://knowrob.org/kb/suturo_objects.owl#angle -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#angle">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#sizeParameterOfObject"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob.owl#SpatialThing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -177,9 +240,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#BladeOfADevice -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#BladeOfADevice"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#Cake -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Cake"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#DinnerPlate -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#DinnerPlate"/>
     
 
 
@@ -189,32 +264,296 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Handle"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Knife -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Knife"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#SpatialThing -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SpatialThing"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Spatula -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Spatula"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#SupportingPlane -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SupportingPlane"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#TemporalThing -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TemporalThing"/>
     
 
 
+    <!-- http://knowrob.org/kb/suturo_objects.owl#BladeOfCakeKnife -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#BladeOfCakeKnife">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#BladeOfADevice"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.03</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#lengthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.172</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#CakeKnife -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#CakeKnife">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Knife"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#physicalParts"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#BladeOfCakeKnife"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#physicalParts"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/suturo_objects.owl#HandleOfCakeKnife"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#CakeSpatula -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#CakeSpatula">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Spatula"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#physicalParts"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HandleOfCakeSpatula"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#physicalParts"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#SupportingPlaneOfCakeSpatula"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#DinnerPlateForCake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#DinnerPlateForCake">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#DinnerPlate"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.016</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#radius"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.11</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.025</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#angle"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.92</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#HandleOfCakeKnife -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HandleOfCakeKnife">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Handle"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#lengthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#HandleOfCakeSpatula -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HandleOfCakeSpatula">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Handle"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#depthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.035</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.045</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.03</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/suturo_objects.owl#PieceOfCake -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/suturo_objects.owl#PieceOfCake">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PieceOfCake">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Cake"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/suturo_objects.owl#PieceOfFood"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PieceOfFood"/>
     </owl:Class>
     
 
 
     <!-- http://knowrob.org/kb/suturo_objects.owl#PieceOfFood -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/suturo_objects.owl#PieceOfFood">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PieceOfFood">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Food"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_objects.owl#SupportingPlaneOfCakeSpatula -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SupportingPlaneOfCakeSpatula">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SupportingPlane"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.955</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qx"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.296</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qz"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.075</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#xCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.23</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#yCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#zCoord"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
 
     <!-- http://knowrob.org/kb/suturo_objects.owl#Test -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/suturo_objects.owl#Test">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Test">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TemporalThing"/>
     </owl:Class>
 </rdf:RDF>

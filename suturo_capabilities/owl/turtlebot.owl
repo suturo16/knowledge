@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#"
-     xml:base="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf"
-     xmlns:robot="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#"
+<rdf:RDF xmlns="http://knowrob.org/kb/turtlebot.owl#"
+     xml:base="http://knowrob.org/kb/turtlebot.owl"
+     xmlns:robot="http://knowrob.org/kb/turtlebot.owl#"
      xmlns:srdl2="http://knowrob.org/kb/srdl2.owl#"
      xmlns:srdl2-cap="http://knowrob.org/kb/srdl2-cap.owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -13,7 +13,7 @@
      xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:qudt-unit="http://qudt.org/vocab/unit#">
-    <owl:Ontology rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/turtlebot.owl">
         <owl:imports rdf:resource="package://suturo_capabilities/owl/suturo-cap.owl"/>
     </owl:Ontology>
     
@@ -386,9 +386,9 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description -->
 
-    <owl:Class rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description">
+    <owl:Class rdf:about="http://knowrob.org/kb/turtlebot.owl#Turtlebot">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Robot"/>
         <rdfs:subClassOf>
             <owl:Class>
@@ -423,187 +423,187 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_10WqSqLB -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_10WqSqLB -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_10WqSqLB">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_10WqSqLB">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_pNJvVhtp"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_in_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_3VjBqidR -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_3VjBqidR -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_3VjBqidR">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_3VjBqidR">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NVBifkIG"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_6PE8tfN1 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_6PE8tfN1 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_6PE8tfN1">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_6PE8tfN1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_nuPQt7bF"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_9I1Ftbo0 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_9I1Ftbo0 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_9I1Ftbo0">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_9I1Ftbo0">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_qVHO0kSi"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_BqGMJydX -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_BqGMJydX -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_BqGMJydX">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_BqGMJydX">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_r6G0npKb"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_KwgugAHZ -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_KwgugAHZ -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_KwgugAHZ">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_KwgugAHZ">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_L0c6qtgq"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_LK8cpbhL -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_LK8cpbhL -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_LK8cpbhL">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_LK8cpbhL">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_K2gMcn0x"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_MiFF3s9f -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_MiFF3s9f -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_MiFF3s9f">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_MiFF3s9f">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_rsfjOBsM"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_NqD1gxg9 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_NqD1gxg9 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_NqD1gxg9">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_NqD1gxg9">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_O4xDtpQz"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_PNq4Dd1N -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_PNq4Dd1N -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_PNq4Dd1N">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_PNq4Dd1N">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_MLSX2fyN"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_Pb1d6pIo -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_Pb1d6pIo -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_Pb1d6pIo">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_Pb1d6pIo">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_JRirYiZE"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_in_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_S46Eikvk -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_S46Eikvk -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_S46Eikvk">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_S46Eikvk">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NiaqEwqh"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_VZFe8jUI -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_VZFe8jUI -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_VZFe8jUI">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_VZFe8jUI">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_QcvWHt1q"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_eVfPXhg5 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_eVfPXhg5 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_eVfPXhg5">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_eVfPXhg5">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_HAlLwaHU"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_tm65duKS -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_tm65duKS -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_tm65duKS">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_tm65duKS">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_main_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_yZON4kMk -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_yZON4kMk -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#Proprioception_yZON4kMk">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_yZON4kMk">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
-        <knowrob:eventOccursAt rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_teSuBuU3"/>
-        <knowrob:objectActedOn rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in_joint"/>
-        <knowrob:startTime rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_HAlLwaHU -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_HAlLwaHU">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NVBifkIG"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
@@ -624,11 +624,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_JRirYiZE -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_JRirYiZE">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NiaqEwqh"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -649,11 +649,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_K2gMcn0x -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_K2gMcn0x">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -674,11 +674,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_L0c6qtgq -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_L0c6qtgq">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">4.102068570306623E-10</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
@@ -699,11 +699,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_MLSX2fyN -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_MLSX2fyN">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -724,11 +724,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NVBifkIG -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NVBifkIG">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -749,11 +749,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NiaqEwqh -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_NiaqEwqh">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_O4xDtpQz"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -774,11 +774,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_O4xDtpQz -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_O4xDtpQz">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_rsfjOBsM"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -799,11 +799,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_QcvWHt1q -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_QcvWHt1q">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_teSuBuU3"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -824,11 +824,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_nuPQt7bF -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_nuPQt7bF">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_r6G0npKb"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -849,11 +849,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_pNJvVhtp -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_pNJvVhtp">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_QcvWHt1q"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -874,11 +874,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_qVHO0kSi -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_qVHO0kSi">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_K2gMcn0x"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
@@ -899,11 +899,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_r6G0npKb -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_r6G0npKb">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -924,11 +924,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_rsfjOBsM -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_rsfjOBsM">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -949,11 +949,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_teSuBuU3 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_teSuBuU3">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
-        <knowrob:relativeTo rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_L0c6qtgq"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
         <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
@@ -974,9 +974,9 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#RotationMatrix3D_vwya4DcO">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
         <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
         <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
@@ -998,17 +998,17 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#timepoint_1357020000">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.0000001</srdl2-comp:inertia_ixx>
         <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
@@ -1027,31 +1027,31 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge"/>
         <srdl2-comp:urdfName>back_wheel_hinge_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_out"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out"/>
         <srdl2-comp:urdfName>base_back_wheel_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_out -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_out">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_back_wheel_hinge_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint"/>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
         <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
         <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
@@ -1064,46 +1064,46 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_footprint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_footprint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_main_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint"/>
         <srdl2-comp:urdfName>base_footprint</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_footprint</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_out"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out"/>
         <srdl2-comp:urdfName>base_left_motor_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_out -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_out">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint"/>
         <srdl2-comp:urdfName>base_left_motor_out</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_left_motor_out</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_link -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_link">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_back_wheel_joint"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_left_motor_joint"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_joint"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint"/>
         <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.314</srdl2-comp:cylinder_length>
         <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.146</srdl2-comp:cylinder_radius>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.1354533</srdl2-comp:inertia_ixx>
@@ -1119,42 +1119,42 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_main_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_main_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_link"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link"/>
         <srdl2-comp:urdfName>base_main_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_out"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out"/>
         <srdl2-comp:urdfName>base_right_motor_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_out -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_right_motor_out">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint"/>
         <srdl2-comp:urdfName>base_right_motor_out</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_right_motor_out</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint"/>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
         <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
         <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
@@ -1168,50 +1168,50 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_in"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in"/>
         <srdl2-comp:urdfName>left_motor_in_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_in_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint"/>
         <srdl2-comp:urdfName>left_motor_out</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">left_motor_out</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_motor_out"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out"/>
         <srdl2-comp:urdfName>left_motor_out_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_in_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_in_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_link"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link"/>
         <srdl2-comp:urdfName>left_wheel_in_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_link -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_left_wheel_link">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
         <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.03</srdl2-comp:cylinder_length>
         <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.05</srdl2-comp:cylinder_radius>
@@ -1232,11 +1232,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint"/>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
         <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
         <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
@@ -1250,50 +1250,50 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_in"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in"/>
         <srdl2-comp:urdfName>right_motor_in_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_in_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint"/>
         <srdl2-comp:urdfName>right_motor_out</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">right_motor_out</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_motor_out"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out"/>
         <srdl2-comp:urdfName>right_motor_out_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_in_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_in_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_link"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link"/>
         <srdl2-comp:urdfName>right_wheel_in_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_link -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_right_wheel_link">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
         <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.03</srdl2-comp:cylinder_length>
         <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.05</srdl2-comp:cylinder_radius>
@@ -1314,39 +1314,39 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_robot1 -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_robot1 -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_robot1">
-        <rdf:type rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_base_footprint"/>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_robot1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/turtlebot.owl#Turtlebot"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_frame -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_frame">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint"/>
         <srdl2-comp:urdfName>xtion_cam_depth_frame</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_depth_frame</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_frame"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame"/>
         <srdl2-comp:urdfName>xtion_cam_depth_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_frame -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_frame">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
         <srdl2-comp:urdfName>xtion_cam_depth_optical_frame</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_depth_optical_frame</srdl2-comp:link_name>
@@ -1354,32 +1354,32 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_optical_frame"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame"/>
         <srdl2-comp:urdfName>xtion_cam_depth_optical_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_link"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link"/>
         <srdl2-comp:urdfName>xtion_cam_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_link -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_link">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_depth_joint"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint"/>
         <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00001</srdl2-comp:inertia_ixx>
         <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
         <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
@@ -1393,30 +1393,30 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_frame -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_frame">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
-        <srdl2-comp:succeedingJoint rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint"/>
         <srdl2-comp:urdfName>xtion_cam_rgb_frame</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_rgb_frame</srdl2-comp:link_name>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_frame"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame"/>
         <srdl2-comp:urdfName>xtion_cam_rgb_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_frame -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_frame">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
         <srdl2-comp:urdfName>xtion_cam_rgb_optical_frame</srdl2-comp:urdfName>
         <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_rgb_optical_frame</srdl2-comp:link_name>
@@ -1424,11 +1424,11 @@
     
 
 
-    <!-- https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_joint -->
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint -->
 
-    <owl:NamedIndividual rdf:about="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_joint">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint">
         <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
-        <srdl2-comp:succeedingLink rdf:resource="https://media.readthedocs.org/pdf/suturo-docs/latest/suturo-docs.pdf#tortuga_description_xtion_cam_rgb_optical_frame"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame"/>
         <srdl2-comp:urdfName>xtion_cam_rgb_optical_joint</srdl2-comp:urdfName>
     </owl:NamedIndividual>
 </rdf:RDF>

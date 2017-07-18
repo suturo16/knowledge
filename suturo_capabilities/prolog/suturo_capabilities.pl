@@ -30,11 +30,12 @@
 %#:- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 %#:- rdf_db:rdf_register_ns(srdl2, 'http://knowrob.org/kb/srdl2.owl#', [keep(true)]).
 %#:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
-%#:- rdf_db:rdf_register_ns(srdl2cap, 'http://knowrob.org/kb/srdl2-cap.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2cap, 'http://knowrob.org/kb/srdl2-cap.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(suturo_obj, 'package://object_state/owl/suturo_object.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(suturo_act, 'package://object_state/owl/suturo_actions.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(suturo_act, 'package://suturo_capabilities/owl/suturo_actions.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(suturo_cap, 'http://knowrob.org/kb/suturo-cap.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl', [keep(true)]).
+:- rdf_db:rdf_register_ns(pepper, 'http://knowrob.org/kb/pepper.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(turtlebot, 'http://knowrob.org/kb/turtlebot.owl#', [keep(true)]).
 
 
 %parse libraries
@@ -49,6 +50,12 @@ get_robot_with_cap_for(Action, Robot) :-
     rdf_equal(Action,Act),
     foreach(required_cap_for_action(Act,Cap),
         cap_available_on_robot(Cap,Rob)),Robot = Rob.
+
+%% get_robot_with_cap_for(+Action, -Robot)
+% MSp
+% Returns robot with capabilities for capabilities
+get_robot_with_cap(Cap, Robot) :-
+	cap_available_on_robot(Cap,Rob).
 
 get_list_of_robots_with_cap(Action, Robots) :-
     bagof(required_cap_for_action(Action,Capa),nonvar(Capa),Caps),

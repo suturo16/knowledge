@@ -40,7 +40,6 @@
 :- use_module(library('prython')).
 :- use_module(library('swrl')).
 
-
 %registering namespace
 %#:- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 %#:- rdf_db:rdf_register_ns(srdl2, 'http://knowrob.org/kb/srdl2.owl#', [keep(true)]).

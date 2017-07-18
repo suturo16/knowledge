@@ -20,14 +20,15 @@
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
-      get_info/2,
-      get_info/3,
+      %get_info/2,
+      %get_info/3,
       get_object/2,
       get_object_infos/5,
       get_object_infos/6,
       get_object_infos/8,
       get_object_infos/9,
-      get_object_infos_to_odom/8,
+      get_object_infos_to_odom/5,
+      get_object_infos_to_odom/6,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -35,9 +36,10 @@
       known_object/6,
       same_dimensions/2,
       same_position/3,
-      seen_since/3,
+      seen_since/3 /*,
       set_info/2,
       set_info/3
+      */
     ]).
 
 :- dynamic
@@ -132,7 +134,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
     assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
     create_fluent_pose(ObjInst, Pose),
-    create_fluent_pose_to_odom(ObjInst, Pose).
+    create_fluent_pose_to_odom(ObjInst, Pose),
+    ignore(create_physical_parts(Type,ObjInst)).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
@@ -156,8 +159,10 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    write('T1'),
     known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+          write('T3'),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)),
@@ -174,7 +179,31 @@ assign_obj_class(Type, ObjInst) :-
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
-    rdf_instance_from_class(Class, ObjInst),!.
+    owl_instance_from_class(Class, ObjInst),!.
+
+
+%Creates individuals for all physical parts
+create_physical_parts(Type,ObjInst) :-
+    forall((
+    write(Type),
+    Ns = knowrob,
+    get_class_name(Type, Name),
+    rdf_global_id(Ns:Name, Id),
+    rdf_has(Id,rdfs:subClassOf,A),
+    rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
+    rdf_has(A,owl:onClass,PartClass)),
+    (write(PartClass),
+    owl_instance_from_class(PartClass,PartInd),
+    rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
+    create_object_name(PhysicalPartType, PartClass),
+    multiple_objects_name(PhysicalPartType, NameNum), 
+    write(NameNum),
+    create_object_name(NameNum, FullName),
+    rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
+    owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
+    create_object_name(ParentNameWithoutKnowrob, ParentName),
+    atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
+    rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))).
 
 
 %% get_class_name(+Type, -ClassName)
@@ -376,13 +405,12 @@ get_info(ObjInst, Returns) :-
 % MSp
 get_info([Var|Vars],[Ret|Rets], ObjInst) :-
     Ns = knowrob,
-    rdf_global_id(Ns:Var, NsVar),
     holds(ObjInst, NsVar, RDFvalue),
+    rdf_global_id(Ns:Var, NsVar),
     once(
       rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val)),
     Ret = [Var,Val],
     get_info(Vars, Rets, ObjInst).
-
 
 get_info([],[], _).
 
@@ -484,7 +512,9 @@ get_tf_infos(Name, FrameID, Position, Orientation) :-
     holds(Obj,knowrob:'nameOfObject',FullName),
     create_object_name(Name, FullName),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
-    get_fluent_pose(Obj, Position, Orientation).
+    (holds(Obj, knowrob:'xCoord', _) -> 
+      get_fluent_pose(Obj, Position, Orientation); 
+      get_pose(Obj, Position, Orientation)).
 
 
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
@@ -497,6 +527,17 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'qy', literal(type(xsd: float, OY))),
     holds(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
     holds(Object, knowrob:'qu', literal(type(xsd: float, OW))).
+
+%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% MSp
+get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+    owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
+    owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PY))),
+    owl_has(Object, knowrob:'zCoord', literal(type(xsd: float, PZ))),
+    owl_has(Object, knowrob:'qx', literal(type(xsd: float, OX))),
+    owl_has(Object, knowrob:'qy', literal(type(xsd: float, OY))),
+    owl_has(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
+    owl_has(Object, knowrob:'qu', literal(type(xsd: float, OW))).
 
 
 %% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
