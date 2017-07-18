@@ -179,7 +179,7 @@ assign_obj_class(Type, ObjInst) :-
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     owl_subclass_of(Id, Class),
-    owl_instance_from_class(Class, ObjInst),!.
+    rdf_instance_from_class(Class, ObjInst),!.
 
 
 %Creates individuals for all physical parts
@@ -193,7 +193,7 @@ create_physical_parts(Type,ObjInst) :-
     rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
     rdf_has(A,owl:onClass,PartClass)),
     (write(PartClass),
-    owl_instance_from_class(PartClass,PartInd),
+    rdf_instance_from_class(PartClass,PartInd),
     rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
     create_object_name(PhysicalPartType, PartClass),
     multiple_objects_name(PhysicalPartType, NameNum), 
