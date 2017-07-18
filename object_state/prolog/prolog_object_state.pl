@@ -188,25 +188,28 @@ create_physical_parts(Type,ObjInst) :-
     Ns = knowrob,
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
+    write(Id),
     % build parent frame id
     owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
+    write(ParentName),
     create_object_name(ParentNameWithoutKnowrob, ParentName),
     atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
+    write(ParentNameWithoutKnowrob),
     % foreach physical part assert connection to object
     forall((
       rdf_has(Id,rdfs:subClassOf,A),
       rdf_has(A,owl:onProperty,knowrob:'physicalParts'),
-      rdf_has(A,owl:onClass,PartClass)
-      write(PartClass),
+      rdf_has(A,owl:onClass,PartClass),
+      write(PartClass)
     ),(
       write(PartClass),
       rdf_instance_from_class(PartClass,PartInd),
-      rdf_assert(ObjInst,knowrob:'physicalParts',PartInd))
-      %create_object_name(PhysicalPartType, PartClass),
-      %multiple_objects_name(PhysicalPartType, NameNum), 
-      %create_object_name(NameNum, FullName),
-      %rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
-      %rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))
+      rdf_assert(ObjInst,knowrob:'physicalParts',PartInd),
+      create_object_name(PhysicalPartType, PartClass),
+      multiple_objects_name(PhysicalPartType, NameNum), 
+      create_object_name(NameNum, FullName),
+      rdf_assert(PartInd,knowrob:'nameOfObject',FullName),
+      rdf_assert(PartInd,knowrob:'frameOfObject',ParentFrameID))
     ).
 
 
