@@ -37,8 +37,7 @@
       same_dimensions/2,
       same_position/3,
       seen_since/3,
-      set_info/2,
-      set_info/3
+      set_info/2
     ]).
 
 :- dynamic
