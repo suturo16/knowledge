@@ -3,10 +3,11 @@
 	  	get_class_facts/3
 	  ]).
 
+:- rdf_meta owl_instance_from_class(r,?).
 
 owl_instance_from_class(Class, Individual) :-
 	rdf_instance_from_class(Class,Individual),
-	forall(get_class_facts(Class,Property,Value),
+	foreach(get_class_facts(Class,Property,Value),
 		rdf_assert(Individual,Property,Value)).
 
 get_class_facts(Class, Property, Value) :- 
