@@ -130,7 +130,10 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
     assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
     create_fluent_pose(ObjInst, Pose),
-    create_fluent_pose_to_odom(ObjInst, Pose).
+    create_fluent_pose_to_odom(ObjInst, Pose),
+    (holds(ObjInst,knowrob:'physicalParts',_) ->
+    	true;
+    	ignore(create_physical_parts(Type,ObjInst))).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
