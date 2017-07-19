@@ -113,9 +113,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#guestID -->
+    <!-- http://knowrob.org/kb/knowrob.owl#guestId -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#guestID">
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#guestId">
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
@@ -144,6 +144,28 @@
     <!-- http://knowrob.org/kb/knowrob.owl#orderedAmount -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#orderedAmount"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_cafetaria.owl#tableId -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/suturo_cafetaria.owl#tableId"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#delivered -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/suturo_dialog.owl#delivered">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#total -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/suturo_dialog.owl#total">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
     
 
 
@@ -182,7 +204,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#guestID"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#guestId"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
@@ -228,6 +250,87 @@
     <!-- http://knowrob.org/kb/knowrob.owl#Visit -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Visit"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#DecreaseCake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo_dialog.owl#DecreaseCake">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#DialogQuery"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#amount"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#GetGuestInfo -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo_dialog.owl#GetGuestInfo">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#DialogQuery"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#guestName"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/suturo_cafetaria.owl#tableId"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/suturo_dialog.owl#delivered"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/suturo_dialog.owl#total"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#IncreaseCake -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo_dialog.owl#IncreaseCake">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#DialogQuery"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#amount"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo_dialog.owl#SetLocation -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo_dialog.owl#SetLocation">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#DialogQuery"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/suturo_cafetaria.owl#tableId"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
     <rdf:Description>
         <knowrob:swrlActionConcept rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://knowrob.org/kb/knowrob.owl#SetCakeWithCustomer</knowrob:swrlActionConcept>
         <knowrob:swrlActionVariable rdf:datatype="http://www.w3.org/2001/XMLSchema#string">urn:swrl#dialog</knowrob:swrlActionVariable>
@@ -299,7 +402,7 @@
                                 <rdf:first>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#guestID"/>
+                                        <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#guestId"/>
                                         <swrl:argument1 rdf:resource="urn:swrl#dialog"/>
                                         <swrl:argument2 rdf:resource="urn:swrl#id"/>
                                     </rdf:Description>
@@ -389,7 +492,7 @@
                                 <rdf:first>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#guestID"/>
+                                        <swrl:propertyPredicate rdf:resource="http://knowrob.org/kb/knowrob.owl#guestId"/>
                                         <swrl:argument1 rdf:resource="urn:swrl#customer"/>
                                         <swrl:argument2 rdf:resource="urn:swrl#id"/>
                                     </rdf:Description>
