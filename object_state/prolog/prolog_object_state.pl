@@ -31,6 +31,7 @@
       get_object_infos/9,
       get_object_infos_to_odom/5,
       get_object_infos_to_odom/6,
+      get_physical_parts/3,
       get_tf_infos/4,
       get_max_num/2,
       get_type_num/2,
@@ -486,6 +487,12 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose(Obj, Position, Orientation),
    	get_current_temporal_part_time(Obj,Timestamp).
+
+
+get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
+    (owl_has(Obj,knowrob:'nameOfObject', Name),!),
+    holds(Obj,knowrob:'physicalParts',PhysicalParts),
+    owl_has(Obj,knowrob:'nameOfObject', PhysicalPartName).
 
 
 get_current_temporal_part_time(ObjInst,Timestamp) :-
