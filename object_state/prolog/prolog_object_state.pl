@@ -391,7 +391,7 @@ get_info(Variables, Returns) :-
       length(Vars,0), get_info(ObjInst, Returns)).
 
 get_info(ObjName, Returns) :-
-    not(is_list(ObjInst)), var(Returns),
+    not(is_list(ObjName)), var(Returns),
     Ns = knowrob, rdf_global_id(Ns:ObjName, ObjInst),
     rdf_has(ObjInst, rdf:type, _),
     get_info(ObjInst, Returns).
@@ -411,6 +411,7 @@ get_info(ObjInst, Returns) :-
 %% get_info(Vars, Rets, ObjInst)
 % MSp
 get_info(Variables,Returns, ObjInst) :-
+	not(is_list(ObjInst)),var(Returns),
     Ns = knowrob,
     findall([Var, Val], (
       member(Var, Variables),
@@ -426,6 +427,7 @@ get_info(Variables,Returns, ObjInst) :-
 % Helper to identify a certain Object according to given Conditions
 get_object([[Cond,Val]|Conds], ObjInst) :-
     Ns = knowrob,
+    write(Cond),
     rdf_global_id(Ns:Cond, NsVar),
     holds(ObjInst, NsVar, RDFvalue), 
     once( 
