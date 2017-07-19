@@ -427,7 +427,6 @@ get_info(Variables,Returns, ObjInst) :-
 % Helper to identify a certain Object according to given Conditions
 get_object([[Cond,Val]|Conds], ObjInst) :-
     Ns = knowrob,
-    write(Cond),
     rdf_global_id(Ns:Cond, NsVar),
     holds(ObjInst, NsVar, RDFvalue), 
     once( 
