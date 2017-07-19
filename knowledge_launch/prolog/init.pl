@@ -24,6 +24,7 @@
 :- register_ros_package(object_state).
 :- register_ros_package(knowrob_srdl).
 :- register_ros_package(suturo_capabilities).
+:- register_ros_package(catering_queries).
 
 
 :- use_module(library('prolog_object_state')).
@@ -33,6 +34,9 @@
 :- use_module(library('knowrob_owl')).
 :- use_module(library('swrl')).
 :- use_module(library('owl_computable')). % needed for computables in restricted actions
+:- use_module(library('catering_queries')).
+:- use_module(library('suturo_restaurant_organization')).
+:- use_module(library('dialog_management')).
 %% further will be added
 
 
@@ -48,3 +52,5 @@
 :- owl_parse('package://suturo_capabilities/owl/PR2.owl').
 :- owl_parse('package://suturo_capabilities/owl/turtlebot.owl').
 :- owl_parse('package://suturo_capabilities/owl/suturo-cap.owl').
+:- owl_parse('package://catering_queries/owl/suturo_recipes.owl').
+:- owl_parse('package://catering_queries/owl/suturo_dialog.owl').
