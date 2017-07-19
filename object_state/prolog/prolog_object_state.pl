@@ -9,7 +9,9 @@
     [
       create_fluent_pose/2,
       create_object_state/9,
+      create_object_state/10,
       create_object_state_with_close/9,
+      create_object_state_with_close/10,
       create_object_name/2,
       create_temporal_name/2,
       assign_obj_class/2,
@@ -139,10 +141,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
-      ; multiple_objects_name(Type, NameNum), 
-      create_object_name(NameNum, FullName),
-      rdf_instance_from_class(knowrob:'SpatialThing-Localized', ObjInst),
-      rdf_assert(ObjInst, knowrob:'nameOfObject',FullName)),
+      ; assign_obj_class(Type,ObjInst)),
     
     assert_temporal_part(ObjInst, knowrob:'typeOfObject', Type),      % literal(type(xsd:string, Type))),
     assert_temporal_part(ObjInst, knowrob:'frameOfObject', FrameID),  % literal(type(xsd:string, FrameID))),
@@ -165,6 +164,20 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+
+
+%% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
+% LSa, MSp
+% Creates a fluent and closes the corresponding old TemporalPart.
+create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    known_object(Type, PoseToOdom, Width, Height, Depth, FullName)
+      -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+         atom_concat('/', Name, ChildFrameID),
+          not(isConnected(_ ,ChildFrameID))
+            -> ignore(close_object_state(FullName)),
+            create_object_state(FullName, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            ; false)
+		; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
 
 
 %% assign_obj_class(+Type, -ObjInst)
@@ -568,7 +581,7 @@ get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
     get_object_infos_to_odom(Name, Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
-same_position(PrevPosition, Position, [Height, Width, Depth])).
+	same_position(PrevPosition, Position, [Height, Width, Depth])).
 
 
 %% same_dimensions(+[PrevDim], +[CurDim])
@@ -611,10 +624,11 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
 % A small function to connect two given frames.
 connect_frames(ParentFrameID, ChildFrameID) :-
   prython:py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
+  write(Pose),
   atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-  get_object_infos(FullName, _, Type, _, _, Height, Width, Depth),
-  create_object_state_with_close(Name, Pose, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
+  get_object_infos_to_odom(FullName, Type, PoseToOdom, Height, Width, Depth),
+  create_object_state_with_close(Name, Pose, PoseToOdom, Type, ParentFrameID, Width, Height, Depth, [Begin], ObjInst),
   assert(isConnected(ParentFrameID, ChildFrameID)).
 
 
