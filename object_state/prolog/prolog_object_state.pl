@@ -284,8 +284,14 @@ close_object_state(FullName) :-
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
     forall(
-    	(holds(ObjInst,P,O),O \= FullName, not(rdf_equal(P,knowrob:physicalParts))), 
-    	assert_temporal_part_end(ObjInst, P, O, Now)),!.
+    	(rdf_has(ObjInst,P,O),O \= FullName, not(rdf_equal(P,knowrob:physicalParts))), 
+    	assert_temporal_part_end(ObjInst, P, O, Now)),
+    forall(
+      (owl_has(ObjInst,knowrob:'temporalParts',A)),
+      (rdf_retractall(ObjInst,knowrob:'temporalParts',A))),
+    forall(
+      (owl_has(ObjInst,knowrob:'parts',B)),
+      (rdf_retractall(ObjInst,knowrob:'parts',B))),!.
 
 %    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
 %    rdf_has(SubjectPart, P, _),
