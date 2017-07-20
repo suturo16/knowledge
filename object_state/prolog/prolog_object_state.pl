@@ -492,7 +492,7 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
     (owl_has(Obj,knowrob:'nameOfObject', Name),!),
     holds(Obj,knowrob:'physicalParts',PhysicalParts),
-    owl_has(Obj,knowrob:'nameOfObject', PhysicalPartName).
+    owl_has(PhysicalParts,knowrob:'nameOfObject', PhysicalPartName).
 
 
 get_current_temporal_part_time(ObjInst,Timestamp) :-
