@@ -143,7 +143,6 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
       ; assign_obj_class(Type,ObjInst)),
-    
     assert_temporal_part(ObjInst, knowrob:'typeOfObject', Type),      % literal(type(xsd:string, Type))),
     assert_temporal_part(ObjInst, knowrob:'frameOfObject', FrameID),  % literal(type(xsd:string, FrameID))),
     assert_temporal_part(ObjInst, knowrob:'widthOfObject', Width),    % literal(type(xsd:float, Width))),
@@ -284,8 +283,9 @@ close_object_state(FullName) :-
     holds(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
-    forall((holds(ObjInst,P,O),O \= FullName), 
-    assert_temporal_part_end(ObjInst, P, O, Now)),!.
+    forall(
+    	(holds(ObjInst,P,O),O \= FullName, not(rdf_equal(P,knowrob:physicalParts))), 
+    	assert_temporal_part_end(ObjInst, P, O, Now)),!.
 
 %    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
 %    rdf_has(SubjectPart, P, _),
