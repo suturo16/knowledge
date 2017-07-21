@@ -370,22 +370,27 @@ create_temporal_name(FullName, FullTemporalName) :-
 %%##########################################################################################################
 set_info(Thing, Info) :-
     not(rdf_has(Thing, rdf:type, _)),(
-    % #if specified by name update object
-    (member([nameOfObject,Name],Info),
-    holds(ObjInst, knowrob:nameOfObject, Name);
-    holds(ObjInst, knowrob:nameOfObject, Thing)),
-    set_info(ObjInst, Info);
-    % #if Thing is instance of class in knowrob
-    owl_subclass_of(Id, knowrob:'SpatialThing'), 
-    rdf_global_id(knowrob:Thing,Id), 
-    assign_obj_class(Thing, ObjInst),
-    set_info(ObjInst, Info)
+    (
+      % #if specified by name update object
+      ( member([nameOfObject,Name],Info),
+      get_object([[nameOfObject,Name]],ObjInst)
+      ; rdf_global_id(knowrob:Thing,Id),
+      holds(ObjInst, knowrob:nameOfObject, Id)
+      ; holds(ObjInst, knowrob:nameOfObject, Thing)  ),
+      set_info(ObjInst, Info)
+    );(
+      % #if Thing is instance of class in knowrob
+      owl_subclass_of(Id, knowrob:'SpatialThing'), 
+      rdf_global_id(knowrob:Thing,Id), 
+      assign_obj_class(Thing, ObjInst),
+      set_info(ObjInst, Info), false
+    )
     % #if Thing is not specified but can be uniquely identified
     % #TODO check and uncomment if required
-    % setof(Obj, (setof(X, (member(X, Info), is_list(X)), Conds),
-    %            get_object(Obj)), Objs),
-    % length(Objs, 1), [ObjInst|_] = Objs,
-    % set_info(ObjInst, Info).
+    % #setof(Obj, (setof(X, (member(X, Info), is_list(X)), Conds),
+    % #           get_object(Obj)), Objs),
+    % #length(Objs, 1), [ObjInst|_] = Objs,
+    % #set_info(ObjInst, Info).
     ),!.
 
 %% set_info(ObjInst, [[P,Val]|More])
@@ -412,12 +417,14 @@ get_info(Variables, Returns) :-
     findall(Y, (member(Y, Variables), not(is_list(Y))), Vars),
     get_object(Conds, ObjInst),
     (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
-      length(Vars,0), get_info(ObjInst, Returns)).
+      length(Vars,0), get_info(ObjInst, Returns)),!.
 
 get_info(ObjName, Returns) :-
-    not(is_list(ObjName)), var(Returns),
-    Ns = knowrob, rdf_global_id(Ns:ObjName, ObjInst),
-    rdf_has(ObjInst, rdf:type, _),
+    not(is_list(ObjName)), var(Returns), Ns = knowrob, 
+    ( rdf_global_id(Ns:ObjName, ObjInst),
+    rdf_has(ObjInst, rdf:type, _)
+    ; rdf_global_id(Ns:ObjName, Name),
+    holds(ObjInst, knowrob:nameOfObject, Name)  ),
     get_info(ObjInst, Returns).
 
 get_info(ObjInst, Returns) :-
