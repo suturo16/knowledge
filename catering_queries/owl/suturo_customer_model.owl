@@ -103,7 +103,7 @@
 
     <!-- http://knowrob.org/kb/suturo_dialog.owl#name -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/suturo_dialog.owl#name"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#name"/>
     
 
 
@@ -185,7 +185,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/suturo_dialog.owl#name"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#name"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>

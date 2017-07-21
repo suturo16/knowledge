@@ -35,7 +35,7 @@ create_dialog_element(JSONString,DialogElement) :-
 
 extract_guest_id(JSONString,GuestID) :-
 	atomic_list_concat([RelevantGuestString|_], ',', JSONString),
-	atom_concat('{guestid:', GuestID, RelevantGuestString).
+	atom_concat('{guestId:', GuestID, RelevantGuestString).
 
 extract_query_element(JSONString,QueryInstance) :-
 	atomic_list_concat([_|[SecondHalf|_]], ',query:{', JSONString),
