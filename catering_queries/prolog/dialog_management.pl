@@ -14,15 +14,26 @@
       assert_query_properties/2,
       create_query_of_type/3,
       extract_only_type/3,
-      extract_only_type_help/4
+      extract_only_type_help/4,
+      run_the_rules/0
     ]).
 
 assert_dialog_element(JSONString) :-
     create_dialog_element(JSONString,_),
-    swrl:rdf_swrl_name(Descr,'SetCakeWithCustomer'),
-    rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
-    strip_literal_type(VarLiteral, Var),
-    rdf_swrl_project(Descr, [var(Var,Act)]).
+    run_the_rules.
+
+run_the_rules :-
+    ignore((
+      swrl:rdf_swrl_name(Descr,'SetCakeWithCustomer'),
+      rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
+      strip_literal_type(VarLiteral, Var),
+      rdf_swrl_project(Descr, [var(Var,Act)]))),
+    ignore((
+      swrl:rdf_swrl_name(Descr,'SetLocation'),
+      rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
+      strip_literal_type(VarLiteral, Var),
+      rdf_swrl_project(Descr, [var(Var,Act)]))).
+
 
 create_dialog_element(JSONString,DialogElement) :-
     atom(JSONString),
