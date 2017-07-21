@@ -28,7 +28,7 @@ get_open_orders_of(CustomerID,Item,TotalAmount,Delivered) :-
 
 %getOpenOrdersWithCustomerInfos(+CustomerID,-Name,-Place,-Good,-Amount)
 get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,DeliveredAmount) :-
-    holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    holds(Obj,knowrob:'guestId',literal(type(xsd:string,CustomerID))),
     (holds(Obj,rdf:type,knowrob:'Customer'),!),
     holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name))),
     ignore(holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name)))),
