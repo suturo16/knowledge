@@ -29,7 +29,7 @@ create_dialog_element(JSONString,DialogElement) :-
     rdf_instance_from_class(knowrob:'DialogElement', DialogElement),
     rdf_assert(DialogElement,knowrob:'checked',literal(type(xsd:boolean,false))),
     extract_guest_id(JSONString,GuestID),
-    rdf_assert(DialogElement,knowrob:'guestID',literal(type(xsd:string,GuestID))),
+    rdf_assert(DialogElement,knowrob:'guestId',literal(type(xsd:string,GuestID))),
     extract_query_element(JSONString,Query),
     rdf_assert(DialogElement,knowrob:'dialogQuery',Query).
 
