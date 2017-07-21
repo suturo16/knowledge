@@ -18,7 +18,7 @@
 
 %getCustomerInfos(+CustomerID,-Name,-Place)
 get_customer_infos(CustomerID,Name,Place) :-
-      get_open_orders_with_customer_infos(CustomerID,Name,Place,_,_) .
+      get_open_orders_with_customer_infos(CustomerID,Name,Place,_,_,_) .
 
 
 %getOpenOrdersOf(+customerID,-Item,-Amount)
