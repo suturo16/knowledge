@@ -552,10 +552,12 @@ seen_since(Name, FrameID, TimeFloat) :-
 % @param FrameID 
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
-get_tf_infos(Name, FrameID, Position, Orientation) :-
+get_tf_infos(Name, StrippedFrameID, Position, Orientation) :-
     holds(Obj,knowrob:'nameOfObject',FullName),
-    create_object_name(Name, FullName),
+    strip_literal_type(FullName, StrippedFullName),
+    create_object_name(Name, StrippedFullName),
     holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
+    strip_literal_type(FrameID, StrippedFrameID),
     (holds(Obj, knowrob:'xCoord', _) -> 
       get_fluent_pose(Obj, Position, Orientation); 
       get_pose(Obj, Position, Orientation)).

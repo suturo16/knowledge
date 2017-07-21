@@ -105,6 +105,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#nameString -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#nameString"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#qu -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#qu"/>
@@ -204,6 +210,21 @@
     <!-- http://knowrob.org/kb/knowrob.owl#zCoordToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#zCoordToOdom"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#frameOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#frameOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#nameOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#nameOfObject">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#nameString"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
     
 
 
