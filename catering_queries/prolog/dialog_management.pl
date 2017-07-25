@@ -15,7 +15,8 @@
       create_query_of_type/3,
       extract_only_type/3,
       extract_only_type_help/4,
-      run_the_rules/0
+      run_the_rules/0,
+      test_dialog_element/0
     ]).
 
 assert_dialog_element(JSONString) :-
@@ -27,18 +28,19 @@ run_the_rules :-
       swrl:rdf_swrl_name(Descr,'SetCakeWithCustomer'),
       rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
       strip_literal_type(VarLiteral, Var),
-      rdf_swrl_project(Descr, [var(Var,Act)]))),
+      rdf_swrl_project(Descr, [var(Var,Act)]),
+      rdf_swrl_unload(Descr))),
     ignore((
-      swrl:rdf_swrl_name(Descr,'SetLocation'),
-      rdf_has(Descr, knowrob:swrlActionVariable, VarLiteral),
+      swrl:rdf_swrl_name(Descr2,'SetLocation'),
+      rdf_has(Descr2, knowrob:swrlActionVariable, VarLiteral),
       strip_literal_type(VarLiteral, Var),
-      rdf_swrl_project(Descr, [var(Var,Act)]))).
+      rdf_swrl_project(Descr2, [var(Var,Act)]),
+      rdf_swrl_unload(Descr2))).
 
 
 create_dialog_element(JSONString,DialogElement) :-
     atom(JSONString),
     rdf_instance_from_class(knowrob:'DialogElement', DialogElement),
-    rdf_assert(DialogElement,knowrob:'checked',literal(type(xsd:boolean,false))),
     extract_guest_id(JSONString,GuestID),
     rdf_assert(DialogElement,knowrob:'guestId',literal(type(xsd:string,GuestID))),
     extract_query_element(JSONString,Query),
@@ -103,3 +105,7 @@ get_class_name(Type, ClassName) :-
     ; ClassName = Type.
 
 	
+%%%%%%%%%%%%%%%%
+
+test_dialog_element :-
+  assert_dialog_element('{guestId:1,query:{type:setCake,amount:1,guestName:arthur}}').

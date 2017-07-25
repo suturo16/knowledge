@@ -42,8 +42,9 @@ get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,Deliv
 
 %getFreeTables(-NameOfFreeTable)
 get_free_table(NameOfFreeTable) :-
-      owl_has(NameOfFreeTable,rdf:type,knowrob:'RestaurantTable'),
-      \+ (holds(_,knowrob:'locatedAt',NameOfFreeTable)).
+      owl_has(Table,rdf:type,knowrob:'RestaurantTable'),
+      owl_has(Table,knowrob:'tableId',literal(type(xsd:string,NameOfFreeTable))),
+      \+ (holds(_,knowrob:'locatedAt',Table)).
 
 % set_delivered_amount(+CustomerID,+Amount)
 set_delivered_amount(CustomerID,Amount) :-
