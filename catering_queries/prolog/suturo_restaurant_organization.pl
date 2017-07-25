@@ -22,7 +22,7 @@ get_customer_infos(CustomerID,Name,Place) :-
 
 
 %getOpenOrdersOf(+customerID,-Item,-Amount)
-get_open_orders_of(CustomerID,Item,TotalAmount,Delivered) :-
+get_open_orders_of(CustomerID,Item,TotalAmount,DeliveredAmount) :-
       get_open_orders_with_customer_infos(CustomerID,_,_,Item,TotalAmount,DeliveredAmount).
 
 
