@@ -16,12 +16,20 @@
       extract_only_type/3,
       extract_only_type_help/4,
       run_the_rules/0,
-      test_dialog_element/0
+      test_dialog_element/0,
+      modified_to_current/0,
+      get_umodified_property_name/2,
+      get_modified_property/1
     ]).
+
+:- rdf_meta get_modified_property(?),
+			get_umodified_property_name(?,r),
+			modified_to_current.
 
 assert_dialog_element(JSONString) :-
     create_dialog_element(JSONString,_),
-    run_the_rules.
+    run_the_rules,
+    ignore(modified_to_current). %# if there are modified properties, 
 
 run_the_rules :-
     ignore((
@@ -35,7 +43,19 @@ run_the_rules :-
       rdf_has(Descr2, knowrob:swrlActionVariable, VarLiteral),
       strip_literal_type(VarLiteral, Var),
       rdf_swrl_project(Descr2, [var(Var,Act)]),
-      rdf_swrl_unload(Descr2))).
+      rdf_swrl_unload(Descr2))),
+    ignore((
+      swrl:rdf_swrl_name(Descr3,'IncreaseCake'),
+      rdf_has(Descr3, knowrob:swrlActionVariable, VarLiteral),
+      strip_literal_type(VarLiteral, Var),
+      rdf_swrl_project(Descr3, [var(Var,Act)]),
+      rdf_swrl_unload(Descr3))),
+    ignore((
+      swrl:rdf_swrl_name(Descr4,'DecreaseCake'),
+      rdf_has(Descr4, knowrob:swrlActionVariable, VarLiteral),
+      strip_literal_type(VarLiteral, Var),
+      rdf_swrl_project(Descr4, [var(Var,Act)]),
+      rdf_swrl_unload(Descr4))).
 
 
 create_dialog_element(JSONString,DialogElement) :-
@@ -103,6 +123,45 @@ get_class_name(Type, ClassName) :-
     sub_atom(Type,0,1,_,C), char_code(C,I), 96<I, I<123
     -> J is I-32, char_code(D,J), sub_atom(Type,1,_,0,Sub), atom_concat(D,Sub,ClassName)
     ; ClassName = Type.
+
+
+modified_to_current :-
+    get_modified_property(MProp),
+    get_umodified_property_name(MProp,Prop),
+    forall(
+    (
+      rdf_has(S,MProp,O),
+      rdf_has(S,Prop,OldO)
+    ),
+    (
+      rdf_retractall(S,Prop,OldO),
+      rdf_assert(S,Prop,O),
+      rdf_retractall(S,MProp,O)
+    )),
+    
+    forall(
+    (
+      rdf_has(SOld,knowrob:'temporalProperty',MProp)
+    ),
+    (
+      rdf_retractall(SOld,knowrob:'temporalProperty',MProp),
+      rdf_assert(SOld,knowrob:'temporalProperty',Prop)
+    )),
+    forall(
+    (
+      rdf_has(SOld,swrl:'propertyPredicate',MProp)
+    ),
+    (
+      rdf_retractall(SOld,swrl:'propertyPredicate',MProp),
+      rdf_assert(SOld,swrl:'propertyPredicate',Prop)
+    )).
+
+get_umodified_property_name(MProp,Prop) :-
+	sub_string(MProp,0,_,9,PropString),
+	name(Prop,PropString).
+
+get_modified_property(P) :-
+	rdf_equal(P,knowrob:'orderedAmount_modified').
 
 	
 %%%%%%%%%%%%%%%%

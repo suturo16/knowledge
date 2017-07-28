@@ -36,8 +36,8 @@ get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,Deliv
     ignore(holds(Visit,knowrob:'locatedAt',Place)),
     holds(Visit,knowrob:'hasOrder',Order),
     holds(Order,knowrob:'itemName',literal(type(xsd:string,Item))),
-    holds(Order,knowrob:'orderedAmount',literal(type(xsd:int,TotalAmount))),
-    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:int,DeliveredAmount))). %# This parameter isn#t always needed
+    holds(Order,knowrob:'orderedAmount',literal(type(xsd:integer,TotalAmount))),
+    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:integer,DeliveredAmount))). %# This parameter isn#t always needed
 
 
 %getFreeTables(-NameOfFreeTable)
@@ -48,7 +48,7 @@ get_free_table(NameOfFreeTable) :-
 
 % set_delivered_amount(+CustomerID,+Amount)
 set_delivered_amount(CustomerID,Amount) :-
-    (holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    (holds(Obj,knowrob:'guestId',literal(type(xsd:string,CustomerID))),
     holds(Obj,rdf:type,knowrob:'Customer'),!),
     holds(Obj,knowrob:'visit',Visit),
     holds(Visit,knowrob:'hasOrder',Order),
@@ -60,11 +60,11 @@ set_delivered_amount(CustomerID,Amount) :-
 
 % increase_delivered_amount(+CustomerID)
 increase_delivered_amount(CustomerID,Amount) :-
-    (holds(Obj,knowrob:'guestID',literal(type(xsd:string,CustomerID))),
+    (holds(Obj,knowrob:'guestId',literal(type(xsd:string,CustomerID))),
     holds(Obj,rdf:type,knowrob:'Customer'),!),
     holds(Obj,knowrob:'visit',Visit),
     holds(Visit,knowrob:'hasOrder',Order),
-    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:int,DeliveredAmount))),
+    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:integer,DeliveredAmount))),
     (atom(DeliveredAmount) -> atom_number(DeliveredAmount,DAAsNumber);DAAsNumber = DeliveredAmount),
     (atom(Amount) -> atom_number(Amount,AmountAsNumber);AmountAsNumber = Amount),
     DeliveredAmountNew is DAAsNumber + AmountAsNumber,
