@@ -182,16 +182,16 @@ object_info_to_list([[PX, PY, PZ], [OX, OY, OZ, OW]], Type, Frame, Width, Height
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
-create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    false, % #for the moment this doesn't work !!!!!!!
-    object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
-    known_object(Type, Pose, Width, Height, Depth, FullName),!
-        -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-          atom_concat('/', Name, ChildFrameID),
-          not(isConnected(_ ,ChildFrameID))
-            -> set_info(FullName, List)
-            ; false)
-        ; set_info(Type, List).
+%create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+%    false, % #for the moment this doesn't work !!!!!!!
+%    object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
+%    known_object(Type, Pose, Width, Height, Depth, FullName),!
+%        -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+%          atom_concat('/', Name, ChildFrameID),
+%          not(isConnected(_ ,ChildFrameID))
+%            -> set_info(FullName, List)
+%            ; false)
+%        ; set_info(Type, List).
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
@@ -308,6 +308,7 @@ create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(FullName) :-
+    write('WHAAAAAAAAAAAAT'),
     holds(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
@@ -355,9 +356,9 @@ get_max_num(Type, Number) :-
 % MSp
 % helper funciton for to get max Number in NameNum
 get_type_num(Type, Number) :-
-% #alt:    get_object_infos(FullName,_,Type,_,_,_,_,_), 
-    get_info([[typeOfObject,Type],nameOfObject],Ret),
-% #alt:    create_object_name(NameNum,FullName),
+    get_object_infos(FullName,_,Type,_,_,_,_,_), 
+% #broken:    get_info([[typeOfObject,Type],nameOfObject],Ret),
+    create_object_name(NameNum,FullName),
     member([nameOfObject,NameNum],Ret),
     atom_concat(Type, NumChar, NameNum), 
     atom_number(NumChar, Number).

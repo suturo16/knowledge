@@ -22,7 +22,8 @@
       dummy_perception_with_close2/1,
       dummy_perception_with_close3/1,
       test_connect_frames/2,
-      test_disconnect_frames/2
+      test_disconnect_frames/2,
+      loop/1
     ]).
 
 %importing external libraries
@@ -184,3 +185,10 @@ test_swrl_project(Id, Bindings) :-
   swrl_condition_satisfied(Rule,Vars),
   swrl_implication_project(Rule,Vars).
 
+
+loop(0) :- create_object_state_with_close('cakeSpatula', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatula', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+loop(NumberOfSteps) :-
+  (NumberOfSteps > 0),
+  create_object_state_with_close('cakeSpatula', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatula', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst),
+  New is NumberOfSteps - 1,
+  loop(New).

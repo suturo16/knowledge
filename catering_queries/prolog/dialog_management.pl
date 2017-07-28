@@ -109,6 +109,7 @@ assert_query_properties([QueryElement|Rest],DialogQuery) :-
 	assert_query_properties(Rest,DialogQuery).
 
 rdf_assert_with_literal(S,P,Value) :-
+  (atom_number(Value,ValueX)-> true ; ValueX = Value),
   rdf_has(P, rdf:type, owl:'DatatypeProperty'),
   (  rdf_phas(P, rdfs:range, Range)
   -> rdf_assert(S, P, literal(type(Range,Value)))

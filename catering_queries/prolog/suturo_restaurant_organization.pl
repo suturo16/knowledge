@@ -36,9 +36,10 @@ get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,Deliv
     ignore(holds(Visit,knowrob:'locatedAt',Place)),
     holds(Visit,knowrob:'hasOrder',Order),
     holds(Order,knowrob:'itemName',literal(type(xsd:string,Item))),
-    holds(Order,knowrob:'orderedAmount',literal(type(xsd:integer,TotalAmount))),
-    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:integer,DeliveredAmount))). %# This parameter isn#t always needed
-
+    holds(Order,knowrob:'orderedAmount',literal(type(xsd:integer,TotalAmountAtom))),
+    (atom(TotalAmountAtom) -> atom_number(TotalAmountAtom,TotalAmount) ; TotalAmount = TotalAmountAtom),
+    holds(Order,knowrob:'deliveredAmount',literal(type(xsd:integer,DeliveredAmountAtom))), %# This parameter isn#t always needed
+    (atom(TotalAmountAtom) -> atom_number(DeliveredAmountAtom,DeliveredAmount) ; DeliveredAmount = DeliveredAmountAtom).
 
 %getFreeTables(-NameOfFreeTable)
 get_free_table(NameOfFreeTable) :-
@@ -72,3 +73,5 @@ increase_delivered_amount(CustomerID,Amount) :-
 
 increase_delivered_amount(CustomerID) :-
     increase_delivered_amount(CustomerID,1).
+
+
