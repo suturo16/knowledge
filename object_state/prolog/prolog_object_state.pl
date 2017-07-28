@@ -138,7 +138,7 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     create_fluent_pose(ObjInst, Pose),
     create_fluent_pose_to_odom(ObjInst, Pose),
     (holds(ObjInst,knowrob:'physicalParts',_) ->
-    	true;
+    	true,write('HEEEEEEEEEEEEEEEEEEELLLLLLLLLPPPPPPPPPPPPPP');
     	ignore(create_physical_parts(Type,ObjInst))).
 
 
@@ -227,12 +227,13 @@ assign_obj_class(Type, ObjInst) :-
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
+    write('WAD'),
     % build knowrob:Class
     Ns = knowrob,
     get_class_name(Type, Name),
     rdf_global_id(Ns:Name, Id),
     % build parent frame id
-    owl_has(ObjInst,knowrob:'nameOfObject',ParentName),
+    rdf_has(ObjInst,knowrob:'nameOfObject',ParentName),
     create_object_name(ParentNameWithoutKnowrob, ParentName),
     atom_concat('/', ParentNameWithoutKnowrob, ParentFrameID),
     % foreach physical part assert connection to object
@@ -308,20 +309,18 @@ create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(FullName) :-
-    write('WHAAAAAAAAAAAAT'),
     holds(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
     current_time(Now),
     forall(
-    	(rdf_has(ObjInst,P,O), rdf_global_id(knowrob:_,P),
-        O \= FullName, not(rdf_equal(P,knowrob:physicalParts))), 
+    	(rdf_has(ObjInst,P,O), O \= FullName, not(rdf_equal(P,knowrob:'physicalParts'))), 
     	assert_temporal_part_end(ObjInst, P, O, Now)),
     forall(
-      (owl_has(ObjInst,knowrob:'temporalParts',A)),
-      (rdf_retractall(ObjInst,knowrob:'temporalParts',A))),
-    forall(
-      (owl_has(ObjInst,knowrob:'parts',B)),
-      (rdf_retractall(ObjInst,knowrob:'parts',B))),!.
+      (rdf_has(ObjInst,knowrob:'temporalParts',A)),
+      (rdf_retractall(ObjInst,knowrob:'temporalParts',A))),!.
+%    forall(
+%      (owl_has(ObjInst,knowrob:'parts',B)),
+%      (rdf_retractall(ObjInst,knowrob:'parts',B))),!.
 
 %    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
 %    rdf_has(SubjectPart, P, _),
@@ -528,8 +527,8 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 % @param Depth depth of object
 % @param Obj object ID in KB
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
+    rdf_has(Obj,knowrob:'nameOfObject', Name),
     holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    owl_has(Obj,knowrob:'nameOfObject', Name),
     holds(Obj, knowrob:'frameOfObject', literal(FrameID)),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
@@ -539,9 +538,9 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 
 
 get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
-    (owl_has(Obj,knowrob:'nameOfObject', Name),!),
+    (rdf_has(Obj,knowrob:'nameOfObject', Name),!),
     holds(Obj,knowrob:'physicalParts',PhysicalParts),
-    owl_has(PhysicalParts,knowrob:'nameOfObject', PhysicalPartName).
+    rdf_has(PhysicalParts,knowrob:'nameOfObject', PhysicalPartName).
 
 
 get_current_temporal_part_time(ObjInst,Timestamp) :-
@@ -682,7 +681,6 @@ sqr_sum([A1|An], [B1|Bn], SqrSum) :-
 % A small function to connect two given frames.
 connect_frames(ParentFrameID, ChildFrameID) :-
   prython:py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
-  write(Pose),
   atom_concat('/', Name, ChildFrameID),
   atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
   get_object_infos_to_odom(FullName, Type, PoseToOdom, Height, Width, Depth),
