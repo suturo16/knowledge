@@ -355,8 +355,10 @@ get_max_num(Type, Number) :-
 % MSp
 % helper funciton for to get max Number in NameNum
 get_type_num(Type, Number) :-
-    get_object_infos(FullName,_,Type,_,_,_,_,_), 
-    create_object_name(NameNum,FullName),
+% #alt:    get_object_infos(FullName,_,Type,_,_,_,_,_), 
+    get_info([[typeOfObject,Type],nameOfObject],Ret),
+% #alt:    create_object_name(NameNum,FullName),
+    member([nameOfObject,NameNum],Ret),
     atom_concat(Type, NumChar, NameNum), 
     atom_number(NumChar, Number).
 
@@ -409,6 +411,7 @@ set_info(Thing, Info) :-
       owl_subclass_of(Id, knowrob:'SpatialThing'), 
       rdf_global_id(knowrob:Thing,Id), 
       assign_obj_class(Thing, ObjInst),
+      assert_temporal_part(ObjInst, knowrob:typeOfObject, Thing),
       set_info(ObjInst, Info)
     )
     % #if Thing is not specified but can be uniquely identified
@@ -448,7 +451,7 @@ get_info(Variables, Returns) :-
     findall(Y, (member(Y, Variables), not(is_list(Y))), Vars),
     get_object(Conds, ObjInst),
     (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
-      length(Vars,0), get_info(ObjInst, Returns)),!.
+      length(Vars,0), get_info(ObjInst, Returns)).
 
 get_info(ObjName, Returns) :-
     not(is_list(ObjName)), var(Returns), Ns = knowrob, 
@@ -456,7 +459,7 @@ get_info(ObjName, Returns) :-
     rdf_has(ObjInst, rdf:type, _)
     ; rdf_global_id(Ns:ObjName, Name),
     holds(ObjInst, knowrob:nameOfObject, Name)  ),
-    get_info(ObjInst, Returns).
+    get_info(ObjInst, Returns),!.
 
 get_info(ObjInst, Returns) :-
     not(is_list(ObjInst)), var(Returns), 
@@ -468,7 +471,7 @@ get_info(ObjInst, Returns) :-
       rdf_global_id(Ns:Var, NsVar),
       once(
         rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
-      Returns).
+      Returns),!.
 
 %% get_info(Vars, Rets, ObjInst)
 % MSp
@@ -481,7 +484,7 @@ get_info(Variables,Returns, ObjInst) :-
       rdf_global_id(Ns:Var, NsVar),
       once(
         rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
-      Returns).
+      Returns),!.
 
 
 %% get_object(+Conditions, -ObjInst)
