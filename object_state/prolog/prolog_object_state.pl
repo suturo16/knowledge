@@ -137,8 +137,8 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
     create_fluent_pose(ObjInst, Pose),
     create_fluent_pose_to_odom(ObjInst, Pose),
-    (holds(ObjInst,knowrob:'physicalParts',_) ->
-    	true,write('HEEEEEEEEEEEEEEEEEEELLLLLLLLLPPPPPPPPPPPPPP');
+    (rdf_has(ObjInst,knowrob:'physicalParts',_) ->
+    	true;
     	ignore(create_physical_parts(Type,ObjInst))).
 
 
@@ -227,7 +227,6 @@ assign_obj_class(Type, ObjInst) :-
 
 %Creates individuals for all physical parts
 create_physical_parts(Type,ObjInst) :-
-    write('WAD'),
     % build knowrob:Class
     Ns = knowrob,
     get_class_name(Type, Name),
