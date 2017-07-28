@@ -40,7 +40,8 @@
       same_dimensions/2,
       same_position/3,
       seen_since/3,
-      set_info/2
+      set_info/2,
+      object_info_to_list/7
     ]).
 
 :- dynamic
@@ -49,6 +50,7 @@
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
       close_object_state(r,r,r,r,r,r,r,r,?),
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
+      object_info_to_list(r, r, r, r, r, r, ?),
       create_object_name(r,?),
       create_temporal_name(r,?),
       create_physical_parts(r,r),
@@ -105,7 +107,8 @@
    string_concat(Path,'/prolog_object_state.pl',File),
    string_concat(Path,'/../scripts',FullPath),
    add_py_path(FullPath).
- 
+
+
 %% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
@@ -156,6 +159,7 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
     known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
           atom_concat('/', Name, ChildFrameID),
@@ -164,6 +168,30 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+
+
+object_info_to_list([[PX, PY, PZ], [OX, OY, OZ, OW]], Type, Frame, Width, Height, Depth, List) :-
+    false, % #for the moment this doesn't work !!!!!
+    List = [
+            [xCoord, PX],[yCoord, PY],[zCoord, PZ],
+            [qx, OX],[qy, OY],[qz, OZ],[qu, OW],
+            [typeOfObject, Type],[frameOfObject, Frame],
+            [widthOfObject, Width],[heightOfObject, Height],[depthOfObject, Depth]
+           ].
+
+%% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
+% LSa, MSp
+% Creates a fluent and closes the corresponding old TemporalPart.
+create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    false, % #for the moment this doesn't work !!!!!!!
+    object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
+    known_object(Type, Pose, Width, Height, Depth, FullName),!
+        -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
+          atom_concat('/', Name, ChildFrameID),
+          not(isConnected(_ ,ChildFrameID))
+            -> set_info(FullName, List)
+            ; false)
+        ; set_info(Type, List).
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
@@ -372,9 +400,7 @@ set_info(Thing, Info) :-
     not(rdf_has(Thing, rdf:type, _)),(
     (
       % #if specified by name update object
-      ( member([nameOfObject,Name],Info),
-      get_object([[nameOfObject,Name]],ObjInst)
-      ; rdf_global_id(knowrob:Thing,Id),
+      ( rdf_global_id(knowrob:Thing,Id),
       holds(ObjInst, knowrob:nameOfObject, Id)
       ; holds(ObjInst, knowrob:nameOfObject, Thing)  ),
       set_info(ObjInst, Info)
@@ -383,7 +409,7 @@ set_info(Thing, Info) :-
       owl_subclass_of(Id, knowrob:'SpatialThing'), 
       rdf_global_id(knowrob:Thing,Id), 
       assign_obj_class(Thing, ObjInst),
-      set_info(ObjInst, Info), false
+      set_info(ObjInst, Info)
     )
     % #if Thing is not specified but can be uniquely identified
     % #TODO check and uncomment if required
@@ -393,20 +419,25 @@ set_info(Thing, Info) :-
     % #set_info(ObjInst, Info).
     ),!.
 
-%% set_info(ObjInst, [[P,Val]|More])
-% MSp
-% saves knowledge value O as relation P to S
+%% #set_info(ObjInst, [[P,Val]|More])
+% #MSp
+% #saves knowledge value O as relation P to S
 % @param ObjInst the target object or thing for the P related value Val
 % @param P the relation the value Val has to subject S
 % @param Val the value of the P related object
 set_info(ObjInst, [[P,Val]|More]) :-
     rdf_has(ObjInst, rdf:type, _), % #check that ObjInst is object
-    Ns = knowrob,
-    rdf_global_id(Ns:P, Id),
-    ignore(forall( holds(ObjInst, Id, EndVal),
-    assert_temporal_part_end(ObjInst, Id, EndVal))),
-    assert_temporal_part(ObjInst, Id, Val),
-    set_info(ObjInst, More),!.
+    set_info(ObjInst, More)
+    -> 
+      ( nonvar(P), nonvar(Val)       % #P & Val can't be variables -> if so skip
+      -> ( Ns = knowrob,
+        rdf_global_id(Ns:P, Id),
+        ignore(forall( holds(ObjInst, Id, EndVal),
+        assert_temporal_part_end(ObjInst, Id, EndVal))),
+        assert_temporal_part(ObjInst, Id, Val),
+        set_info(ObjInst, More),! )
+      ; true )
+    ;false .
 
 set_info(_, []).
 
@@ -495,7 +526,7 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     holds(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
     owl_has(Obj,knowrob:'nameOfObject', Name),
-    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
+    holds(Obj, knowrob:'frameOfObject', literal(FrameID)),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
