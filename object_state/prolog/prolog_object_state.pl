@@ -16,12 +16,14 @@
       create_temporal_name/2,
       assign_obj_class/2,
       close_object_state/1,
+      assert_temporal_part_with_end/3,
       connect_frames/2,
       disconnect_frames/2,
       isConnected/2,
       multiple_objects_name/2,
       get_class_name/2,
       get_fluent_pose/3,
+      create_value_if_tolerance/6,
       get_info/2,
       get_info/3,
       get_object/2,
@@ -41,7 +43,8 @@
       same_position/3,
       seen_since/3,
       set_info/2,
-      object_info_to_list/7
+      object_info_to_list/7,
+      is_different_from_by/3
     ]).
 
 :- dynamic
@@ -50,10 +53,13 @@
 :- rdf_meta create_object_state(r,r,r,r,r,r,r,r,?),
       close_object_state(r,r,r,r,r,r,r,r,?),
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
+      create_object_state_with_close(r,r,r,r,r,r,r,r,r,?),
       object_info_to_list(r, r, r, r, r, r, ?),
       create_object_name(r,?),
       create_temporal_name(r,?),
       create_physical_parts(r,r),
+      create_value_if_tolerance(r,r,r,r,r,r),
+      assert_temporal_part_with_end(r,r,r),
       set_info(r,r),
       set_info(r,r,r),
       get_info(r,r),
@@ -131,11 +137,12 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     %create_fluent(ObjInst, Fluent), fluent_assert)(S,P,O)
     (rdf_has(ObjInst, knowrob:'typeOfObject', _) ->
       true;
-      rdf_assert(ObjInst, knowrob:'typeOfObject', Type)),      % literal(type(xsd:string, Type))),
-    assert_temporal_part(ObjInst, knowrob:'frameOfObject', FrameID), % literal(type(xsd:string, FrameID))),
-    assert_temporal_part(ObjInst, knowrob:'widthOfObject', Width),    % literal(type(xsd:float, Width))),
-    assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
-    assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
+      rdf_assert(ObjInst, knowrob:'typeOfObject', Type)),      %# literal(type(xsd:string, Type))),
+    (holds(ObjInst, knowrob:'frameOfObject', FrameID) ->
+      true;
+      assert_temporal_part_with_end(ObjInst, knowrob:'frameOfObject', FrameID)), %# literal(type(xsd:string, FrameID))),
+    %# literal(type(xsd:float, Depth))),
+    create_temporal_dimensions(ObjInst,Height,Width,Depth),
     create_fluent_pose(ObjInst, Pose),
     (rdf_has(ObjInst,knowrob:'xCoordToOdom',_) ->
       true;
@@ -146,20 +153,19 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
-    write(Name),write('DDDDDDDDDDDDDDDDDDDD'),
-    write(Pose),
-    write('\n'),
-    write(PoseToOdom),
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
       ; assign_obj_class(Type,ObjInst)),
+    %previously used was this:
+    %create_fluent(ObjInst, Fluent), fluent_assert)(S,P,O)
     (rdf_has(ObjInst, knowrob:'typeOfObject', _) ->
       true;
-      rdf_assert(ObjInst, knowrob:'typeOfObject', Type)),      % literal(type(xsd:string, Type))),
-    assert_temporal_part(ObjInst, knowrob:'frameOfObject', FrameID), % literal(type(xsd:string, FrameID))),
-    assert_temporal_part(ObjInst, knowrob:'widthOfObject', Width),    % literal(type(xsd:float, Width))),
-    assert_temporal_part(ObjInst, knowrob:'heightOfObject', Height),  % literal(type(xsd:float, Height))),
-    assert_temporal_part(ObjInst, knowrob:'depthOfObject', Depth),    % literal(type(xsd:float, Depth))),
+      rdf_assert(ObjInst, knowrob:'typeOfObject', Type)),      %# literal(type(xsd:string, Type))),
+    (holds(ObjInst, knowrob:'frameOfObject', FrameID) ->
+      true;
+      assert_temporal_part_with_end(ObjInst, knowrob:'frameOfObject', FrameID)), %# literal(type(xsd:string, FrameID))),
+    %# literal(type(xsd:float, Depth))),
+    create_temporal_dimensions(ObjInst,Height,Width,Depth),
     create_fluent_pose(ObjInst, Pose),
     (rdf_has(ObjInst,knowrob:'xCoordToOdom',_) ->
       true;
@@ -167,6 +173,36 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
     (rdf_has(ObjInst,knowrob:'physicalParts',_) ->
       true;
       ignore(create_physical_parts(Type,ObjInst))).
+
+
+assert_temporal_part_with_end(ObjInst, P, NewValue) :-
+    current_time(Now),
+    (holds(ObjInst,P,O) ->
+    assert_temporal_part_end(ObjInst,P,O,Now);true),
+    assert_temporal_part(ObjInst, P, NewValue). 
+
+
+create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
+    ((holds(ObjInst, knowrob:'widthOfObject', literal(type(xsd:float, OldWidth))),    %# literal(type(xsd:float, Width))),
+    holds(ObjInst, knowrob:'heightOfObject', literal(type(xsd:float, OldHeight))),  %# literal(type(xsd:float, Height))),
+    holds(ObjInst, knowrob:'depthOfObject', literal(type(xsd:float, OldDepth)))) ->
+    (
+      current_time(Now),
+      DimensionDif is 0.01,
+      create_value_if_tolerance(ObjInst,knowrob:'widthOfObject',Width,OldWidth,DimensionDif,Now),
+      create_value_if_tolerance(ObjInst,knowrob:'heightOfObject',Height,OldHeight,DimensionDif,Now),
+      create_value_if_tolerance(ObjInst,knowrob:'depthOfObject',Depth,OldDepth,DimensionDif,Now))
+    );false.
+
+create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
+    ((not(holds(ObjInst, knowrob:'widthOfObject', _));    %# literal(type(xsd:float, Width))),
+    not(holds(ObjInst, knowrob:'heightOfObject', _));  %# literal(type(xsd:float, Height))),
+    not(holds(ObjInst, knowrob:'depthOfObject', _))) ->
+    (
+      assert_temporal_part(ObjInst,knowrob:'widthOfObject',Width),
+      assert_temporal_part(ObjInst,knowrob:'heightOfObject',Height),
+      assert_temporal_part(ObjInst,knowrob:'depthOfObject',Depth)
+    );false).
 
 object_info_to_list([[PX, PY, PZ], [OX, OY, OZ, OW]], Type, Frame, Width, Height, Depth, List) :-
     false, % #for the moment this doesn't work !!!!!
@@ -200,7 +236,7 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
-            -> ignore(close_object_state(FullName)),
+            -> ignore(close_object_state(FullName)), 
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
@@ -278,20 +314,55 @@ get_class_name(Type, ClassName) :-
 % @param Fluent temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
-	PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
-    assert_temporal_part(ObjInst, knowrob:'xCoord', PXVal), % literal(type(xsd:float, PX))),
-	PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
-    assert_temporal_part(ObjInst, knowrob:'yCoord', PYVal), % literal(type(xsd:float, PY))),
-	PZVal_=literal(type(xsd:'float',PZ)), rdf_global_term(PZVal_, PZVal),
-    assert_temporal_part(ObjInst, knowrob:'zCoord', PZVal), % literal(type(xsd:float, PZ))),
-	OXVal_=literal(type(xsd:'float',OX)), rdf_global_term(OXVal_, OXVal),
-    assert_temporal_part(ObjInst, knowrob:'qx', OXVal), % literal(type(xsd:float, OX))),
-	OYVal_=literal(type(xsd:'float',OY)), rdf_global_term(OYVal_, OYVal),
-    assert_temporal_part(ObjInst, knowrob:'qy', OYVal), % literal(type(xsd:float, OY))),
-	OZVal_=literal(type(xsd:'float',OZ)), rdf_global_term(OZVal_, OZVal),
-    assert_temporal_part(ObjInst, knowrob:'qz', OZVal), % literal(type(xsd:float, OZ))),
-	OUVal_=literal(type(xsd:'float',OW)), rdf_global_term(OUVal_, OUVal),
-    assert_temporal_part(ObjInst, knowrob:'qu', OUVal). % literal(type(xsd:float, OW))).
+  (get_fluent_pose(ObjInst,[PXOld, PYOld, PZOld], [OXOld, OYOld, OZOld, OWOld]) ->
+  (current_time(Now),
+  PositionDif is 0.02, 
+  QuaternionDiff is 0.02,
+  create_value_if_tolerance(ObjInst,knowrob:'xCoord',PX,PXOld,PositionDif,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'yCoord',PY,PYOld,PositionDif,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'zCoord',PZ,PZOld,PositionDif,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'qx',OX,OXOld,QuaternionDiff,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'qz',OY,OYOld,QuaternionDiff,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'qy',OZ,OZOld,QuaternionDiff,Now),
+  create_value_if_tolerance(ObjInst,knowrob:'qu',OW,OWOld,QuaternionDiff,Now));
+  false).
+
+
+create_value_if_tolerance(ObjInst,P,NewValue,OldValue,Tolerance,Time) :-
+    ((nonvar(ObjInst),nonvar(P),nonvar(NewValue),nonvar(OldValue),nonvar(Tolerance),nonvar(Time)) ->
+      true;
+      (debug(ObjInst),debug(P),debug(NewValue),debug(OldValue),debug(Tolerance),debug(Time)),false), %# todo: remove
+    (is_different_from_by(OldValue,NewValue,Tolerance) ->
+      (
+        holds(ObjInst,P,Oldy), %# TODO: Why is this call needed? If i use the Value for the _end call, i get an exception
+        assert_temporal_part_end(ObjInst, P,Oldy, Time),
+        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
+        assert_temporal_part(ObjInst, P, NewValueV) %# literal(type(xsd:float, PX)))
+      );
+        true).
+
+
+%% create_fluent_pose(+Fluent, +Pose)
+% MSp
+% @param Fluent temporal part of object
+% @param Pose list of lists [[3],[4]] position and orientation
+create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
+  (not(holds(ObjInst, knowrob:'xCoord', _)) ->
+  (PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
+    assert_temporal_part(ObjInst, knowrob:'xCoord', PXVal), %# literal(type(xsd:float, PX))),
+  PYVal_=literal(type(xsd:'float',PY)), rdf_global_term(PYVal_, PYVal),
+    assert_temporal_part(ObjInst, knowrob:'yCoord', PYVal), %# literal(type(xsd:float, PY))),
+  PZVal_=literal(type(xsd:'float',PZ)), rdf_global_term(PZVal_, PZVal),
+    assert_temporal_part(ObjInst, knowrob:'zCoord', PZVal), %# literal(type(xsd:float, PZ)))
+  OXVal_=literal(type(xsd:'float',OX)), rdf_global_term(OXVal_, OXVal),
+    assert_temporal_part(ObjInst, knowrob:'qx', OXVal), %# literal(type(xsd:float, OX))),
+  OYVal_=literal(type(xsd:'float',OY)), rdf_global_term(OYVal_, OYVal),
+    assert_temporal_part(ObjInst, knowrob:'qy', OYVal), %# literal(type(xsd:float, OY))),
+  OZVal_=literal(type(xsd:'float',OZ)), rdf_global_term(OZVal_, OZVal),
+    assert_temporal_part(ObjInst, knowrob:'qz', OZVal), %# literal(type(xsd:float, OZ))),
+  OUVal_=literal(type(xsd:'float',OW)), rdf_global_term(OUVal_, OUVal),
+    assert_temporal_part(ObjInst, knowrob:'qu', OUVal)); %# literal(type(xsd:float, OW)))
+  false).
 
 
 %% create_fluent_pose_to_odom(+Fluent, +Pose)
@@ -310,15 +381,17 @@ create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 
 %% close_object_state(+FullName) is probably det.
 % SJo
+% CAUTION: DELETES ALL OLD TEMPORALPARTS, FOR TEST ONLY
+% USING THIS IN THE CREATE FUNCTION WILL MAKE THE THE RUNTIME INCREASE LINEAR (INSTEAD OF POLYNOMIAL)
 % Closes the interval of a holding fluent 
 % @param Name describes the class of the object
 close_object_state(FullName) :-
     holds(ObjInst, knowrob:'nameOfObject', FullName),
     % FIXME: Should be replaced by fluent_assert_end if it works.
-    current_time(Now),
-    forall(
-    	(rdf_has(ObjInst,P,O), close_object_state_exceptions(O,FullName,P)), 
-    	assert_temporal_part_end(ObjInst, P, O, Now)),
+    %current_time(Now),
+    %forall(
+    %	(rdf_has(ObjInst,P,O), close_object_state_exceptions(O,FullName,P)), 
+    %	assert_temporal_part_end(ObjInst, P, O, Now)),
     forall(
       (rdf_has(ObjInst,knowrob:'temporalParts',A)),
       (rdf_retractall(ObjInst,knowrob:'temporalParts',A))),!.
@@ -336,8 +409,18 @@ close_object_state(FullName) :-
 
 close_object_state_exceptions(ObjectInstance,FullName,Property) :-
     ObjectInstance \= FullName, 
+    not(rdf_equal(Property,knowrob:'heightOfObject')),
+    not(rdf_equal(Property,knowrob:'widthOfObject')),
+    not(rdf_equal(Property,knowrob:'depthOfObject')),
     not(rdf_equal(Property,knowrob:'physicalParts')),
     not(rdf_equal(Property,knowrob:'typeOfObject')),
+    not(rdf_equal(Property,knowrob:'xCoord')),
+    not(rdf_equal(Property,knowrob:'yCoord')),
+    not(rdf_equal(Property,knowrob:'zCoord')),
+    not(rdf_equal(Property,knowrob:'qx')),
+    not(rdf_equal(Property,knowrob:'qz')),
+    not(rdf_equal(Property,knowrob:'qy')),
+    not(rdf_equal(Property,knowrob:'qu')),
     not(rdf_equal(Property,knowrob:'xCoordToOdom')),
     not(rdf_equal(Property,knowrob:'yCoordToOdom')),
     not(rdf_equal(Property,knowrob:'zCoordToOdom')),
@@ -656,6 +739,13 @@ known_object(Type, [Position, _], Height, Width, Depth, Name) :-
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
 	same_position(PrevPosition, Position, [Height, Width, Depth])).
 
+is_different_from_by(OldValue,NewValue,Tolerance) :-
+    (number(OldValue),number(NewValue)->
+      true;
+      false,debug('is_different_from_by without number')),
+    OldValueLow is OldValue - Tolerance,
+    OldValueHigh is OldValue + Tolerance,
+    (NewValue < OldValueLow; NewValue > OldValueHigh).
 
 %% same_dimensions(+[PrevDim], +[CurDim])
 %MSp
@@ -675,7 +765,6 @@ same_position(PrevPos, CurPos, Dimensions) :-
     euclidean_dist(PrevPos, CurPos, Dist),
     max_member(Dmax, Dimensions),
     Dist < Dmax.
-    
 
 %% euclidean_dist(+[PointA], +[PointB], -Dist)
 % MSp
