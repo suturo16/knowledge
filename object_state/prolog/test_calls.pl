@@ -86,6 +86,12 @@ dummy_perception_with_close2(Type) :-
    get_time(TimeFloat),
    create_object_state_with_close(_, [[3.0,-4.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
 
+dummy_perception_with_close2_to_odom(Type) :-
+   % atom_concat(Type, '2', Name),
+   get_time(TimeFloat),
+   create_object_state_with_close(_, [[2.0,-1.0,4.0],[0.0,0.0,0.0,1.0]],[[3.0,-4.0,3.0],[0.0,0.0,0.0,1.0]], Type, '/not_odom_combined', 2.5, 2.5, 2.5, [TimeFloat], ObjInst).
+
+
 
 dummy_perception_with_close3(Type) :-
    % atom_concat(Type, '2', Name),
