@@ -150,7 +150,9 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
       create_fluent_pose_to_odom(ObjInst, Pose)),
     (rdf_has(ObjInst,knowrob:'physicalParts',_) ->
     	true;
-    	ignore(create_physical_parts(Type,ObjInst))).
+    	ignore(create_physical_parts(Type,ObjInst))),
+    current_time(TimePoint),
+    assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
@@ -173,7 +175,9 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
       create_fluent_pose_to_odom(ObjInst, PoseToOdom)),
     (rdf_has(ObjInst,knowrob:'physicalParts',_) ->
       true;
-      ignore(create_physical_parts(Type,ObjInst))).
+      ignore(create_physical_parts(Type,ObjInst))),
+    current_time(TimePoint),
+    assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
 
 
 assert_temporal_part_with_end(ObjInst, P, NewValue) :-
@@ -635,7 +639,7 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose(Obj, Position, Orientation),
-   	get_current_temporal_part_time(Obj,Timestamp).
+   	holds(Obj, knowrob:'lastPerceptionTimePoint',literal(type(xsd:float,Timestamp))).
 
 
 get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
@@ -675,7 +679,7 @@ get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Dep
 %  @param FrameID reference frame of object
 %  @param TimeFloat timestamp to be asserted
 seen_since(Name, FrameID, TimeFloat) :-
-    get_object_infos(Name, FrameID, _, Timestamp, _, _, _, _),
+    get_object_infos(Name, FrameID, _, Timestamp, _, _, _, _),!,
     TimeFloat < Timestamp;
     close_object_state(Name).
 

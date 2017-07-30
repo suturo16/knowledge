@@ -105,6 +105,18 @@ test(get_infos) :-
 	Ret2=[[angle,'1.92']],!.
 
 
+test(seen_since) :-
+	current_time(T1),
+	create_object_state_with_close(_, [[85.0,-50.0,-20.0],[0.0,0.0,0.0,1.0]], 'human', '/odom_combined', 2.0, 2.0, 2.0, [_], _),
+	seen_since(knowrob:'human1',_,T1),
+	current_time(T2),
+	create_object_state_with_close(_, [[85.0,-51.0,-20.0],[0.0,0.0,0.0,1.0]], 'human', '/odom_combined', 2.0, 2.0, 2.0, [_], _),
+	seen_since(knowrob:'human1',_,T2),
+	current_time(T3),
+	not(seen_since(knowrob:'human1',_,T3)).
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HELPER FUNCT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
