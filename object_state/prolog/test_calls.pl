@@ -192,9 +192,9 @@ test_swrl_project(Id, Bindings) :-
   swrl_implication_project(Rule,Vars).
 
 
-loop(0) :- create_object_state_with_close('cakeSpatula', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatula', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
+loop(0) :- create_object_state_with_close('cakeSpatulah', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatulah', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst).
 loop(NumberOfSteps) :-
   (NumberOfSteps > 0),
-  create_object_state_with_close('cakeSpatula', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatula', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst),
+  create_object_state_with_close('cakeSpatulah', [[8.0,7.0,7.0],[6.0,7.0,8.0,9.0]], 'cakeSpatulah', '/odom_combined', 20.0, 14.0, 9.0, Begin, ObjInst),
   New is NumberOfSteps - 1,
   loop(New).

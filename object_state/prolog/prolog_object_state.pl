@@ -67,6 +67,7 @@
       get_object_infos(r,?,?,?,?),
       get_object_infos(r,?,?,?,?,?),
       get_object_infos(?,?,?,?,?,?,?,?),
+      get_physical_parts(r,r,r),
       connect_frames(r,r),
       get_type_num(r,?),
       disconnect_frames(r,r),
@@ -237,9 +238,9 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)), 
-            create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!
             ; false)
-        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!.
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
@@ -251,9 +252,9 @@ create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, 
          atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)),
-            create_object_state(FullName, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst)
+            create_object_state(FullName, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!
             ; false)
-		; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst).
+		; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!.
 
 
 %% assign_obj_class(+Type, -ObjInst)
@@ -628,7 +629,8 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
     rdf_has(Obj,knowrob:'nameOfObject', Name),
     rdf_has(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    rdf_has(Obj, knowrob:'frameOfObject', FrameID),
+    holds(Obj, knowrob:'frameOfObject', FrameIDLit),
+    strip_literal_type(FrameIDLit,FrameID),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
     holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
@@ -710,13 +712,20 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
 % MSp
 get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
-    owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PY))),
-    owl_has(Object, knowrob:'zCoord', literal(type(xsd: float, PZ))),
-    owl_has(Object, knowrob:'qx', literal(type(xsd: float, OX))),
-    owl_has(Object, knowrob:'qy', literal(type(xsd: float, OY))),
-    owl_has(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
-    owl_has(Object, knowrob:'qu', literal(type(xsd: float, OW))).
+    owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PXOld))),
+    (atom(PXOld) -> atom_number(PXOld,PX);PX=PXOld),
+    owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PYOld))),
+    (atom(PYOld) -> atom_number(PYOld,PY);PY=PYOld),
+    owl_has(Object, knowrob:'zCoord', literal(type(xsd: float, PZOld))),
+    (atom(PZOld) -> atom_number(PZOld,PZ);PZ=PZOld),
+    owl_has(Object, knowrob:'qx', literal(type(xsd: float, OXOld))),
+    (atom(OXOld) -> atom_number(OXOld,OX);OX=OXOld),
+    owl_has(Object, knowrob:'qy', literal(type(xsd: float, OYOld))),
+    (atom(OYOld) -> atom_number(OYOld,OY);OY=OYOld),
+    owl_has(Object, knowrob:'qz', literal(type(xsd: float, OZOld))),
+    (atom(OZOld) -> atom_number(OZOld,OZ);OZ=OZOld),
+    owl_has(Object, knowrob:'qu', literal(type(xsd: float, OWOld))),
+    (atom(OWOld) -> atom_number(OWOld,OW);OW=OWOld).
 
 
 %% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
