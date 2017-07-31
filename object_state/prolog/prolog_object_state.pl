@@ -457,21 +457,19 @@ multiple_objects_name(Type, NameNum) :-
 % MSp
 % gets maximum number from name of object type
 get_max_num(Type, Number) :-
-    get_type_num(Type, NumA), get_type_num(Type, NumB), NumA > NumB
-    -> get_type_num(Type, Number), get_type_num(Type, NumC), Number > NumC;
-      get_type_num(Type, Number).
+    setof(Num,get_type_num(Type,Num),NumberList),
+    max_list(NumberList,Number).
 
 
 %% get_type_num(+Type, -Number)
 % MSp
 % helper funciton for to get max Number in NameNum
 get_type_num(Type, Number) :-
-    get_object_infos(FullName,_,Type,_,_,_,_,_), 
-% #broken:    get_info([[typeOfObject,Type],nameOfObject],Ret),
-    create_object_name(NameNum,FullName),
-    member([nameOfObject,NameNum],Ret),
-    atom_concat(Type, NumChar, NameNum), 
-    atom_number(NumChar, Number),!.
+    holds(Obj,knowrob:'nameOfObject',FullName),
+    strip_literal_type(FullName,FullNameStripped),
+    create_object_name(NameNum,FullNameStripped),
+    atom_concat(Type, NumChar, NameNum),
+    atom_number(NumChar, Number).
 
 
 %% strip_name_num(+NameNum, -Name)
