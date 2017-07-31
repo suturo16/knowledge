@@ -44,7 +44,9 @@
       seen_since/3,
       set_info/2,
       object_info_to_list/7,
-      is_different_from_by/3
+      is_different_from_by/3,
+      dummy_prop1/0,
+      dummy_prop2/0
     ]).
 
 :- dynamic
@@ -193,7 +195,7 @@ create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
     holds(ObjInst, knowrob:'depthOfObject', literal(type(xsd:float, OldDepth)))) ->
     (
       current_time(Now),
-      DimensionDif is 0.01,
+      DimensionDif is 0.02,
       create_value_if_tolerance(ObjInst,knowrob:'widthOfObject',Width,OldWidth,DimensionDif,Now),
       create_value_if_tolerance(ObjInst,knowrob:'heightOfObject',Height,OldHeight,DimensionDif,Now),
       create_value_if_tolerance(ObjInst,knowrob:'depthOfObject',Depth,OldDepth,DimensionDif,Now))
@@ -246,6 +248,12 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!.
 
+dummy_prop1 :-
+  create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], 'cakeSpatula', '/odom_combined', 2.0, 2.0, 2.0, [_], O).
+
+dummy_prop2 :-
+  create_object_name('cakeSpatula1',Name),
+  create_object_state_with_close(Name, [[1.0,1.0,6.0],[0.0,0.0,0.0,1.0]], 'cakeSpatula', '/odom_combined', 2.0, 2.0, 2.0, [_], O).
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
@@ -267,8 +275,7 @@ create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, 
 assign_obj_class(Type, ObjInst) :-
     Ns = knowrob,
     get_class_name(Type, Name),
-    rdf_global_id(Ns:Name, Id),
-    owl_subclass_of(Id, Class),
+    rdf_global_id(Ns:Name, Class),
     rdf_instance_from_class(Class, ObjInst),
     % #Creates name
     multiple_objects_name(Type, NameNum), 
@@ -464,7 +471,7 @@ get_type_num(Type, Number) :-
     create_object_name(NameNum,FullName),
     member([nameOfObject,NameNum],Ret),
     atom_concat(Type, NumChar, NameNum), 
-    atom_number(NumChar, Number).
+    atom_number(NumChar, Number),!.
 
 
 %% strip_name_num(+NameNum, -Name)
@@ -775,15 +782,16 @@ same_dimensions([E|PrevDim], CurDim) :-
 %@param CurPos  position of object at current  timestamp
 %@param Dimensions tolerance allowed between positions to consider unchanged is maximum dimension of object
 same_position(PrevPos, CurPos, Dimensions) :-
-    euclidean_dist(PrevPos, CurPos, Dist),
+    euclidean_squared_dist(PrevPos, CurPos, Dist),
     max_member(Dmax, Dimensions),
-    Dist < Dmax.
+    DmaxSquared is Dmax ^ 2.0,
+    Dist < DmaxSquared.
 
 %% euclidean_dist(+[PointA], +[PointB], -Dist)
 % MSp
-euclidean_dist(PointA, PointB, Dist) :-
+euclidean_squared_dist(PointA, PointB, Dist) :-
     length(PointA, Len), length(PointB, Len) ->
-    sqr_sum(PointA, PointB, SqrSum), Dist is sqrt(SqrSum); false.
+    sqr_sum(PointA, PointB, SqrSum), Dist is SqrSum; false.
 
 
 %% sqr_sum(+[A1|An], +[B1|Bn], -SqrSum)

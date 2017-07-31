@@ -58,7 +58,10 @@ test(create_with_change_in_position) :-
 	loop(100),
 	(rdf_equal(knowrob:'cake1',Name),get_object_infos(Name, '/odom_combined', cake, _, [[1.0,1.0,1.0], [0.0,0.0,0.0,1.0]], 2.0, 2.0, 2.0),!),
 	create_object_state_with_close(_, [[2.0,1.0,1.0],[0.0,0.0,0.0,1.0]], 'cake', '/odom_combined', 2.0, 2.0, 2.0, [_], _),
-	(rdf_equal(knowrob:'cake1',Name),get_object_infos(Name, '/odom_combined', cake, _, [[2.0,1.0,1.0], [0.0,0.0,0.0,1.0]], 2.0, 2.0, 2.0),!).
+	(rdf_equal(knowrob:'cake1',Name),get_object_infos(Name, '/odom_combined', cake, _, [[2.0,1.0,1.0], [0.0,0.0,0.0,1.0]], 2.0, 2.0, 2.0),!),
+	ignore(create_object_state_with_close(_, [[7.0,1.0,1.0],[0.0,0.0,0.0,1.0]], 'cake', '/odom_combined', 2.0, 2.0, 2.0, [_], _)),
+	(rdf_equal(knowrob:'cake2',Name2),get_object_infos(Name2, '/odom_combined', cake, _, [[7.0,1.0,1.0], [0.0,0.0,0.0,1.0]], 2.0, 2.0, 2.0),!).
+
 
 test(change_of_dimensions) :-
 	create_object_state_with_close(_, [[-13.0,-12.0,-18.0],[0.0,0.0,0.0,1.0]], 'box', '/odom_combined', 2.0, 2.0, 2.0, [_], _),
