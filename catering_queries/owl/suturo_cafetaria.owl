@@ -240,9 +240,9 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table2</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-3.39583015442</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.58550691605</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00401782989502</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-1.76165485382</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.38183641434</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:zCoord>
     </owl:NamedIndividual>
     
 
