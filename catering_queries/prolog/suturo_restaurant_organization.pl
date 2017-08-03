@@ -16,6 +16,14 @@
       increase_delivered_amount/1
     ]).
 
+:- rdf_meta get_customer_infos(?,?,r),
+      get_open_orders_of(?,?,?,?),
+      get_open_orders_with_customer_infos(?,?,r,?,?,?),
+      get_free_table(?),
+      set_delivered_amount(?,?),
+      increase_delivered_amount(?,?),
+      increase_delivered_amount(?).
+
 %getCustomerInfos(+CustomerID,-Name,-Place)
 get_customer_infos(CustomerID,Name,Place) :-
       get_open_orders_with_customer_infos(CustomerID,Name,Place,_,_,_) .
@@ -28,8 +36,8 @@ get_open_orders_of(CustomerID,Item,TotalAmount,DeliveredAmount) :-
 
 %getOpenOrdersWithCustomerInfos(+CustomerID,-Name,-Place,-Good,-Amount)
 get_open_orders_with_customer_infos(CustomerID,Name,Place,Item,TotalAmount,DeliveredAmount) :-
-    holds(Obj,knowrob:'guestId',literal(type(xsd:string,CustomerID))),
-    (holds(Obj,rdf:type,knowrob:'Customer'),!),
+    rdf_has(Obj,knowrob:'guestId',literal(type(xsd:string,CustomerID))), %# rdf_has because holds gives redundant results
+    rdf_has(Obj,rdf:type,knowrob:'Customer'), %# rdf_has because holds gives redundant results
     holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name))),
     ignore(holds(Obj,knowrob:'guestName',literal(type(xsd:string,Name)))),
     holds(Obj,knowrob:'visit',Visit),
