@@ -46,7 +46,8 @@
       object_info_to_list/7,
       is_different_from_by/3,
       dummy_prop1/0,
-      dummy_prop2/0
+      dummy_prop2/0,
+      filter_by_odom_pos/1
     ]).
 
 :- dynamic
@@ -73,7 +74,9 @@
       connect_frames(r,r),
       get_type_num(r,?),
       disconnect_frames(r,r),
-      seen_since(r,r,r).
+      seen_since(r,r,r),
+      filter_by_odom_pos(r),
+      create_value(r,r,r,r,r).
 
 %importing external libraries
 :- use_module(library('semweb/rdf_db')).
@@ -155,6 +158,13 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     	ignore(create_physical_parts(Type,ObjInst))),
     current_time(TimePoint),
     assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
+
+filter_by_odom_pos([[X,Y,Z],Quat]) :-
+    (atom(X)->atom_number(X,XN);XN=X),
+    (atom(Y)->atom_number(Y,YN);YN=Y),
+    (atom(Z)->atom_number(Z,ZN);ZN=Z),
+    ((ZN < 0.7) -> false;true),
+    ((XN < -2.36) -> false;true).
 
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
@@ -238,15 +248,16 @@ object_info_to_list([[PX, PY, PZ], [OX, OY, OZ, OW]], Type, Frame, Width, Height
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
+    %filter_by_odom_pos(Pose),
     %object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
-    known_object(Type, Pose, Width, Height, Depth, FullName),!
+    (known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
           atom_concat('/', Name, ChildFrameID),
           not(isConnected(_ ,ChildFrameID))
             -> ignore(close_object_state(FullName)), 
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!
             ; false)
-        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!.
+        ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!).
 
 dummy_prop1 :-
   create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], 'cakeSpatula', '/odom_combined', 2.0, 2.0, 2.0, [_], O).
@@ -333,10 +344,12 @@ create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
   create_value_if_tolerance(ObjInst,knowrob:'xCoord',PX,PXOld,PositionDif,Now),
   create_value_if_tolerance(ObjInst,knowrob:'yCoord',PY,PYOld,PositionDif,Now),
   create_value_if_tolerance(ObjInst,knowrob:'zCoord',PZ,PZOld,PositionDif,Now),
-  create_value_if_tolerance(ObjInst,knowrob:'qx',OX,OXOld,QuaternionDiff,Now),
-  create_value_if_tolerance(ObjInst,knowrob:'qz',OY,OYOld,QuaternionDiff,Now),
-  create_value_if_tolerance(ObjInst,knowrob:'qy',OZ,OZOld,QuaternionDiff,Now),
-  create_value_if_tolerance(ObjInst,knowrob:'qu',OW,OWOld,QuaternionDiff,Now));
+  ((is_different_from_by(OX,OXOld,QuaternionDiff);is_different_from_by(OZ,OZOld,QuaternionDiff);is_different_from_by(OY,OYOld,QuaternionDiff);is_different_from_by(OW,OWOld,QuaternionDiff)) ->
+    (create_value(ObjInst,knowrob:'qx',OX,OXOld,Now),
+    create_value(ObjInst,knowrob:'qz',OZ,OZOld,Now),
+    create_value(ObjInst,knowrob:'qy',OY,OZOld,Now),
+    create_value(ObjInst,knowrob:'qu',OW,OWOld,Now));
+    true));
   false).
 
 
@@ -352,6 +365,13 @@ create_value_if_tolerance(ObjInst,P,NewValue,OldValue,Tolerance,Time) :-
         assert_temporal_part(ObjInst, P, NewValueV) %# literal(type(xsd:float, PX)))
       );
         true).
+
+create_value(ObjInst,P,NewValue,OldValue,Time) :-
+        holds(ObjInst,P,Oldy), %# TODO: Why is this call needed? If i use the Value for the _end call, i get an exception
+        assert_temporal_part_end(ObjInst, P,Oldy, Time),
+        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
+        assert_temporal_part(ObjInst, P, NewValueV). %# literal(type(xsd:float, PX)))
+
 
 
 %% create_fluent_pose(+Fluent, +Pose)
