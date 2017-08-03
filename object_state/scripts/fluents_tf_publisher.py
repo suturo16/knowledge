@@ -45,7 +45,7 @@ def start_tf_publish():
                      rospy.Time.now(),
                      '/' + solution['Name'],
                      solution['FrameID'])
-			rospy.sleep(0.1)
+			rospy.sleep(0.01)
 
 
 if __name__ == '__main__':
