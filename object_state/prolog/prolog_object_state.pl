@@ -47,7 +47,10 @@
       is_different_from_by/3,
       dummy_prop1/0,
       dummy_prop2/0,
-      filter_by_odom_pos/1
+      filter_by_odom_pos/1,
+      close_object/1,
+      close_corresponding_physical_parts/1,
+      close_object_help/1
     ]).
 
 :- dynamic
@@ -76,7 +79,10 @@
       disconnect_frames(r,r),
       seen_since(r,r,r),
       filter_by_odom_pos(r),
-      create_value(r,r,r,r,r).
+      create_value(r,r,r,r,r),
+      close_object(r),
+      close_corresponding_physical_parts(r),
+      close_object_help(r).
 
 %importing external libraries
 :- use_module(library('semweb/rdf_db')).
@@ -837,3 +843,33 @@ connect_frames(ParentFrameID, ChildFrameID) :-
 % A simple function to disconnect two given frames.
 disconnect_frames(ParentFrameID, ChildFrameID) :-
   retract(isConnected(ParentFrameID, ChildFrameID)).
+
+close_object(TypeName) :-
+  forall(
+    holds(ObjInst,knowrob:'typeOfObject',TypeName),
+    close_object_help(ObjInst)
+  ).
+
+
+close_object(ObjectName) :-
+  (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, ObjectName) -> 
+    NewObjectName = ObjectName;
+    atom_concat('http://knowrob.org/kb/knowrob.owl#', ObjectName, NewObjectName)),
+  forall(
+    holds(ObjInst,knowrob:'nameOfObject',NewObjectName),
+    close_object_help(ObjInst)
+  ).
+
+close_object_help(ObjInst) :-
+  debug(ObjInst),
+  ignore((close_corresponding_physical_parts(ObjInst))),
+  current_time(Now),
+  forall(holds(ObjInst,P,O),
+  ignore(assert_temporal_part_end(ObjInst,P,O,Now))).
+
+close_corresponding_physical_parts(ObjInst) :-
+  holds(ObjInst,knowrob:'physicalParts',_),
+  forall(
+    holds(ObjInst,knowrob:'physicalParts',PhysicalPart),
+    ignore(close_object_help(PhysicalPart))
+  ).
