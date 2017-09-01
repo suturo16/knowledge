@@ -93,6 +93,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#extensionParametersOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#extensionParametersOfObject"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#frameOfObject -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#frameOfObject"/>
@@ -102,6 +108,24 @@
     <!-- http://knowrob.org/kb/knowrob.owl#heightOfObject -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#heightToOuterEdge -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightToOuterEdge">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#extensionParametersOfObject"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob.owl#SpatialThing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#lastPerceptionTimePoint -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#lastPerceptionTimePoint">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
     
 
 
@@ -186,6 +210,16 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#widthOfEdge -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfEdge">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#extensionParametersOfObject"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob.owl#SpatialThing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#widthOfObject -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
@@ -225,14 +259,6 @@
     <!-- http://knowrob.org/kb/knowrob.owl#zCoordToOdom -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#zCoordToOdom"/>
-    
-
-
-    <!-- http://knowrob.org/kb/suturo_object.owl#lastPerceptionTimePoint -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#lastPerceptionTimePoint">
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
-    </owl:DatatypeProperty>
     
 
 
@@ -363,7 +389,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#heightToOuterEdge"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.016</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -375,7 +401,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#widthOfEdge"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.025</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -525,7 +551,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qu"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.955336489126</owl:hasValue>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9553365</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -537,7 +563,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#qy"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.295520206661</owl:hasValue>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.29552022</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
