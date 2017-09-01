@@ -27,6 +27,9 @@
 :- register_ros_package(knowrob_srdl).
 
 :- use_module(library('prolog_object_state')).
+:- use_module(library('prolog_object_state_getter_setter')).
+:- use_module(library('prolog_object_state_util')).
+:- use_module(library('prolog_object_state_close')).
 :- use_module(library('test_calls')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_owl')).

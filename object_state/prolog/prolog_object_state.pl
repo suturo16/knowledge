@@ -12,7 +12,6 @@
       create_object_state/10,
       create_object_state_with_close/9,
       create_object_state_with_close/10,
-      create_object_name/2,
       create_temporal_name/2,
       assign_obj_class/2,
       close_object_state/1,
@@ -20,37 +19,10 @@
       connect_frames/2,
       disconnect_frames/2,
       isConnected/2,
-      multiple_objects_name/2,
-      get_class_name/2,
-      get_fluent_pose/3,
       create_value_if_tolerance/6,
-      get_info/2,
-      get_info/3,
-      get_object/2,
-      get_object_infos/5,
-      get_object_infos/6,
-      get_object_infos/8,
-      get_object_infos/9,
-      get_object_infos_to_odom/5,
-      get_object_infos_to_odom/6,
-      get_physical_parts/3,
-      get_tf_infos/4,
-      get_max_num/2,
-      get_type_num/2,
-      get_current_temporal_part_time/2,
       known_object/6,
-      same_dimensions/2,
-      same_position/3,
       seen_since/3,
-      set_info/2,
-      object_info_to_list/7,
-      is_different_from_by/3,
-      dummy_prop1/0,
-      dummy_prop2/0,
-      filter_by_odom_pos/1,
-      close_object/1,
-      close_corresponding_physical_parts/1,
-      close_object_help/1
+      filter_by_odom_pos/1
     ]).
 
 :- dynamic
@@ -60,31 +32,20 @@
       close_object_state(r,r,r,r,r,r,r,r,?),
       create_object_state_with_close(r,r,r,r,r,r,r,r,?),
       create_object_state_with_close(r,r,r,r,r,r,r,r,r,?),
-      object_info_to_list(r, r, r, r, r, r, ?),
-      create_object_name(r,?),
       create_temporal_name(r,?),
       create_physical_parts(r,r),
       create_value_if_tolerance(r,r,r,r,r,r),
       assert_temporal_part_with_end(r,r,r),
-      set_info(r,r),
-      set_info(r,r,r),
-      get_info(r,r),
-      get_info(r,r,?),
-      get_object_infos(r,?,?,?,?),
-      get_object_infos(r,?,?,?,?,?),
-      get_object_infos(?,?,?,?,?,?,?,?),
-      get_physical_parts(r,r,r),
       connect_frames(r,r),
-      get_type_num(r,?),
       disconnect_frames(r,r),
       seen_since(r,r,r),
       filter_by_odom_pos(r),
-      create_value(r,r,r,r,r),
-      close_object(r),
-      close_corresponding_physical_parts(r),
-      close_object_help(r).
+      create_value(r,r,r,r,r).
 
 %importing external libraries
+:- use_module(library('prolog_object_state_util')).
+:- use_module(library('prolog_object_state_close')).
+:- use_module(library('prolog_object_state_getter_setter')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('owl')).
@@ -165,13 +126,6 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     current_time(TimePoint),
     assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
 
-filter_by_odom_pos([[X,Y,Z],Quat]) :-
-    (atom(X)->atom_number(X,XN);XN=X),
-    (atom(Y)->atom_number(Y,YN);YN=Y),
-    (atom(Z)->atom_number(Z,ZN);ZN=Z),
-    ((ZN < 0.7) -> false;true),
-    ((XN < -2.36) -> false;true).
-
 
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
@@ -227,35 +181,11 @@ create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
       assert_temporal_part(ObjInst,knowrob:'depthOfObject',Depth)
     );false).
 
-object_info_to_list([[PX, PY, PZ], [OX, OY, OZ, OW]], Type, Frame, Width, Height, Depth, List) :-
-    false, % #for the moment this doesn't work !!!!!
-    List = [
-            [xCoord, PX],[yCoord, PY],[zCoord, PZ],
-            [qx, OX],[qy, OY],[qz, OZ],[qu, OW],
-            [typeOfObject, Type],[frameOfObject, Frame],
-            [widthOfObject, Width],[heightOfObject, Height],[depthOfObject, Depth]
-           ].
-
-%% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
-% LSa, MSp
-% Creates a fluent and closes the corresponding old TemporalPart.
-%create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-%    false, % #for the moment this doesn't work !!!!!!!
-%    object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
-%    known_object(Type, Pose, Width, Height, Depth, FullName),!
-%        -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
-%          atom_concat('/', Name, ChildFrameID),
-%          not(isConnected(_ ,ChildFrameID))
-%            -> set_info(FullName, List)
-%            ; false)
-%        ; set_info(Type, List).
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
 % Creates a fluent and closes the corresponding old TemporalPart.
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
-    %filter_by_odom_pos(Pose),
-    %object_info_to_list(Pose,Type,Frame,Width,Height,Depth,List),
     (known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
           atom_concat('/', Name, ChildFrameID),
@@ -264,13 +194,6 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
             create_object_state(FullName, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!
             ; false)
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!).
-
-dummy_prop1 :-
-  create_object_state_with_close(_, [[1.0,1.0,1.0],[0.0,0.0,0.0,1.0]], 'cakeSpatula', '/odom_combined', 2.0, 2.0, 2.0, [_], O).
-
-dummy_prop2 :-
-  create_object_name('cakeSpatula1',Name),
-  create_object_state_with_close(Name, [[1.0,1.0,6.0],[0.0,0.0,0.0,1.0]], 'cakeSpatula', '/odom_combined', 2.0, 2.0, 2.0, [_], O).
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
 % LSa, MSp
@@ -328,16 +251,6 @@ create_physical_parts(Type,ObjInst) :-
     ).
 
 
-%% get_class_name(+Type, -ClassName)
-% MSp
-% converts first letter of Type into capital letter
-get_class_name(Type, ClassName) :-
-    not((var(Type), var(ClassName))),
-    sub_atom(Type,0,1,_,C), char_code(C,I), 96<I, I<123
-    -> J is I-32, char_code(D,J), sub_atom(Type,1,_,0,Sub), atom_concat(D,Sub,ClassName)
-    ; ClassName = Type.
-
-
 %% create_fluent_pose(+Fluent, +Pose)
 % MSp
 % @param Fluent temporal part of object
@@ -377,7 +290,6 @@ create_value(ObjInst,P,NewValue,OldValue,Time) :-
         assert_temporal_part_end(ObjInst, P,Oldy, Time),
         NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
         assert_temporal_part(ObjInst, P, NewValueV). %# literal(type(xsd:float, PX)))
-
 
 
 %% create_fluent_pose(+Fluent, +Pose)
@@ -425,97 +337,9 @@ create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 % @param Name describes the class of the object
 close_object_state(FullName) :-
     holds(ObjInst, knowrob:'nameOfObject', FullName),
-    % FIXME: Should be replaced by fluent_assert_end if it works.
-    %current_time(Now),
-    %forall(
-    %	(rdf_has(ObjInst,P,O), close_object_state_exceptions(O,FullName,P)), 
-    %	assert_temporal_part_end(ObjInst, P, O, Now)),
     forall(
       (rdf_has(ObjInst,knowrob:'temporalParts',A)),
       (rdf_retractall(ObjInst,knowrob:'temporalParts',A))),!.
-%    forall(
-%      (owl_has(ObjInst,knowrob:'parts',B)),
-%      (rdf_retractall(ObjInst,knowrob:'parts',B))),!.
-
-%    rdf_has(ObjInst, knowrob:'temporalParts',SubjectPart),
-%    rdf_has(SubjectPart, P, _),
-%    rdf_has(SubjectPart, knowrob:'temporalExtend', I),
-%    not( rdf_has(I, knowrob:'endTime', _) ),
-%    create_timepoint(Now, IntervalEnd),
-%    rdf_assert(I, knowrob:'endTime', IntervalEnd).
-%    fluent_assert_end(Obj,P).
-
-close_object_state_exceptions(ObjectInstance,FullName,Property) :-
-    ObjectInstance \= FullName, 
-    not(rdf_equal(Property,knowrob:'heightOfObject')),
-    not(rdf_equal(Property,knowrob:'widthOfObject')),
-    not(rdf_equal(Property,knowrob:'depthOfObject')),
-    not(rdf_equal(Property,knowrob:'physicalParts')),
-    not(rdf_equal(Property,knowrob:'typeOfObject')),
-    not(rdf_equal(Property,knowrob:'xCoord')),
-    not(rdf_equal(Property,knowrob:'yCoord')),
-    not(rdf_equal(Property,knowrob:'zCoord')),
-    not(rdf_equal(Property,knowrob:'qx')),
-    not(rdf_equal(Property,knowrob:'qz')),
-    not(rdf_equal(Property,knowrob:'qy')),
-    not(rdf_equal(Property,knowrob:'qu')),
-    not(rdf_equal(Property,knowrob:'xCoordToOdom')),
-    not(rdf_equal(Property,knowrob:'yCoordToOdom')),
-    not(rdf_equal(Property,knowrob:'zCoordToOdom')),
-    not(rdf_equal(Property,knowrob:'qxToOdom')),
-    not(rdf_equal(Property,knowrob:'qzToOdom')),
-    not(rdf_equal(Property,knowrob:'qyToOdom')),
-    not(rdf_equal(Property,knowrob:'quToOdom')).
-
-
-%% multiple_objects_name(+Type, -NameNum)
-% MSp
-% creates object name depending on how many other objects of same type exist
-% @param Name type leading to NameNum by appending iterating number
-% @param NameNum is the unique name of the new object in KB, e.g. cake32
-multiple_objects_name(Type, NameNum) :-
-    (get_max_num(Type, Num), number(Num)
-    -> Number is Num+1; Number is 1),
-    atom_concat(Type, Number, NameNum).
-
-
-%% get_max_num(+Type, - Number)
-% MSp
-% gets maximum number from name of object type
-get_max_num(Type, Number) :-
-    setof(Num,get_type_num(Type,Num),NumberList),
-    max_list(NumberList,Number).
-
-
-%% get_type_num(+Type, -Number)
-% MSp
-% helper funciton for to get max Number in NameNum
-get_type_num(Type, Number) :-
-    holds(Obj,knowrob:'nameOfObject',FullName),
-    strip_literal_type(FullName,FullNameStripped),
-    create_object_name(NameNum,FullNameStripped),
-    atom_concat(Type, NumChar, NameNum),
-    atom_number(NumChar, Number).
-
-
-%% strip_name_num(+NameNum, -Name)
-% MSp
-% removes appended numbers from object name
-% @param NameNum is the name with appended type count, e.g. cake32
-% @param Name is the type of the object
-strip_name_num(NameNum, Name) :-
-    sub_atom(NameNum, _,1,0,L), atom_number(L, _)
-    -> sub_string(NameNum,0,_,1, Sub), strip_name_num(Sub, Name);
-      Name = NameNum.
-
-
-%% create_object_name(+Name,-FullName) is det.
-% LSa
-% Appends Name to the knowrob domain.
-% @param Name content to be appended to the namespace
-% @preturns FullName the concatenated string
-create_object_name(Name, FullName) :-
-    atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName).
 
 
 %% create_temporal_name(+FullName, -FullTemporalName) is det.
@@ -524,184 +348,6 @@ create_object_name(Name, FullName) :-
 % @returns FullTemporalName the concatenated string including the temporal stamp
 create_temporal_name(FullName, FullTemporalName) :-
     atom_concat(FullName,'@t_i', FullTemporalName).
-
-
-%%##########################################################################################################
-%%################################### Ja, Servus und so weiter !!! #########################################
-%%##########################################################################################################
-%%################################################  NEU  ###################################################
-%%######################################## brought to you by me ############################################
-%%##########################################################################################################
-%%##########################################################################################################
-set_info(Thing, Info) :-
-    not(rdf_has(Thing, rdf:type, _)),(
-    (
-      % #if specified by name update object
-      ( rdf_global_id(knowrob:Thing,Id),
-      holds(ObjInst, knowrob:nameOfObject, Id)
-      ; holds(ObjInst, knowrob:nameOfObject, Thing)  ),
-      set_info(ObjInst, Info)
-    );(
-      % #if Thing is instance of class in knowrob
-      owl_subclass_of(Id, knowrob:'SpatialThing'), 
-      rdf_global_id(knowrob:Thing,Id), 
-      assign_obj_class(Thing, ObjInst),
-      assert_temporal_part(ObjInst, knowrob:typeOfObject, Thing),
-      set_info(ObjInst, Info)
-    )
-    % #if Thing is not specified but can be uniquely identified
-    % #TODO check and uncomment if required
-    % #setof(Obj, (setof(X, (member(X, Info), is_list(X)), Conds),
-    % #           get_object(Obj)), Objs),
-    % #length(Objs, 1), [ObjInst|_] = Objs,
-    % #set_info(ObjInst, Info).
-    ),!.
-
-%% #set_info(ObjInst, [[P,Val]|More])
-% #MSp
-% #saves knowledge value O as relation P to S
-% @param ObjInst the target object or thing for the P related value Val
-% @param P the relation the value Val has to subject S
-% @param Val the value of the P related object
-set_info(ObjInst, [[P,Val]|More]) :-
-    rdf_has(ObjInst, rdf:type, _), % #check that ObjInst is object
-    set_info(ObjInst, More)
-    -> 
-      ( nonvar(P), nonvar(Val)       % #P & Val can't be variables -> if so skip
-      -> ( Ns = knowrob,
-        rdf_global_id(Ns:P, Id),
-        ignore(forall( holds(ObjInst, Id, EndVal),
-        assert_temporal_part_end(ObjInst, Id, EndVal))),
-        assert_temporal_part(ObjInst, Id, Val),
-        set_info(ObjInst, More),! )
-      ; true )
-    ;false .
-
-set_info(_, []).
-
-%% get_info(+Variables, -Returns)
-get_info(Variables, Returns) :-
-    is_list(Variables), var(Returns),
-    findall(X, (member(X, Variables), is_list(X)), Conds),
-    findall(Y, (member(Y, Variables), not(is_list(Y))), Vars),
-    get_object(Conds, ObjInst),
-    (not(length(Vars,0)), get_info(Vars, Returns, ObjInst);
-      length(Vars,0), get_info(ObjInst, Returns)).
-
-get_info(ObjName, Returns) :-
-    not(is_list(ObjName)), var(Returns), Ns = knowrob, 
-    ( rdf_global_id(Ns:ObjName, ObjInst),
-    rdf_has(ObjInst, rdf:type, _)
-    ; rdf_global_id(Ns:ObjName, Name),
-    holds(ObjInst, knowrob:nameOfObject, Name)  ),
-    get_info(ObjInst, Returns),!.
-
-get_info(ObjInst, Returns) :-
-    not(is_list(ObjInst)), var(Returns), 
-    % #check that ObjInst is object:
-    rdf_has(ObjInst, rdf:type, _),  
-    Ns = knowrob,
-    findall([Var,Val], (
-      holds(ObjInst, NsVar, RDFvalue),
-      rdf_global_id(Ns:Var, NsVar),
-      once(
-        rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
-      Returns),!.
-
-%% get_info(Vars, Rets, ObjInst)
-% MSp
-get_info(Variables,Returns, ObjInst) :-
-	not(is_list(ObjInst)),var(Returns),
-    Ns = knowrob,
-    findall([Var, Val], (
-      member(Var, Variables),
-      holds(ObjInst, NsVar, RDFvalue),
-      rdf_global_id(Ns:Var, NsVar),
-      once(
-        rdf_global_id(_:Val, RDFvalue); strip_literal_type(RDFvalue, Val))),
-      Returns),!.
-
-
-%% get_object(+Conditions, -ObjInst)
-% MSp
-% Helper to identify a certain Object according to given Conditions
-get_object([[Cond,Val]|Conds], ObjInst) :-
-    Ns = knowrob,
-    rdf_global_id(Ns:Cond, NsVar),
-    holds(ObjInst, NsVar, RDFvalue), 
-    once( 
-      rdf_global_id(_:Val, RDFvalue) ; strip_literal_type(RDFvalue, Val)),
-    get_object(Conds, ObjInst).
-
-get_object([], _).
-
-%%################################################  Alt  ###################################################
-
- 
-get_object_infos(Name, FrameID, Height, Width, Depth) :-
-    get_object_infos(Name, FrameID, _, _, _, Height, Width, Depth,_).
-
-
-get_object_infos(Name, FrameID, Timestamp, Height, Width, Depth) :-
-    get_object_infos(Name, FrameID, _, Timestamp, _, Height, Width, Depth,_).
-
-
-get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth) :-
-    get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth,_).
-
-
-%% get_object_infos(+Name, -FrameID, -Type, -Timestamp, -Pose, -Height, -Width, -Depth, -Obj)
-% LSa, MSp
-% @param Name name of the object
-% @param FrameID reference frame of object pose
-% @param Timestamp start time of most recent perception
-% @param Type type of the object
-% @param Pose list of [Position, Orientation] of object
-% @param Height height of object
-% @param Width width of object
-% @param Depth depth of object
-% @param Obj object ID in KB
-get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height, Width, Depth, Obj) :-
-    rdf_has(Obj,knowrob:'nameOfObject', Name),
-    rdf_has(Obj, knowrob:'typeOfObject', Type),       % literal(type(xsd:string,Type))),
-    holds(Obj, knowrob:'frameOfObject', FrameIDLit),
-    strip_literal_type(FrameIDLit,FrameID),
-    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
-    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
-    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
-    get_fluent_pose(Obj, Position, Orientation),
-   	holds(Obj, knowrob:'lastPerceptionTimePoint',literal(type(xsd:float,Timestamp))).
-
-
-get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
-    (rdf_has(Obj,knowrob:'nameOfObject', Name),!),
-    holds(Obj,knowrob:'physicalParts',PhysicalParts),
-    rdf_has(PhysicalParts,knowrob:'nameOfObject', PhysicalPartName).
-
-
-get_current_temporal_part_time(ObjInst,Timestamp) :-
-	temporal_part(ObjInst, TemporalPart, TemporalExtend),
-	\+ rdf_has(TemporalExtend, knowrob:endTime, _),
-	rdf_has(TemporalExtend,knowrob:startTime,TimePoint),
-	create_timepoint(TimestampStr,TimePoint),
-	atom_number(TimestampStr,Timestamp),!.
-
-get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
-    holds(Obj, knowrob:'typeOfObject', Type),
-    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
-    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
-    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
-    get_fluent_pose_to_odom(Obj, Position, Orientation).
-
-
-get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Depth) :-
-    holds(Obj,knowrob:'nameOfObject',Name),
-    holds(Obj, knowrob:'typeOfObject', Type),
-    holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
-    holds(Obj, knowrob:'widthOfObject', literal(type(xsd:float,Width))),
-    holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
-    get_fluent_pose_to_odom(Obj, Position, Orientation).
-    get_current_temporal_part_time(ObjInst,Timestamp).
 
 
 %% seen_since(+Name, +FrameID, +TimeFloat) --> true/false
@@ -714,67 +360,6 @@ seen_since(Name, FrameID, TimeFloat) :-
     TimeFloat < Timestamp;
     close_object_state(Name).
 
-
-%% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
-% LSa
-% A function to bundle the required information for the TF-broadcaster.
-% @param Name 
-% @param FrameID 
-% @param Position position of object in frame
-% @param Orientation orientation of object in frame
-get_tf_infos(Name, StrippedFrameID, Position, Orientation) :-
-    holds(Obj,knowrob:'nameOfObject',FullName),
-    strip_literal_type(FullName, StrippedFullName),
-    create_object_name(Name, StrippedFullName),
-    holds(Obj, knowrob:'frameOfObject', FrameID),   % literal(type(xsd:string,FrameID))),
-    strip_literal_type(FrameID, StrippedFrameID),
-    (holds(Obj, knowrob:'xCoord', _) -> 
-      get_fluent_pose(Obj, Position, Orientation); 
-      get_pose(Obj, Position, Orientation)).
-
-
-%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
-% MSp
-get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
-    holds(Object, knowrob:'yCoord', literal(type(xsd: float, PY))),
-    holds(Object, knowrob:'zCoord', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob:'qx', literal(type(xsd: float, OX))),
-    holds(Object, knowrob:'qy', literal(type(xsd: float, OY))),
-    holds(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob:'qu', literal(type(xsd: float, OW))).
-
-%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
-% MSp
-get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PXOld))),
-    (atom(PXOld) -> atom_number(PXOld,PX);PX=PXOld),
-    owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PYOld))),
-    (atom(PYOld) -> atom_number(PYOld,PY);PY=PYOld),
-    owl_has(Object, knowrob:'zCoord', literal(type(xsd: float, PZOld))),
-    (atom(PZOld) -> atom_number(PZOld,PZ);PZ=PZOld),
-    owl_has(Object, knowrob:'qx', literal(type(xsd: float, OXOld))),
-    (atom(OXOld) -> atom_number(OXOld,OX);OX=OXOld),
-    owl_has(Object, knowrob:'qy', literal(type(xsd: float, OYOld))),
-    (atom(OYOld) -> atom_number(OYOld,OY);OY=OYOld),
-    owl_has(Object, knowrob:'qz', literal(type(xsd: float, OZOld))),
-    (atom(OZOld) -> atom_number(OZOld,OZ);OZ=OZOld),
-    owl_has(Object, knowrob:'qu', literal(type(xsd: float, OWOld))),
-    (atom(OWOld) -> atom_number(OWOld,OW);OW=OWOld).
-
-
-%% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
-% MSp
-get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
-    holds(Object, knowrob:'xCoordToOdom', literal(type(xsd: float, PX))),
-    holds(Object, knowrob:'yCoordToOdom', literal(type(xsd: float, PY))),
-    holds(Object, knowrob:'zCoordToOdom', literal(type(xsd: float, PZ))),
-    holds(Object, knowrob:'qxToOdom', literal(type(xsd: float, OX))),
-    holds(Object, knowrob:'qyToOdom', literal(type(xsd: float, OY))),
-    holds(Object, knowrob:'qzToOdom', literal(type(xsd: float, OZ))),
-    holds(Object, knowrob:'quToOdom', literal(type(xsd: float, OW))).
-
-
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
 % same_dimensions currently not used
@@ -783,48 +368,6 @@ known_object(Type, [Position, _], Height, Width, Depth, Name) :-
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
 	same_position(PrevPosition, Position, [Height, Width, Depth])).
 
-is_different_from_by(OldValue,NewValue,Tolerance) :-
-    (number(OldValue),number(NewValue)->
-      true;
-      false,debug('is_different_from_by without number')),
-    OldValueLow is OldValue - Tolerance,
-    OldValueHigh is OldValue + Tolerance,
-    (NewValue < OldValueLow; NewValue > OldValueHigh).
-
-%% same_dimensions(+[PrevDim], +[CurDim])
-%MSp
-%@param PrevDim dimensions of object at previous timestamp
-%@param CurDim  dimensions of object at current  timestamp
-same_dimensions([E|PrevDim], CurDim) :-
-    length(PrevDim, 0) -> member(E, CurDim);
-    same_dimensions([E], CurDim), same_dimensions(PrevDim, CurDim).
-
-
-%% same_position(+[PrevPos], +[CurPos], +[Dimensions])
-%MSp
-%@param PrevPos position of object at previous timestamp
-%@param CurPos  position of object at current  timestamp
-%@param Dimensions tolerance allowed between positions to consider unchanged is maximum dimension of object
-same_position(PrevPos, CurPos, Dimensions) :-
-    euclidean_squared_dist(PrevPos, CurPos, Dist),
-    max_member(Dmax, Dimensions),
-    DmaxSquared is Dmax ^ 2.0,
-    Dist < DmaxSquared.
-
-%% euclidean_dist(+[PointA], +[PointB], -Dist)
-% MSp
-euclidean_squared_dist(PointA, PointB, Dist) :-
-    length(PointA, Len), length(PointB, Len) ->
-    sqr_sum(PointA, PointB, SqrSum), Dist is SqrSum; false.
-
-
-%% sqr_sum(+[A1|An], +[B1|Bn], -SqrSum)
-% MSp
-sqr_sum([A1|An], [B1|Bn], SqrSum) :-
-    length(An, 0) ->
-    SqrSum is ((A1-B1)^2.0);
-    sqr_sum(An, Bn, Sum),
-    SqrSum is Sum + ((A1-B1)^2.0).
 
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
 % LSa
@@ -844,32 +387,10 @@ connect_frames(ParentFrameID, ChildFrameID) :-
 disconnect_frames(ParentFrameID, ChildFrameID) :-
   retract(isConnected(ParentFrameID, ChildFrameID)).
 
-close_object(TypeName) :-
-  forall(
-    holds(ObjInst,knowrob:'typeOfObject',TypeName),
-    close_object_help(ObjInst)
-  ).
 
-
-close_object(ObjectName) :-
-  (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, ObjectName) -> 
-    NewObjectName = ObjectName;
-    atom_concat('http://knowrob.org/kb/knowrob.owl#', ObjectName, NewObjectName)),
-  forall(
-    holds(ObjInst,knowrob:'nameOfObject',NewObjectName),
-    close_object_help(ObjInst)
-  ).
-
-close_object_help(ObjInst) :-
-  debug(ObjInst),
-  ignore((close_corresponding_physical_parts(ObjInst))),
-  current_time(Now),
-  forall(holds(ObjInst,P,O),
-  ignore(assert_temporal_part_end(ObjInst,P,O,Now))).
-
-close_corresponding_physical_parts(ObjInst) :-
-  holds(ObjInst,knowrob:'physicalParts',_),
-  forall(
-    holds(ObjInst,knowrob:'physicalParts',PhysicalPart),
-    ignore(close_object_help(PhysicalPart))
-  ).
+filter_by_odom_pos([[X,Y,Z],Quat]) :-
+    (atom(X)->atom_number(X,XN);XN=X),
+    (atom(Y)->atom_number(Y,YN);YN=Y),
+    (atom(Z)->atom_number(Z,ZN);ZN=Z),
+    ((ZN < 0.7) -> false;true),
+    ((XN < -2.36) -> false;true).

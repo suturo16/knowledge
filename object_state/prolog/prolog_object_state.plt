@@ -17,6 +17,9 @@
 :- begin_tests(prolog_object_state).
 
 %importing external libraries
+:- use_module(library('prolog_object_state_util')).
+:- use_module(library('prolog_object_state_close')).
+:- use_module(library('prolog_object_state_getter_setter')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('owl')).
