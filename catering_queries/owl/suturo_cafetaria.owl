@@ -222,9 +222,9 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table1</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.129442334175</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-6.07510757446</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00404644012451</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.824480950832</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-4.0232219696</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.00143432617188</suturo_object:zCoord>
     </owl:NamedIndividual>
     
 
@@ -240,9 +240,9 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table2</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-1.76165485382</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.38183641434</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.5005261898</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-3.33791041374</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.00143432617188</suturo_object:zCoord>
     </owl:NamedIndividual>
     
 
@@ -258,9 +258,9 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table3</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-3.39583015442</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.58550691605</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00401782989502</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.95232987404</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.49591398239</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00253295898438</suturo_object:zCoord>
     </owl:NamedIndividual>
     
 
@@ -276,9 +276,9 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table4</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-4.83960056305</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-4.00536251068</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00186014175415</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-4.48263216019</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.0438990593</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.00143432617188</suturo_object:zCoord>
     </owl:NamedIndividual>
     
 
@@ -294,25 +294,11 @@
         <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
         <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0</suturo_object:qz>
         <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table5</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-6.24497127533</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.0865650177</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.000643253326416</suturo_object:zCoord>
+        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-5.24049663544</suturo_object:xCoord>
+        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.37555742264</suturo_object:yCoord>
+        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.00253295898438</suturo_object:zCoord>
     </owl:NamedIndividual>
 
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob.owl#table6">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RestaurantTable"/>
-        <suturo_object:frameOfObject rdf:datatype="http://www.w3.org/2001/XMLSchema#string">/map</suturo_object:frameOfObject>
-        <suturo_object:nameOfObject rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://knowrob.org/kb/knowrob.owl#table6</suturo_object:nameOfObject>
-        <suturo_object:qu rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</suturo_object:qu>
-        <suturo_object:qx rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qx>
-        <suturo_object:qy rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0</suturo_object:qy>
-        <suturo_object:qz rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-0.0</suturo_object:qz>
-        <suturo_object:tableId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table6</suturo_object:tableId>
-        <suturo_object:xCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.51397824287</suturo_object:xCoord>
-        <suturo_object:yCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">-2.938382864</suturo_object:yCoord>
-        <suturo_object:zCoord rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.36735534668</suturo_object:zCoord>
-    </owl:NamedIndividual>
 </rdf:RDF>
 
 
