@@ -18,6 +18,19 @@ if __name__ == '__main__':
 
     # Create the objects
 
+    query = prolog.query("dummy_perception_with_close2(cakeSpatula)")
+    for solution in query.solutions():
+        print('Call to dummy_perception worked')
+    query.finish()
+    print('----------------------------------------------------------')
+
+    query = prolog.query("close_object(cakeSpatula)")
+    for solution in query.solutions():
+        print('Call to close object worked')
+    query.finish()
+    print('----------------------------------------------------------')
+
+
     query = prolog.query("dummy_perception_with_close1(baum)")
     for solution in query.solutions():
         print('Call to dummy_perception worked')
