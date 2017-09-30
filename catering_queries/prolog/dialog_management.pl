@@ -1,5 +1,30 @@
 /** <module> dialog_management
 
+  Copyright (C) 2017 Sascha Jongebloed
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the <organization> nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 @author Sascha Jongebloed 
 @license BSD
 */
@@ -33,6 +58,13 @@
       get_unmodified_class_name(?,r),
 			modified_to_current.
 
+%% assert_dialog_element(+JSONString)
+%
+% Asserts a dialog intention object into the knowledge base
+% and aligns it by running the swrl rule
+%
+% @JSONString JSONString containing dialog intention 
+%
 assert_dialog_element(JSONString) :-
     create_dialog_element(JSONString,_),
     run_the_rules,
@@ -40,6 +72,123 @@ assert_dialog_element(JSONString) :-
     ignore(add_hack),
     ignore(subtract_hack). %# if there are modified properties, 
 
+%% create_dialog_element(+JSONString,-DialogElement)
+%
+% Parses the JSONString containing the dialog intention to 
+% create the representation in the knowledge base
+%
+% @JSONString JSONString containing dialog intention 
+% @DialogElement Representaiton of the dialog intention
+%
+create_dialog_element(JSONString,DialogElement) :-
+    atom(JSONString),
+    rdf_instance_from_class(knowrob:'DialogElement', DialogElement),
+    extract_guest_id(JSONString,GuestID),
+    rdf_assert(DialogElement,knowrob:'guestId',literal(type(xsd:string,GuestID))),
+    extract_query_element(JSONString,Query),
+    rdf_assert(DialogElement,knowrob:'dialogQuery',Query).
+
+%% extract_guest_id(+JSONString,-GuestID)
+%
+% Extracts guest ID from the json string
+%
+% @JSONString JSONString containing dialog intention 
+% @GuestID Guest ID from the json string
+%
+extract_guest_id(JSONString,GuestID) :-
+	atomic_list_concat([RelevantGuestString|_], ',', JSONString),
+	atom_concat('{guestId:', GuestID, RelevantGuestString).
+
+%% extract_query_element(+JSONString,-QueryInstance)
+%
+% Extracts the dialog intention representation
+%
+% @JSONString JSONString containing dialog intention 
+% @QueryInstance Instance of the dialog intention
+%
+extract_query_element(JSONString,QueryInstance) :-
+	atomic_list_concat([_|[SecondHalf|_]], ',query:{', JSONString),
+	sub_atom(SecondHalf, 0, _, 2, QueryString), % remove unneeded '}}'
+	atomic_list_concat(QueryElements, ',', QueryString),
+  create_query_of_type(QueryElements,CleanedQueryElements,QueryInstance),
+	assert_query_properties(CleanedQueryElements,QueryInstance).
+
+%% create_query_of_type(+QueryElements,-CleanedQueryElements,-QueryInstance) 
+%
+% Creates a instants of the dialogQuery object denoted by the QueryElements Stirngs 
+% (strings of the form key:value)
+%
+% @QueryElements JSONString containing dialog intention 
+% @CleanedQueryElements Instance of the dialog intention
+% @QueryInstance An instance of the query
+%
+create_query_of_type(QueryElements,CleanedQueryElements,QueryInstance) :-
+    extract_only_type(QueryElements,Type,CleanedQueryElements),
+    get_class_name(Type,ClassName),
+    atom_concat('http://knowrob.org/kb/knowrob.owl#', ClassName, FullClassName),
+    rdf_instance_from_class(FullClassName,QueryInstance).
+
+%% extract_only_type(+QueryElements,-Type,-CleanedQueryElements)
+%
+% extracts only the type string of the key-value-string
+%
+% @QueryElements key-value-Strings containing the infos of the query
+% @Type Type of the dialog query
+% @CleanedQueryElements Rest of the strings without the type:Type-Value string
+%
+extract_only_type(QueryElements,Type,CleanedQueryElements) :-
+  extract_only_type_help(QueryElements,[],Type,CleanedQueryElements).
+
+extract_only_type_help([],TillNow,Type,CleanedQueryElements) :-
+  write('Query has no type'),
+  Type = 'DialogQuery',
+  CleanedQueryElements = TillNow.
+
+extract_only_type_help([QueryElement|Rest],TillNow,Type,CleanedQueryElements) :-
+  atomic_list_concat([Property|[Value|_]],':',QueryElement),
+  (Property = type ->
+      (Type = Value,
+        append(TillNow,Rest,CleanedQueryElements));
+      (append([QueryElement],TillNow,TillNowNew),
+        extract_only_type_help(Rest,TillNowNew,Type,CleanedQueryElements))
+    ).
+
+%% assert_query_properties(+QueryElements,+DialogQuery)
+%
+% Asserts the informations in the queryelements strings 
+% to the instance of the DialogQuery
+%
+% @QueryElements key-value-Strings containing the infos of the query
+% @DialogQuery Instance of the dialog query
+%
+assert_query_properties([],_).
+assert_query_properties([QueryElement|Rest],DialogQuery) :-
+	Ns = knowrob,
+	atomic_list_concat([Property|[Value|_]],':',QueryElement),
+	rdf_global_id(Ns:Property, PropertyName),
+	rdf_assert_with_literal(DialogQuery,PropertyName,Value),
+	assert_query_properties(Rest,DialogQuery).
+
+%% rdf_assert_with_literal(S,P,Value)
+%
+% Helperfunction to assert S,P,Value triple with P a DatatypeProperty
+%
+% @S Subject
+% @P Predicate
+% @Value Value
+%
+rdf_assert_with_literal(S,P,Value) :-
+  (atom_number(Value,ValueX)-> true ; ValueX = Value),
+  rdf_has(P, rdf:type, owl:'DatatypeProperty'),
+  (  rdf_phas(P, rdfs:range, Range)
+  -> assert_temporal_part(S, P, literal(type(Range,ValueX)))
+  ;  assert_temporal_part(S, P, literal(ValueX))
+  ), !.
+
+%% run_the_rules
+%
+% Runs the rules to interprete the Dialog Intention object
+%
 run_the_rules :-
     ignore((
       swrl:rdf_swrl_name(Descr3,'IncreaseCake'),
@@ -66,64 +215,6 @@ run_the_rules :-
       rdf_swrl_project(Descr4, [var(Var3,Act3)]),
       rdf_swrl_unload(Descr4))).
 
-create_dialog_element(JSONString,DialogElement) :-
-    atom(JSONString),
-    rdf_instance_from_class(knowrob:'DialogElement', DialogElement),
-    extract_guest_id(JSONString,GuestID),
-    rdf_assert(DialogElement,knowrob:'guestId',literal(type(xsd:string,GuestID))),
-    extract_query_element(JSONString,Query),
-    rdf_assert(DialogElement,knowrob:'dialogQuery',Query).
-
-extract_guest_id(JSONString,GuestID) :-
-	atomic_list_concat([RelevantGuestString|_], ',', JSONString),
-	atom_concat('{guestId:', GuestID, RelevantGuestString).
-
-extract_query_element(JSONString,QueryInstance) :-
-	atomic_list_concat([_|[SecondHalf|_]], ',query:{', JSONString),
-	sub_atom(SecondHalf, 0, _, 2, QueryString), % remove unneeded '}}'
-	atomic_list_concat(QueryElements, ',', QueryString),
-  create_query_of_type(QueryElements,CleanedQueryElements,QueryInstance),
-	assert_query_properties(CleanedQueryElements,QueryInstance).
-
-create_query_of_type(QueryElements,CleanedQueryElements,QueryInstance) :-
-    extract_only_type(QueryElements,Type,CleanedQueryElements),
-    get_class_name(Type,ClassName),
-    atom_concat('http://knowrob.org/kb/knowrob.owl#', ClassName, FullClassName),
-    rdf_instance_from_class(FullClassName,QueryInstance).
-
-extract_only_type(QueryElements,Type,CleanedQueryElements) :-
-  extract_only_type_help(QueryElements,[],Type,CleanedQueryElements).
-
-extract_only_type_help([],TillNow,Type,CleanedQueryElements) :-
-  write('Query has no type'),
-  Type = 'DialogQuery',
-  CleanedQueryElements = TillNow.
-
-extract_only_type_help([QueryElement|Rest],TillNow,Type,CleanedQueryElements) :-
-  atomic_list_concat([Property|[Value|_]],':',QueryElement),
-  (Property = type ->
-      (Type = Value,
-        append(TillNow,Rest,CleanedQueryElements));
-      (append([QueryElement],TillNow,TillNowNew),
-        extract_only_type_help(Rest,TillNowNew,Type,CleanedQueryElements))
-    ).
-
-assert_query_properties([],_).
-assert_query_properties([QueryElement|Rest],DialogQuery) :-
-	Ns = knowrob,
-	atomic_list_concat([Property|[Value|_]],':',QueryElement),
-	rdf_global_id(Ns:Property, PropertyName),
-	rdf_assert_with_literal(DialogQuery,PropertyName,Value),
-	assert_query_properties(Rest,DialogQuery).
-
-rdf_assert_with_literal(S,P,Value) :-
-  (atom_number(Value,ValueX)-> true ; ValueX = Value),
-  rdf_has(P, rdf:type, owl:'DatatypeProperty'),
-  (  rdf_phas(P, rdfs:range, Range)
-  -> assert_temporal_part(S, P, literal(type(Range,ValueX)))
-  ;  assert_temporal_part(S, P, literal(ValueX))
-  ), !.
-
 %% get_class_name(+Type, -ClassName)
 % MSp
 % converts first letter of Type into capital letter
@@ -132,6 +223,8 @@ get_class_name(Type, ClassName) :-
     sub_atom(Type,0,1,_,C), char_code(C,I), 96<I, I<123
     -> J is I-32, char_code(D,J), sub_atom(Type,1,_,0,Sub), atom_concat(D,Sub,ClassName)
     ; ClassName = Type.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Functions to convert modified names to real names %%%%%%%%%%%%%%%%%%%%%%
 
 modified_to_current :-
   ignore(modified_to_current_class),
@@ -236,6 +329,8 @@ get_unmodified_class_name(MClass,Class) :-
   (rdf_equal(MClass,knowrob:'CheckedDialogElement_modified') ->
     rdf_equal(Class,knowrob:'CheckedDialogElement');false).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Hacks for add and subtract rules in swrl %%%%%%%%%%%%%%%%%%%%%
 
 add_hack :-
   forall((
