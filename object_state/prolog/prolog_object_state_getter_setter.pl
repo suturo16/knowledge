@@ -95,9 +95,9 @@ set_info(Thing, Info) :-
     % #set_info(ObjInst, Info).
     ),!.
 
-%% #set_info(ObjInst, [[P,Val]|More])
-% #MSp
-% #saves knowledge value O as relation P to S
+%% set_info(ObjInst, [[P,Val]|More])
+% MSp
+% saves knowledge value O as relation P to S
 % @param ObjInst the target object or thing for the P related value Val
 % @param P the relation the value Val has to subject S
 % @param Val the value of the P related object
@@ -189,7 +189,10 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 
 
 %% get_object_infos(+Name, -FrameID, -Type, -Timestamp, -Pose, -Height, -Width, -Depth, -Obj)
-% LSa, MSp
+% LSa, MSp, SJ
+%
+% Returns the information for a given object stored in the knowledge base
+%
 % @param Name name of the object
 % @param FrameID reference frame of object pose
 % @param Timestamp start time of most recent perception
@@ -212,6 +215,13 @@ get_object_infos(Name, FrameID, Type, Timestamp, [Position, Orientation], Height
 
 
 %% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% 
+% Returns the current pose of the given object
+%
+% @Obejct Given object
+% @PX, PY, PZ Position of the object
+% @OX, OY, OZ, OW Quaternion of the object
+%
 % MSp
 get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'xCoord', literal(type(xsd: float, PX))),
@@ -222,7 +232,17 @@ get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'qz', literal(type(xsd: float, OZ))),
     holds(Object, knowrob:'qu', literal(type(xsd: float, OW))).
 
-
+%% get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) 
+% 
+%
+% Returns the information for a given object stored in the knowledge base
+%
+% @param Type type of the object
+% @param Pose list of [Position, Orientation] of object to odom
+% @param Height height of object
+% @param Width width of object
+% @param Depth depth of object
+%
 get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'typeOfObject', Type),
     holds(Obj, knowrob:'heightOfObject', literal(type(xsd:float,Height))), 
@@ -230,7 +250,18 @@ get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj, knowrob:'depthOfObject', literal(type(xsd:float,Depth))),
     get_fluent_pose_to_odom(Obj, Position, Orientation).
 
-
+%% get_object_infos_to_odom(Type, [Position, Orientation], Height, Width, Depth) 
+% 
+%
+% Returns the information for a given object stored in the knowledge base
+%
+% @param Name name of the object
+% @param Type type of the object
+% @param Pose list of [Position, Orientation] of object to odom
+% @param Height height of object
+% @param Width width of object
+% @param Depth depth of object
+%
 get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Depth) :-
     holds(Obj,knowrob:'nameOfObject',Name),
     holds(Obj, knowrob:'typeOfObject', Type),
@@ -240,8 +271,15 @@ get_object_infos_to_odom(Name, Type, [Position, Orientation], Height, Width, Dep
     get_fluent_pose_to_odom(Obj, Position, Orientation).
 
 
-%% get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
-% MSp
+%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% 
+% Returns the current pose of the given object to odom
+%
+% @Object Given object
+% @PX, PY, PZ Position of the object
+% @OX, OY, OZ, OW Quaternion of the object
+%
+% 
 get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'xCoordToOdom', literal(type(xsd: float, PX))),
     holds(Object, knowrob:'yCoordToOdom', literal(type(xsd: float, PY))),
@@ -251,16 +289,29 @@ get_fluent_pose_to_odom(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     holds(Object, knowrob:'qzToOdom', literal(type(xsd: float, OZ))),
     holds(Object, knowrob:'quToOdom', literal(type(xsd: float, OW))).
 
-
+%% get_physical_parts(Name, PhysicalParts, PhysicalPartName)
+% 
+% Returns physical parts with it names of the object with the name Name
+%
+% @Name Name of Object
+% @PhysicalParts PhysicalPart of Object
+% @PhysicalPartName Name of PhysicalPart
+% 
 get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
     (rdf_has(Obj,knowrob:'nameOfObject', Name),!),
     holds(Obj,knowrob:'physicalParts',PhysicalParts),
     rdf_has(PhysicalParts,knowrob:'nameOfObject', PhysicalPartName).
 
 
-%% get_fluent_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
-% MSp
-get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+%% % get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW])
+% 
+% Returns the current pose of the given object to odom
+%
+% @Object Given object
+% @PX, PY, PZ Position of the object
+% @OX, OY, OZ, OW Quaternion of the object
+%
+% get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PXOld))),
     (atom(PXOld) -> atom_number(PXOld,PX);PX=PXOld),
     owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PYOld))),
@@ -279,11 +330,14 @@ get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
 
 %% get_tf_infos(-Name, -FrameID, -Position, -Orientation)
 % LSa
+%
 % A function to bundle the required information for the TF-broadcaster.
+%
 % @param Name 
 % @param FrameID 
 % @param Position position of object in frame
 % @param Orientation orientation of object in frame
+%
 get_tf_infos(Name, StrippedFrameID, Position, Orientation) :-
     holds(Obj,knowrob:'nameOfObject',FullName),
     strip_literal_type(FullName, StrippedFullName),
