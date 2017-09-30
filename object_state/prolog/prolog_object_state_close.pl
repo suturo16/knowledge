@@ -1,5 +1,30 @@
 /** <module> prolog_object_state_close
 
+  Copyright (C) 2017 Sascha Jongebloed 
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the <organization> nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 @author Lukas Samel, Michael Speer, Sascha Jongebloed 
 @license BSD
 */
@@ -54,6 +79,12 @@
 :- owl_parse('package://object_state/owl/test_actions.owl').
 
 
+%% close_object(+TypeName)
+%
+% Closes all Objects of the type with the name TypeName
+%
+% @params TypeName Name of Type of the objects to close
+%
 close_object(TypeName) :-
   forall(
     holds(ObjInst,knowrob:'typeOfObject',TypeName),
@@ -61,6 +92,12 @@ close_object(TypeName) :-
   ).
 
 
+%% close_object(+ObjectName)
+%
+% Closes all Objects with the given Name
+%
+% @params ObjectName Name of Object to close
+%
 close_object(ObjectName) :-
   (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, ObjectName) -> 
     NewObjectName = ObjectName;
@@ -70,6 +107,12 @@ close_object(ObjectName) :-
     close_object_help(ObjInst)
   ).
 
+%% close_corresponding_physical_parts(ObjInst)
+%
+% Closes a given Object Instance and its physicalParts
+%
+% @params ObjInst Given Object Instance close
+%
 close_object_help(ObjInst) :-
   debug(ObjInst),
   ignore((close_corresponding_physical_parts(ObjInst))),
@@ -77,6 +120,12 @@ close_object_help(ObjInst) :-
   forall(holds(ObjInst,P,O),
   ignore(assert_temporal_part_end(ObjInst,P,O,Now))).
 
+%% close_corresponding_physical_parts(ObjInst)
+%
+% Closes all physicalParts of the given Object Instance
+%
+% @params ObjInst Given Object Instance close
+%
 close_corresponding_physical_parts(ObjInst) :-
   holds(ObjInst,knowrob:'physicalParts',_),
   forall(
