@@ -114,7 +114,14 @@ strip_name_num(NameNum, Name) :-
 create_object_name(Name, FullName) :-
     atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName).
 
-
+%% is_different_from_by(+OldValue,+NewValue,+Tolerance)
+%
+% True if OldValue differs from NewValue by Tolerance 
+%
+% @param OldValue The old Value
+% @param NewValue The new Value
+% @param Tolerance between the values
+%
 is_different_from_by(OldValue,NewValue,Tolerance) :-
     (number(OldValue),number(NewValue)->
       true;
