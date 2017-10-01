@@ -337,7 +337,7 @@ get_physical_parts(Name, PhysicalParts, PhysicalPartName) :-
 % @PX, PY, PZ Position of the object
 % @OX, OY, OZ, OW Quaternion of the object
 %
-% get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
+get_pose(Object, [PX, PY, PZ],[OX, OY, OZ, OW]) :-
     owl_has(Object, knowrob:'xCoord', literal(type(xsd: float, PXOld))),
     (atom(PXOld) -> atom_number(PXOld,PX);PX=PXOld),
     owl_has(Object, knowrob:'yCoord', literal(type(xsd: float, PYOld))),
