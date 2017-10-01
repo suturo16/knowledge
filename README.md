@@ -9,3 +9,7 @@ For a extended overview of this system and a tutorial for the installation and e
 For a overview over the complete Suturo system have a look at:
 
 <https://suturo-docs.readthedocs.io/en/latest/index.html>
+
+This package was only tested with the following fork of knowrob:
+
+<https://github.com/suturo16/knowrob>
