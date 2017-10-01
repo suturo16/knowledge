@@ -1,5 +1,30 @@
 /** <module> prolog_object_state
 
+  Copyright (C) 2017 Lukas Samel, Michael Speer, Sascha Jongebloed 
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the <organization> nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 @author Lukas Samel, Michael Speer, Sascha Jongebloed 
 @license BSD
 */
@@ -89,12 +114,13 @@
 
 
 %% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst) is probably det.
+%
 % Create the object representations in the knowledge base
 % Argument 'Type' specifies perceptions classification of the object
 % with multiple objects the Type from perception is droped and replaced with the name, e.g. Type = cake
 % 
 % @param Name describes the class of the object
-% @param PoseAsList The pose of the object stored in a list of lists
+% @param Pose The pose of the object stored in a list of lists
 % @param Type The type of the object (see ObjectDetection.msg)
 % @param FrameID reference frame of object
 % @param Width The width of the object
@@ -102,6 +128,7 @@
 % @param Depth The depth of the object
 % @param Interval A list containing the start time and end time of a temporal
 % @param ObjInst The created object instance (optional:to be returned)
+%
 create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
@@ -126,7 +153,23 @@ create_object_state(Name, Pose, Type, FrameID, Width, Height, Depth, [Begin], Ob
     current_time(TimePoint),
     assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
 
-
+%% create_object_state(+Name, +Pose, +Type, +FrameID, +Width, +Height, +Depth, +Begin, -ObjInst)
+%
+% Create the object representations in the knowledge base
+% Argument 'Type' specifies perceptions classification of the object
+% with multiple objects the Type from perception is droped and replaced with the name, e.g. Type = cake
+% 
+% @param Name describes the class of the object
+% @param Pose The pose of the object stored in a list of lists
+% @param PoseToOdom The pose of the object stored in a list of lists in proportion to odom
+% @param Type The type of the object (see ObjectDetection.msg)
+% @param FrameID reference frame of object
+% @param Width The width of the object
+% @param Height The height of the object
+% @param Depth The depth of the object
+% @param Interval A list containing the start time and end time of a temporal
+% @param ObjInst The created object instance (optional:to be returned)
+%
 create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth, [Begin], ObjInst) :- 
     (nonvar(Name)
     -> holds(ObjInst,knowrob:'nameOfObject',Name)
@@ -151,7 +194,15 @@ create_object_state(Name, Pose, PoseToOdom, Type, FrameID, Width, Height, Depth,
     current_time(TimePoint),
     assert_temporal_part_with_end(ObjInst, knowrob:'lastPerceptionTimePoint', TimePoint).
 
-
+%% assert_temporal_part_with_end(+ObjInst, +P, +NewValue)
+%
+% Asserts a new temporalPart for a property. For this
+% all olds temporalParts for this property are closed
+%
+% @param ObjInst Given Object Instance
+% @P Property
+% @NewValue New Value to save a temporalPart
+%
 assert_temporal_part_with_end(ObjInst, P, NewValue) :-
     current_time(Now),
     (holds(ObjInst,P,O) ->
@@ -159,6 +210,16 @@ assert_temporal_part_with_end(ObjInst, P, NewValue) :-
     assert_temporal_part(ObjInst, P, NewValue). 
 
 
+%% create_temporal_dimensions(+ObjInst,+Height,+Width,+Depth) 
+%
+% Create new temporalParts for the dimensions if the dimension has changed by
+% DimensionDif 
+%
+% @param ObjInst Given Object Instance
+% @param Width The width of the object
+% @param Height The height of the object
+% @param Depth The depth of the object
+%
 create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
     ((holds(ObjInst, knowrob:'widthOfObject', literal(type(xsd:float, OldWidth))),    %# literal(type(xsd:float, Width))),
     holds(ObjInst, knowrob:'heightOfObject', literal(type(xsd:float, OldHeight))),  %# literal(type(xsd:float, Height))),
@@ -183,8 +244,20 @@ create_temporal_dimensions(ObjInst,Height,Width,Depth) :-
 
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
-% LSa, MSp
+% LSa, MSp, SJ
+%
 % Creates a fluent and closes the corresponding old TemporalPart.
+%
+% @param Name describes the class of the object
+% @param Pose The pose of the object stored in a list of lists
+% @param Type The type of the object (see ObjectDetection.msg)
+% @param FrameID reference frame of object
+% @param Width The width of the object
+% @param Height The height of the object
+% @param Depth The depth of the object
+% @param Interval A list containing the start time and end time of a temporal
+% @param ObjInst The created object instance (optional:to be returned)
+%
 create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     (known_object(Type, Pose, Width, Height, Depth, FullName),!
         -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
@@ -196,8 +269,22 @@ create_object_state_with_close(_, Pose, Type, Frame, Width, Height, Depth, [Begi
         ; create_object_state(_, Pose, Type, Frame, Width, Height, Depth, [Begin], ObjInst),!).
 
 %% create_object_state_with_close(+Name, +Pose, +Type, +Frame, +Width, +Height, +Depth, (+)[Begin], -ObjInst)
-% LSa, MSp
+%
+% LSa, MSp, SJ
 % Creates a fluent and closes the corresponding old TemporalPart.
+%
+% 
+% @param Name describes the class of the object
+% @param Pose The pose of the object stored in a list of lists
+% @param PoseToOdom The pose of the object stored in a list of lists in proportion to odom
+% @param Type The type of the object (see ObjectDetection.msg)
+% @param FrameID reference frame of object
+% @param Width The width of the object
+% @param Height The height of the object
+% @param Depth The depth of the object
+% @param Interval A list containing the start time and end time of a temporal
+% @param ObjInst The created object instance (optional:to be returned)
+%
 create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, Depth, [Begin], ObjInst) :-
     known_object(Type, PoseToOdom, Width, Height, Depth, FullName)
       -> (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, FullName),
@@ -210,8 +297,14 @@ create_object_state_with_close(_, Pose, PoseToOdom, Type, Frame, Width, Height, 
 
 
 %% assign_obj_class(+Type, -ObjInst)
-% MSp
-% Initialized object of class from suturo_objects.owl ontology depending on object type.
+% MSp, SJ, LSa
+%
+% Initialized object of class from suturo_objects.owl ontology depending on object type. 
+% Furthermore the physicalParts are created
+%
+% @param Type Type of the object 
+% @param ObjInst Created ObjInst
+% 
 assign_obj_class(Type, ObjInst) :-
     Ns = knowrob,
     get_class_name(Type, Name),
@@ -224,8 +317,13 @@ assign_obj_class(Type, ObjInst) :-
     %# Adds the physicalParts. BE CAREFUL: nameOfObject for ObjInst needed
     ignore(create_physical_parts(Type,ObjInst)),!.
 
-
-%Creates individuals for all physical parts
+%% create_physical_parts(+Type,+ObjInst)
+%
+% Creates individuals for all physicalParts and asserts it to ObjInst
+%
+% @param Type Type of the object 
+% @param ObjInst Modified ObjInst with physicalParts
+% 
 create_physical_parts(Type,ObjInst) :-
     % build knowrob:Class
     Ns = knowrob,
@@ -252,9 +350,14 @@ create_physical_parts(Type,ObjInst) :-
 
 
 %% create_fluent_pose(+Fluent, +Pose)
-% MSp
-% @param Fluent temporal part of object
+% SJ, MSp
+%
+% Creates new pose of object if the coordinate or quaternion 
+% differs enough from the original
+%
+% @param ObjInst temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
+%
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
   (get_fluent_pose(ObjInst,[PXOld, PYOld, PZOld], [OXOld, OYOld, OZOld, OWOld]) ->
   (current_time(Now),
@@ -272,30 +375,14 @@ create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
   false).
 
 
-create_value_if_tolerance(ObjInst,P,NewValue,OldValue,Tolerance,Time) :-
-    ((nonvar(ObjInst),nonvar(P),nonvar(NewValue),nonvar(OldValue),nonvar(Tolerance),nonvar(Time)) ->
-      true;
-      (debug(ObjInst),debug(P),debug(NewValue),debug(OldValue),debug(Tolerance),debug(Time)),false), %# todo: remove
-    (is_different_from_by(OldValue,NewValue,Tolerance) ->
-      (
-        holds(ObjInst,P,Oldy), %# TODO: Why is this call needed? If i use the Value for the _end call, i get an exception
-        assert_temporal_part_end(ObjInst, P,Oldy, Time),
-        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
-        assert_temporal_part(ObjInst, P, NewValueV) %# literal(type(xsd:float, PX)))
-      );
-        true).
-
-create_value(ObjInst,P,NewValue,OldValue,Time) :-
-        holds(ObjInst,P,Oldy), %# TODO: Why is this call needed? If i use the Value for the _end call, i get an exception
-        assert_temporal_part_end(ObjInst, P,Oldy, Time),
-        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
-        assert_temporal_part(ObjInst, P, NewValueV). %# literal(type(xsd:float, PX)))
-
-
 %% create_fluent_pose(+Fluent, +Pose)
-% MSp
-% @param Fluent temporal part of object
+% SJ, MSp
+%
+% Creates new pose of object
+%
+% @param ObjInst temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
+%
 create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
   (not(holds(ObjInst, knowrob:'xCoord', _)) ->
   (PXVal_=literal(type(xsd:'float',PX)), rdf_global_term(PXVal_, PXVal),
@@ -316,9 +403,13 @@ create_fluent_pose(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
 
 
 %% create_fluent_pose_to_odom(+Fluent, +Pose)
-% MSp
-% @param Fluent temporal part of object
+% SJ, MSp
+%
+% Creates new pose to odom of object 
+%
+% @param ObjInst temporal part of object
 % @param Pose list of lists [[3],[4]] position and orientation
+%
 create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
     rdf_assert(ObjInst, knowrob:'xCoordToOdom', literal(type(xsd:float, PX))),
     rdf_assert(ObjInst, knowrob:'yCoordToOdom', literal(type(xsd:float, PY))),
@@ -327,6 +418,48 @@ create_fluent_pose_to_odom(ObjInst, [[PX, PY, PZ], [OX, OY, OZ, OW]]) :-
     rdf_assert(ObjInst, knowrob:'qyToOdom', literal(type(xsd:float, OY))),
     rdf_assert(ObjInst, knowrob:'qzToOdom', literal(type(xsd:float, OZ))),
     rdf_assert(ObjInst, knowrob:'quToOdom', literal(type(xsd:float, OW))).
+
+
+%% create_value_if_tolerance(+ObjInst,+P,+NewValue,+OldValue,+Tolerance,+Time)
+%
+% Asserts the a temporalPart for the property P with NewValue to ObjInst if OldValue differs
+% atleast Tolerance from OldNewValue
+%
+% @param ObjInst ObjectIns Instance of the object
+% @param P Property
+% @param NewValue The new value to be asserted
+% @param OldValue The old value
+% @param Tolerance the needed tolerance to assert (ObjInst,P,NewValue)
+% @param Time of the begin of the assertions 
+%
+create_value_if_tolerance(ObjInst,P,NewValue,OldValue,Tolerance,Time) :-
+    ((nonvar(ObjInst),nonvar(P),nonvar(NewValue),nonvar(OldValue),nonvar(Tolerance),nonvar(Time)) ->
+      true;
+      false),
+    (is_different_from_by(OldValue,NewValue,Tolerance) ->
+      (
+        holds(ObjInst,P,Oldy), %# TODO: Why is this call needed? If i use the Value for the _end call, i get an exception
+        assert_temporal_part_end(ObjInst, P,Oldy, Time),
+        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
+        assert_temporal_part(ObjInst, P, NewValueV) %# literal(type(xsd:float, PX)))
+      );
+        true).
+
+%% create_value(+ObjInst,+P,+NewValue,+OldValue,+Time)
+%
+% Asserts the a temporalPart for the property P with NewValue to ObjInst 
+%
+% @param ObjInst ObjectIns Instance of the object
+% @param P Property
+% @param NewValue The new value to be asserted
+% @param OldValue The old value
+% @param Time of the begin of the assertions 
+%
+create_value(ObjInst,P,NewValue,OldValue,Time) :-
+        holds(ObjInst,P,Oldy), 
+        assert_temporal_part_end(ObjInst, P,Oldy, Time),
+        NewValue_=literal(type(xsd:float,NewValue)), rdf_global_term(NewValue_, NewValueV),
+        assert_temporal_part(ObjInst, P, NewValueV). %# literal(type(xsd:float, PX)))
 
 
 %% close_object_state(+FullName) is probably det.
@@ -346,12 +479,16 @@ close_object_state(FullName) :-
 %
 % @param FullName full object name without temporal stamp  perception 
 % @returns FullTemporalName the concatenated string including the temporal stamp
+%
 create_temporal_name(FullName, FullTemporalName) :-
     atom_concat(FullName,'@t_i', FullTemporalName).
 
 
 %% seen_since(+Name, +FrameID, +TimeFloat) --> true/false
 %  MSp
+%
+% Tests if object with Name and FrameID was seen since TimeFloat 
+%
 %  @param Name name of the object in database
 %  @param FrameID reference frame of object
 %  @param TimeFloat timestamp to be asserted
@@ -362,7 +499,16 @@ seen_since(Name, FrameID, TimeFloat) :-
 
 %% known_object(+Type, +Pose, +Height, +Width, +Depth, -Name)
 %MSp
-% same_dimensions currently not used
+% Gives All Objects with the given type, that is near the given pose (near is 
+% defined by the distance in correlation to width, height, depth)
+%
+% @param Type Type of object
+% @param Pose Pose of searched object
+% @param Height Height of searched object
+% @param Width Width of searched object
+% @param Depth Depth of searched object
+% @param Name Name of searched object
+%
 known_object(Type, [Position, _], Height, Width, Depth, Name) :-
     get_object_infos_to_odom(Name, Type, [PrevPosition, _], PrevHeight, PrevWidth, PrevDepth),
     (%same_dimensions([PrevHeight, PrevWidth, PrevDepth], [Height, Width, Depth]);
@@ -371,7 +517,12 @@ known_object(Type, [Position, _], Height, Width, Depth, Name) :-
 
 %% connect_frames(+ParentFrameID, +ChildFrameID, +Pose)
 % LSa
-% A small function to connect two given frames.
+% A small function to connect ChildFrameID to ParentFrameID
+%
+% @param ParentFrameID The ID of the ParentFrame
+% @param ChildFrameID The ID of the ChildFrameID
+% @param Pose Old Pose, now saved as poseToOdom
+%
 connect_frames(ParentFrameID, ChildFrameID) :-
   prython:py_call('call_tf','get_transform',[ParentFrameID,ChildFrameID],Pose),
   atom_concat('/', Name, ChildFrameID),
@@ -383,11 +534,20 @@ connect_frames(ParentFrameID, ChildFrameID) :-
 
 %% disconnect_frames(+ParentFrameID, +ChildFrameID)
 % LSa
-% A simple function to disconnect two given frames.
+% A simple function to disconnect two given connedted frames.
+%
+% @param ParentFrameID The ID of the ParentFrame
+% @param ChildFrameID The ID of the ChildFrameID
+%
 disconnect_frames(ParentFrameID, ChildFrameID) :-
   retract(isConnected(ParentFrameID, ChildFrameID)).
 
 
+%% filter_by_odom_pos([[X,Y,Z],Quat])
+%
+% Very simple hack for the tests if the 
+% perception is broken and perceives too many objects
+%
 filter_by_odom_pos([[X,Y,Z],Quat]) :-
     (atom(X)->atom_number(X,XN);XN=X),
     (atom(Y)->atom_number(Y,YN);YN=Y),

@@ -83,7 +83,7 @@
 %
 % Closes all Objects of the type with the name TypeName
 %
-% @params TypeName Name of Type of the objects to close
+% @param TypeName Name of Type of the objects to close
 %
 close_object(TypeName) :-
   forall(
@@ -96,7 +96,7 @@ close_object(TypeName) :-
 %
 % Closes all Objects with the given Name
 %
-% @params ObjectName Name of Object to close
+% @param ObjectName Name of Object to close
 %
 close_object(ObjectName) :-
   (atom_concat('http://knowrob.org/kb/knowrob.owl#', Name, ObjectName) -> 
@@ -111,7 +111,7 @@ close_object(ObjectName) :-
 %
 % Closes a given Object Instance and its physicalParts
 %
-% @params ObjInst Given Object Instance close
+% @param ObjInst Given Object Instance close
 %
 close_object_help(ObjInst) :-
   debug(ObjInst),
@@ -124,7 +124,7 @@ close_object_help(ObjInst) :-
 %
 % Closes all physicalParts of the given Object Instance
 %
-% @params ObjInst Given Object Instance close
+% @param ObjInst Given Object Instance close
 %
 close_corresponding_physical_parts(ObjInst) :-
   holds(ObjInst,knowrob:'physicalParts',_),
