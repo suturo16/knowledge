@@ -1,0 +1,7 @@
+<launch>
+  <param name="initial_package" type="string" value="knowledge_launch" />
+  <param name="initial_goal" type="string" value="owl_parse('package://object_state/owl/suturo_objects.owl')" />
+  <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
+  <node name="perception_subscriber" pkg="object_state" type="subscriber.py" />
+  <node name="tf_broadcaster" pkg="object_state" type="fluents_tf_publisher.py" />
+</launch>

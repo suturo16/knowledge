@@ -1,0 +1,1439 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/turtlebot.owl#"
+     xml:base="http://knowrob.org/kb/turtlebot.owl"
+     xmlns:robot="http://knowrob.org/kb/turtlebot.owl#"
+     xmlns:srdl2="http://knowrob.org/kb/srdl2.owl#"
+     xmlns:srdl2-cap="http://knowrob.org/kb/srdl2-cap.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:qudt-unit="http://qudt.org/vocab/unit#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/turtlebot.owl">
+        <owl:imports rdf:resource="package://suturo_capabilities/owl/suturo-cap.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#link_name -->
+
+    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#link_name"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#sphere_radius -->
+
+    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#sphere_radius"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://qudt.org/vocab/unit#Kilogram -->
+
+    <rdfs:Datatype rdf:about="http://qudt.org/vocab/unit#Kilogram"/>
+    
+
+
+    <!-- http://qudt.org/vocab/unit#Unitless -->
+
+    <rdfs:Datatype rdf:about="http://qudt.org/vocab/unit#Unitless"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#eventOccursAt -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#eventOccursAt"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#objectActedOn -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#relativeTo -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#startTime -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#startTime"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#hasCapability -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#succeedingJoint -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#succeedingJoint"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#succeedingLink -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#succeedingLink"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m00 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m00"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m01 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m01"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m02 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m02"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m03 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m03"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m10 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m10"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m11 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m11"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m12 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m12"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m13 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m13"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m20 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m20"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m21 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m21"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m22 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m22"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m23 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m23"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m30 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m30"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m31 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m31"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m32 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m32"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#m33 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#m33"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#cylinder_length -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#cylinder_length"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#cylinder_radius -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#cylinder_radius"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_ixx -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_ixx"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_ixy -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_ixy"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_ixz -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_ixz"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_iyy -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_iyy"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_iyz -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_iyz"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#inertia_izz -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#inertia_izz"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#kd -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#kd"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#kp -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#kp"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#mass_value -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#mass_value"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#mesh_filename -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#mesh_filename"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#mu1 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#mu1"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#mu2 -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#mu2"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#urdfName -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/srdl2-comp.owl#urdfName"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Proprioception -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Robot -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Robot"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#TimePoint -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#AcousticPerceptionCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-cap.owl#move_base -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+    
+
+
+    <!-- http://knowrob.org/kb/srdl2-comp.owl#UrdfLink -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+    
+
+
+    <!-- http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability"/>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/turtlebot.owl#Turtlebot">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Robot"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#SpeakingCapability"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#move_base"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-cap.owl#hasCapability"/>
+                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/suturo-cap.owl#ObjectStorageCapability"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_10WqSqLB -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_10WqSqLB">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_3VjBqidR -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_3VjBqidR">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_6PE8tfN1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_6PE8tfN1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_9I1Ftbo0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_9I1Ftbo0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_BqGMJydX -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_BqGMJydX">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_KwgugAHZ -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_KwgugAHZ">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_LK8cpbhL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_LK8cpbhL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_MiFF3s9f -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_MiFF3s9f">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_NqD1gxg9 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_NqD1gxg9">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_PNq4Dd1N -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_PNq4Dd1N">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_Pb1d6pIo -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_Pb1d6pIo">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_S46Eikvk -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_S46Eikvk">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_VZFe8jUI -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_VZFe8jUI">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_eVfPXhg5 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_eVfPXhg5">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_tm65duKS -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_tm65duKS">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#Proprioception_yZON4kMk -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#Proprioception_yZON4kMk">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Proprioception"/>
+        <knowrob:eventOccursAt rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint"/>
+        <knowrob:startTime rdf:resource="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_HAlLwaHU">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0510342851533115E-10</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">4.2067416388743556E-20</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0510342851533115E-10</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_JRirYiZE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.049</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">4.102068570306623E-10</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.075</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-4.102068570306623E-10</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.08</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.188</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.02</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0418</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NVBifkIG">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_MLSX2fyN"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.022</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_NiaqEwqh">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-1.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_O4xDtpQz">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-1.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_nuPQt7bF">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_pNJvVhtp">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_QcvWHt1q"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_qVHO0kSi">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_K2gMcn0x"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0510342851533115E-10</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">4.2067416388743556E-20</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0510342851533115E-10</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-2.0510342851533115E-10</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_r6G0npKb">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.128</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.1442</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_rsfjOBsM">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.075</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.188</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_teSuBuU3">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_L0c6qtgq"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#RotationMatrix3D_vwya4DcO">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RotationMatrix3D"/>
+        <knowrob:m00 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m03>
+        <knowrob:m10 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m13>
+        <knowrob:m20 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2385</knowrob:m23>
+        <knowrob:m30 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#timepoint_1357020000">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.0000001</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.0000001</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.0000001</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.01</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_front_wheel.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_front_wheel_hinge.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:mu1 rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.1</srdl2-comp:mu1>
+        <srdl2-comp:mu2 rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.1</srdl2-comp:mu2>
+        <srdl2-comp:urdfName>back_wheel_hinge</srdl2-comp:urdfName>
+        <srdl2-comp:sphere_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.0325</srdl2-comp:sphere_radius>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge"/>
+        <srdl2-comp:urdfName>back_wheel_hinge_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out"/>
+        <srdl2-comp:urdfName>base_back_wheel_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_out">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_back_wheel_hinge_joint"/>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.001</srdl2-comp:mass_value>
+        <srdl2-comp:urdfName>base_back_wheel_out</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint"/>
+        <srdl2-comp:urdfName>base_footprint</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_footprint</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out"/>
+        <srdl2-comp:urdfName>base_left_motor_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_out">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint"/>
+        <srdl2-comp:urdfName>base_left_motor_out</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_left_motor_out</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_back_wheel_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_left_motor_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint"/>
+        <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.314</srdl2-comp:cylinder_length>
+        <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.146</srdl2-comp:cylinder_radius>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.1354533</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.1354533</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">-0.10658</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">1000</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_base.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:urdfName>base_link</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_main_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_link"/>
+        <srdl2-comp:urdfName>base_main_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out"/>
+        <srdl2-comp:urdfName>base_right_motor_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_right_motor_out">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint"/>
+        <srdl2-comp:urdfName>base_right_motor_out</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">base_right_motor_out</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint"/>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.001</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_motor.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:urdfName>left_motor_in</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_in"/>
+        <srdl2-comp:urdfName>left_motor_in_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint"/>
+        <srdl2-comp:urdfName>left_motor_out</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">left_motor_out</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_motor_out"/>
+        <srdl2-comp:urdfName>left_motor_out_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_in_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link"/>
+        <srdl2-comp:urdfName>left_wheel_in_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_left_wheel_link">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.03</srdl2-comp:cylinder_length>
+        <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.05</srdl2-comp:cylinder_radius>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00007</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00007</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000125</srdl2-comp:inertia_izz>
+        <srdl2-comp:kd rdf:datatype="http://qudt.org/vocab/unit#Unitless">1.0</srdl2-comp:kd>
+        <srdl2-comp:kp rdf:datatype="http://qudt.org/vocab/unit#Unitless">1000000.0</srdl2-comp:kp>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.1</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_wheel.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:mu1 rdf:datatype="http://qudt.org/vocab/unit#Unitless">200.0</srdl2-comp:mu1>
+        <srdl2-comp:mu2 rdf:datatype="http://qudt.org/vocab/unit#Unitless">100.0</srdl2-comp:mu2>
+        <srdl2-comp:urdfName>left_wheel_link</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint"/>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000000001</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.001</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_motor.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:urdfName>right_motor_in</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_in"/>
+        <srdl2-comp:urdfName>right_motor_in_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint"/>
+        <srdl2-comp:urdfName>right_motor_out</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">right_motor_out</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_motor_out"/>
+        <srdl2-comp:urdfName>right_motor_out_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_in_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link"/>
+        <srdl2-comp:urdfName>right_wheel_in_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_right_wheel_link">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:cylinder_length rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.03</srdl2-comp:cylinder_length>
+        <srdl2-comp:cylinder_radius rdf:datatype="http://qudt.org/vocab/unit#Unitless">0.05</srdl2-comp:cylinder_radius>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00007</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00007</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.000125</srdl2-comp:inertia_izz>
+        <srdl2-comp:kd rdf:datatype="http://qudt.org/vocab/unit#Unitless">1.0</srdl2-comp:kd>
+        <srdl2-comp:kp rdf:datatype="http://qudt.org/vocab/unit#Unitless">1000000.0</srdl2-comp:kp>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.1</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_wheel.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:mu1 rdf:datatype="http://qudt.org/vocab/unit#Unitless">200.0</srdl2-comp:mu1>
+        <srdl2-comp:mu2 rdf:datatype="http://qudt.org/vocab/unit#Unitless">100.0</srdl2-comp:mu2>
+        <srdl2-comp:urdfName>right_wheel_link</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_robot1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_robot1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/turtlebot.owl#Turtlebot"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_base_footprint"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint"/>
+        <srdl2-comp:urdfName>xtion_cam_depth_frame</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_depth_frame</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_frame"/>
+        <srdl2-comp:urdfName>xtion_cam_depth_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:urdfName>xtion_cam_depth_optical_frame</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_depth_optical_frame</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_optical_frame"/>
+        <srdl2-comp:urdfName>xtion_cam_depth_optical_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link"/>
+        <srdl2-comp:urdfName>xtion_cam_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_link">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_depth_joint"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint"/>
+        <srdl2-comp:inertia_ixx rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00001</srdl2-comp:inertia_ixx>
+        <srdl2-comp:inertia_ixy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixy>
+        <srdl2-comp:inertia_ixz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_ixz>
+        <srdl2-comp:inertia_iyy rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00001</srdl2-comp:inertia_iyy>
+        <srdl2-comp:inertia_iyz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0</srdl2-comp:inertia_iyz>
+        <srdl2-comp:inertia_izz rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.00001</srdl2-comp:inertia_izz>
+        <srdl2-comp:mass_value rdf:datatype="http://qudt.org/vocab/unit#Kilogram">0.01</srdl2-comp:mass_value>
+        <srdl2-comp:mesh_filename rdf:datatype="http://www.w3.org/2001/XMLSchema#string">package://tortuga_description/meshes/tortuga_xtion.dae</srdl2-comp:mesh_filename>
+        <srdl2-comp:urdfName>xtion_cam_link</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:succeedingJoint rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint"/>
+        <srdl2-comp:urdfName>xtion_cam_rgb_frame</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_rgb_frame</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_frame"/>
+        <srdl2-comp:urdfName>xtion_cam_rgb_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#UrdfLink"/>
+        <srdl2-comp:urdfName>xtion_cam_rgb_optical_frame</srdl2-comp:urdfName>
+        <srdl2-comp:link_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xtion_cam_rgb_optical_frame</srdl2-comp:link_name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_joint">
+        <rdf:type rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#FixedUrdfJoint"/>
+        <srdl2-comp:succeedingLink rdf:resource="http://knowrob.org/kb/turtlebot.owl#tortuga_description_xtion_cam_rgb_optical_frame"/>
+        <srdl2-comp:urdfName>xtion_cam_rgb_optical_joint</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
